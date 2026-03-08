@@ -25,11 +25,15 @@ export default function RootLayout({
                 <Image 
                   src="/images/logo.png.jpeg" 
                   alt="Linx Mall Logo" 
-                  width={150} 
+                  width={40} 
                   height={40} 
                   className="logo-img"
                   priority
                 />
+                <div className="logo-text">
+                  <span className="logo-linx">Linx</span>
+                  <span className="logo-mall">Mall</span>
+                </div>
               </div>
             </div>
 
@@ -65,10 +69,14 @@ export default function RootLayout({
                 <Image 
                   src="/images/logo.png.jpeg" 
                   alt="Linx Mall Logo" 
-                  width={120} 
+                  width={32} 
                   height={32} 
                   className="logo-img"
                 />
+                <div className="logo-text">
+                  <span className="logo-linx">Linx</span>
+                  <span className="logo-mall">Mall</span>
+                </div>
               </div>
               <p className="footer-desc">
                 La marketplace de référence au Togo. Qualité, sécurité et rapidité pour tous vos achats.
@@ -140,12 +148,21 @@ export default function RootLayout({
           .logo-container {
             display: flex;
             align-items: center;
+            gap: 0.75rem;
           }
           .logo-img {
             object-fit: contain;
             width: auto;
-            max-height: 45px;
+            max-height: 40px;
           }
+          .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            display: flex;
+          }
+          .logo-linx { color: var(--primary); }
+          .logo-mall { color: var(--text-main); }
           
           .search-bar {
             flex: 1;
