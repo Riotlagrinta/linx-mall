@@ -103,11 +103,12 @@ export default function RootLayout({
           .main-header {
             position: sticky;
             top: 0;
-            background: rgba(255, 255, 255, 0.9);
+            background: var(--header-bg);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
             padding: 1rem 0;
+            transition: var(--transition);
           }
           .header-content {
             display: flex;
@@ -122,6 +123,7 @@ export default function RootLayout({
           }
           .mobile-menu-btn {
             display: none;
+            color: var(--text-main);
           }
           .logo {
             font-size: 1.5rem;
@@ -140,6 +142,7 @@ export default function RootLayout({
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 0.25rem;
+            transition: var(--transition);
           }
           .search-bar input {
             flex: 1;
@@ -148,6 +151,10 @@ export default function RootLayout({
             padding: 0.5rem 1rem;
             font-family: inherit;
             outline: none;
+            color: var(--text-main);
+          }
+          .search-bar input::placeholder {
+            color: var(--text-muted);
           }
           .search-btn {
             background: var(--primary);
@@ -168,6 +175,10 @@ export default function RootLayout({
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: var(--transition);
+          }
+          .nav-btn-icon:hover {
+            color: var(--primary);
           }
           .cart-count {
             position: absolute;
@@ -191,16 +202,12 @@ export default function RootLayout({
             border-top: 1px solid var(--border);
             padding: 4rem 0 2rem;
             margin-top: 4rem;
-          }
-          .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
+            transition: var(--transition);
           }
           .footer-col h4 {
             margin-bottom: 1.5rem;
             font-weight: 700;
+            color: var(--text-main);
           }
           .footer-col ul {
             list-style: none;

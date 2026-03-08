@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from "framer-motion";
-import { ArrowRight, Star, ShoppingCart, Zap, ShieldCheck, Truck } from "lucide-react";
+import { ArrowRight, Star, ShoppingCart, Zap, ShieldCheck, Truck, Heart } from "lucide-react";
 
 const categories = [
   { id: 1, name: "Électronique", icon: "💻", count: "1.2k+ produits" },
@@ -75,7 +75,7 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="hero-image"
           >
-            <div className="image-placeholder">
+            <div className="hero-blob">
               <div className="floating-card card-1">
                 <Zap size={20} color="var(--secondary)" />
                 <span>Livraison Express</span>
@@ -90,26 +90,28 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="features container">
-        <div className="feature-item">
-          <div className="feature-icon"><Truck /></div>
-          <div>
-            <h3>Livraison Partout</h3>
-            <p>À Lomé et dans toutes les régions du Togo.</p>
+      <section className="features-section container">
+        <div className="features-grid">
+          <div className="feature-item">
+            <div className="feature-icon"><Truck /></div>
+            <div>
+              <h3>Livraison Partout</h3>
+              <p>À Lomé et dans toutes les régions du Togo.</p>
+            </div>
           </div>
-        </div>
-        <div className="feature-item">
-          <div className="feature-icon"><ShieldCheck /></div>
-          <div>
-            <h3>Paiement Garanti</h3>
-            <p>T-Money, Flooz ou Cash à la livraison.</p>
+          <div className="feature-item">
+            <div className="feature-icon"><ShieldCheck /></div>
+            <div>
+              <h3>Paiement Garanti</h3>
+              <p>T-Money, Flooz ou Cash à la livraison.</p>
+            </div>
           </div>
-        </div>
-        <div className="feature-item">
-          <div className="feature-icon"><Zap /></div>
-          <div>
-            <h3>Support 24/7</h3>
-            <p>Une équipe dédiée pour vous accompagner.</p>
+          <div className="feature-item">
+            <div className="feature-icon"><Zap /></div>
+            <div>
+              <h3>Support 24/7</h3>
+              <p>Une équipe dédiée pour vous accompagner.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -124,7 +126,7 @@ export default function Home() {
           {categories.map((cat) => (
             <motion.div 
               key={cat.id} 
-              whileHover={{ y: -5 }}
+              whileHover={{ y: -5, borderColor: 'var(--primary)' }}
               className="category-card"
             >
               <span className="cat-icon">{cat.icon}</span>
@@ -154,7 +156,9 @@ export default function Home() {
             >
               <div className="product-image" style={{ backgroundImage: `url(${product.image})` }}>
                 <span className="product-badge">{product.badge}</span>
-                <button className="wishlist-btn"><HeartIcon /></button>
+                <button className="wishlist-btn">
+                  <Heart size={18} />
+                </button>
               </div>
               <div className="product-info">
                 <div className="product-rating">
@@ -184,12 +188,12 @@ export default function Home() {
       </section>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        .home-wrapper { padding-bottom: 4rem; }
+        .home-wrapper { padding-bottom: 4rem; overflow: hidden; }
         
         .hero {
-          background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+          background: var(--hero-gradient);
           padding: 6rem 0;
-          overflow: hidden;
+          transition: var(--transition);
         }
         .hero-content {
           display: grid;
@@ -202,9 +206,7 @@ export default function Home() {
           line-height: 1.1;
           margin-bottom: 1.5rem;
           font-weight: 800;
-          background: linear-gradient(to right, var(--primary), var(--text-main));
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: var(--text-main);
         }
         .hero-text p {
           font-size: 1.25rem;
@@ -219,18 +221,21 @@ export default function Home() {
         
         .hero-image {
           position: relative;
+          display: flex;
+          justify-content: center;
         }
-        .image-placeholder {
-          width: 100%;
-          aspect-ratio: 1;
+        .hero-blob {
+          width: 400px;
+          height: 400px;
           background: var(--primary);
           border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
           position: relative;
-          opacity: 0.1;
+          opacity: 0.15;
+          filter: blur(40px);
         }
         .floating-card {
           position: absolute;
-          background: white;
+          background: var(--card-bg);
           padding: 1rem 1.5rem;
           border-radius: var(--radius);
           box-shadow: var(--shadow);
@@ -239,47 +244,56 @@ export default function Home() {
           gap: 0.75rem;
           font-weight: 600;
           z-index: 10;
+          border: 1px solid var(--border);
+          color: var(--text-main);
+          white-space: nowrap;
         }
         .card-1 { top: 20%; left: -10%; }
         .card-2 { bottom: 20%; right: -5%; }
 
-        .features {
+        .features-section {
+          margin-top: -3rem;
+          position: relative;
+          z-index: 20;
+        }
+        .features-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 2rem;
-          margin: -3rem auto 4rem;
-          background: white;
-          padding: 2rem;
+          background: var(--card-bg);
+          padding: 2.5rem;
           border-radius: var(--radius);
           box-shadow: var(--shadow);
-          position: relative;
-          z-index: 20;
+          border: 1px solid var(--border);
+          transition: var(--transition);
         }
         .feature-item {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 1.25rem;
         }
         .feature-icon {
-          width: 48px;
-          height: 48px;
-          background: #dbeafe;
+          width: 54px;
+          height: 54px;
+          background: rgba(37, 99, 235, 0.1);
           color: var(--primary);
-          border-radius: 12px;
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
+          flex-shrink: 0;
         }
-        .feature-item h3 { font-size: 1rem; margin-bottom: 0.25rem; }
-        .feature-item p { font-size: 0.875rem; color: var(--text-muted); }
+        .feature-item h3 { font-size: 1.1rem; margin-bottom: 0.25rem; color: var(--text-main); }
+        .feature-item p { font-size: 0.9rem; color: var(--text-muted); }
 
         .section-header {
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
           margin-bottom: 2rem;
-          margin-top: 4rem;
+          margin-top: 5rem;
         }
+        .section-header h2 { color: var(--text-main); font-size: 1.8rem; font-weight: 700; }
         .view-all {
           color: var(--primary);
           font-weight: 600;
@@ -294,21 +308,20 @@ export default function Home() {
           gap: 1.5rem;
         }
         .category-card {
-          background: var(--surface);
-          padding: 2rem;
+          background: var(--card-bg);
+          padding: 2.5rem 1.5rem;
           border-radius: var(--radius);
           text-align: center;
           border: 1px solid var(--border);
           cursor: pointer;
-          transition: all 0.3s;
+          transition: var(--transition);
         }
         .category-card:hover {
-          background: white;
-          border-color: var(--primary);
           box-shadow: var(--shadow);
+          transform: translateY(-5px);
         }
         .cat-icon { font-size: 2.5rem; display: block; margin-bottom: 1rem; }
-        .category-card h3 { font-size: 1.125rem; margin-bottom: 0.5rem; }
+        .category-card h3 { font-size: 1.125rem; margin-bottom: 0.5rem; color: var(--text-main); }
         .category-card p { font-size: 0.875rem; color: var(--text-muted); }
 
         .product-grid {
@@ -317,119 +330,125 @@ export default function Home() {
           gap: 1.5rem;
         }
         .product-card {
-          background: white;
+          background: var(--card-bg);
           border-radius: var(--radius);
           border: 1px solid var(--border);
           overflow: hidden;
-          transition: all 0.3s;
+          transition: var(--transition);
         }
         .product-image {
-          height: 200px;
+          height: 220px;
           background-size: cover;
           background-position: center;
           position: relative;
           padding: 1rem;
+          background-color: var(--surface);
         }
         .product-badge {
           background: var(--primary);
           color: white;
-          padding: 0.25rem 0.75rem;
+          padding: 0.35rem 0.85rem;
           border-radius: 99px;
           font-size: 0.75rem;
-          font-weight: 600;
+          font-weight: 700;
+          box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
         }
         .wishlist-btn {
           position: absolute;
           top: 1rem;
           right: 1rem;
-          background: white;
-          width: 32px;
-          height: 32px;
+          background: var(--card-bg);
+          width: 36px;
+          height: 36px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           box-shadow: var(--shadow);
+          color: var(--text-muted);
+          transition: var(--transition);
         }
-        .product-info { padding: 1.25rem; }
+        .wishlist-btn:hover { color: var(--accent); transform: scale(1.1); }
+        
+        .product-info { padding: 1.5rem; }
         .product-rating {
           display: flex;
           align-items: center;
           gap: 0.25rem;
           font-size: 0.875rem;
           color: var(--text-muted);
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.75rem;
         }
-        .product-info h3 { font-size: 1rem; margin-bottom: 1rem; }
+        .product-info h3 { font-size: 1.1rem; margin-bottom: 1.25rem; color: var(--text-main); font-weight: 600; }
         .product-footer {
           display: flex;
           justify-content: space-between;
           align-items: center;
         }
-        .price { font-weight: 800; font-size: 1.25rem; color: var(--primary); }
-        .price small { font-size: 0.75rem; font-weight: 600; margin-left: 2px; }
+        .price { font-weight: 800; font-size: 1.35rem; color: var(--primary); }
+        .price small { font-size: 0.8rem; font-weight: 600; margin-left: 2px; }
         .add-to-cart {
           background: var(--surface);
           color: var(--text-main);
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: all 0.2s;
+          transition: var(--transition);
+          border: 1px solid var(--border);
         }
         .add-to-cart:hover {
           background: var(--primary);
           color: white;
+          border-color: var(--primary);
+          box-shadow: 0 8px 15px rgba(37, 99, 235, 0.2);
         }
 
         .seller-cta {
-          margin-top: 6rem;
-          background: var(--text-main);
-          border-radius: 24px;
-          padding: 4rem;
+          margin-top: 7rem;
+          background: linear-gradient(135deg, var(--text-main) 0%, #1e293b 100%);
+          border-radius: 32px;
+          padding: 5rem 2rem;
           color: white;
           text-align: center;
           position: relative;
           overflow: hidden;
+          border: 1px solid var(--border);
         }
-        .cta-content { position: relative; z-index: 2; max-width: 600px; margin: 0 auto; }
-        .seller-cta h2 { font-size: 2.5rem; margin-bottom: 1rem; }
-        .seller-cta p { font-size: 1.125rem; opacity: 0.8; margin-bottom: 2rem; }
-        .btn-lg { padding: 1rem 2.5rem; font-size: 1.125rem; }
+        .cta-content { position: relative; z-index: 2; max-width: 650px; margin: 0 auto; }
+        .seller-cta h2 { font-size: 2.8rem; margin-bottom: 1.5rem; font-weight: 800; letter-spacing: -1px; }
+        .seller-cta p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 2.5rem; line-height: 1.6; }
+        .btn-lg { padding: 1.25rem 3rem; font-size: 1.125rem; border-radius: 16px; }
 
         .chip {
-          padding: 0.5rem 1.25rem;
+          padding: 0.6rem 1.5rem;
           background: var(--surface);
           border-radius: 99px;
-          font-size: 0.875rem;
+          font-size: 0.9rem;
           font-weight: 600;
           cursor: pointer;
           border: 1px solid var(--border);
+          color: var(--text-muted);
+          transition: var(--transition);
         }
-        .chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .chip.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+        .chip:hover:not(.active) { background: var(--border); color: var(--text-main); }
 
         @media (max-width: 1024px) {
-          .hero-text h1 { font-size: 2.5rem; }
+          .hero-text h1 { font-size: 2.8rem; }
           .category-grid, .product-grid { grid-template-columns: repeat(2, 1fr); }
-          .features { grid-template-columns: 1fr; }
+          .features-grid { grid-template-columns: 1fr; gap: 1.5rem; }
         }
         @media (max-width: 768px) {
           .hero-content { grid-template-columns: 1fr; text-align: center; }
           .hero-text p { margin: 0 auto 2.5rem; }
-          .hero-actions { justify-content: center; }
+          .hero-actions { justify-content: center; flex-direction: column; }
           .hero-image { display: none; }
+          .seller-cta h2 { font-size: 2rem; }
         }
       ` }} />
     </div>
-  );
-}
-
-function HeartIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-    </svg>
   );
 }
