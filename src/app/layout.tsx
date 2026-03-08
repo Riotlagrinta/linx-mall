@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import "./globals.css";
 import { ShoppingBag, Search, User, Menu, Heart } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -20,9 +21,15 @@ export default function RootLayout({
           <div className="container header-content">
             <div className="logo-section">
               <Menu className="mobile-menu-btn" size={24} />
-              <div className="logo">
-                <span className="logo-linx">Linx</span>
-                <span className="logo-mall">Mall</span>
+              <div className="logo-container">
+                <Image 
+                  src="/images/logo.png.jpeg" 
+                  alt="Linx Mall Logo" 
+                  width={150} 
+                  height={40} 
+                  className="logo-img"
+                  priority
+                />
               </div>
             </div>
 
@@ -54,9 +61,14 @@ export default function RootLayout({
         <footer className="main-footer">
           <div className="container footer-grid">
             <div className="footer-col">
-              <div className="logo mb-1">
-                <span className="logo-linx">Linx</span>
-                <span className="logo-mall">Mall</span>
+              <div className="logo-container mb-1">
+                <Image 
+                  src="/images/logo.png.jpeg" 
+                  alt="Linx Mall Logo" 
+                  width={120} 
+                  height={32} 
+                  className="logo-img"
+                />
               </div>
               <p className="footer-desc">
                 La marketplace de référence au Togo. Qualité, sécurité et rapidité pour tous vos achats.
@@ -125,14 +137,15 @@ export default function RootLayout({
             display: none;
             color: var(--text-main);
           }
-          .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
+          .logo-container {
             display: flex;
+            align-items: center;
           }
-          .logo-linx { color: var(--primary); }
-          .logo-mall { color: var(--text-main); }
+          .logo-img {
+            object-fit: contain;
+            width: auto;
+            max-height: 45px;
+          }
           
           .search-bar {
             flex: 1;
