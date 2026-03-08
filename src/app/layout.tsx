@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ShoppingBag, Search, User, Menu, Heart } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export const metadata: Metadata = {
   title: "Linx Mall | Le plus grand centre commercial numérique du Togo",
@@ -33,6 +34,7 @@ export default function RootLayout({
             </div>
 
             <nav className="nav-actions">
+              <ThemeToggle />
               <button className="nav-btn-icon">
                 <Heart size={22} />
               </button>
