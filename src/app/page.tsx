@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Star, ShoppingCart, Zap, ShieldCheck, Truck, Heart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import Link from "next/link";
 
 const categories = [
   { id: 1, name: "Électronique", icon: "💻", count: "1.2k+ produits" },
@@ -157,18 +158,19 @@ export default function Home() {
               whileHover={{ y: -8 }}
               className="product-card"
             >
-              <div className="product-image" style={{ backgroundImage: `url(${product.image})` }}>
-                <span className="product-badge">{product.badge}</span>
-                <button className="wishlist-btn">
-                  <Heart size={18} />
-                </button>
-              </div>
+              <Link href={`/products/${product.id}`} className="product-link">
+                <div className="product-image" style={{ backgroundImage: `url(${product.image})` }}>
+                  <span className="product-badge">{product.badge}</span>
+                </div>
+              </Link>
               <div className="product-info">
                 <div className="product-rating">
                   <Star size={14} fill="var(--secondary)" color="var(--secondary)" />
                   <span>{product.rating}</span>
                 </div>
-                <h3>{product.name}</h3>
+                <Link href={`/products/${product.id}`} className="product-name-link">
+                  <h3>{product.name}</h3>
+                </Link>
                 <div className="product-footer">
                   <span className="price">{(product.price).toLocaleString('fr-FR')} <small>FCFA</small></span>
                   <button className="add-to-cart" onClick={() => addToCart({ id: product.id, name: product.name, price: product.price, image: product.image })}>
@@ -439,6 +441,10 @@ export default function Home() {
         .chip.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
         .chip:hover:not(.active) { background: var(--border); color: var(--text-main); }
 
+        .product-link { display: block; text-decoration: none; }
+        .product-name-link { text-decoration: none; color: inherit; }
+        .product-name-link:hover h3 { color: var(--primary); }
+        
         @media (max-width: 1024px) {
           .hero-text h1 { font-size: 2.8rem; }
           .category-grid, .product-grid { grid-template-columns: repeat(2, 1fr); }

@@ -6,6 +6,8 @@ import ThemeToggle from "@/components/ThemeToggle";
 import Providers from "@/components/Providers";
 import CartDrawer from "@/components/CartDrawer";
 import CartButton from "@/components/CartButton";
+import MobileMenu from "@/components/MobileMenu";
+import MobileMenuButton from "@/components/MobileMenuButton";
 
 export const metadata: Metadata = {
   title: "Linx Mall | Le plus grand centre commercial numérique du Togo",
@@ -22,10 +24,11 @@ export default function RootLayout({
       <body>
         <Providers>
           <CartDrawer />
+          <MobileMenu />
           <header className="main-header">
           <div className="container header-content">
             <div className="logo-section">
-              <Menu className="mobile-menu-btn" size={24} />
+              <MobileMenuButton />
               <div className="logo-container">
                 <Image 
                   src="/images/logo.png.jpeg" 

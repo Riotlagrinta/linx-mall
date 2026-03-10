@@ -17,6 +17,8 @@ type CartContextType = {
   updateQuantity: (id: number, quantity: number) => void;
   isCartOpen: boolean;
   setIsCartOpen: (isOpen: boolean) => void;
+  isMenuOpen: boolean;
+  setIsMenuOpen: (isOpen: boolean) => void;
   cartTotal: number;
   cartCount: number;
 };
@@ -26,6 +28,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -70,7 +73,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, isCartOpen, setIsCartOpen, cartTotal, cartCount }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, isCartOpen, setIsCartOpen, isMenuOpen, setIsMenuOpen, cartTotal, cartCount }}>
       {children}
     </CartContext.Provider>
   );
