@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, Star, ShoppingCart, Zap, ShieldCheck, Truck, Heart } from "lucide-react";
+import { useCart } from "@/context/CartContext";
 
 const categories = [
   { id: 1, name: "Électronique", icon: "💻", count: "1.2k+ produits" },
@@ -14,7 +15,7 @@ const featuredProducts = [
   {
     id: 1,
     name: "Smartphone NexGen Pro",
-    price: "155.000",
+    price: 155000,
     rating: 4.8,
     image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&q=80",
     badge: "Populaire"
@@ -22,7 +23,7 @@ const featuredProducts = [
   {
     id: 2,
     name: "Écouteurs Linx Buds",
-    price: "25.000",
+    price: 25000,
     rating: 4.5,
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80",
     badge: "Nouveau"
@@ -30,7 +31,7 @@ const featuredProducts = [
   {
     id: 3,
     name: "Montre Connectée S1",
-    price: "45.000",
+    price: 45000,
     rating: 4.7,
     image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80",
     badge: "Promo"
@@ -38,7 +39,7 @@ const featuredProducts = [
   {
     id: 4,
     name: "Tablette WorkTab 10",
-    price: "120.000",
+    price: 120000,
     rating: 4.6,
     image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500&q=80",
     badge: "Exclusivité"
@@ -46,6 +47,8 @@ const featuredProducts = [
 ];
 
 export default function Home() {
+  const { addToCart } = useCart();
+
   return (
     <div className="home-wrapper">
       {/* Hero Section */}
@@ -167,8 +170,8 @@ export default function Home() {
                 </div>
                 <h3>{product.name}</h3>
                 <div className="product-footer">
-                  <span className="price">{product.price} <small>FCFA</small></span>
-                  <button className="add-to-cart">
+                  <span className="price">{(product.price).toLocaleString('fr-FR')} <small>FCFA</small></span>
+                  <button className="add-to-cart" onClick={() => addToCart({ id: product.id, name: product.name, price: product.price, image: product.image })}>
                     <ShoppingCart size={18} />
                   </button>
                 </div>

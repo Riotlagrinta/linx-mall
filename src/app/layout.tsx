@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import "./globals.css";
-import { ShoppingBag, Search, User, Menu, Heart } from "lucide-react";
+import { Search, User, Menu, Heart } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
+import Providers from "@/components/Providers";
+import CartDrawer from "@/components/CartDrawer";
+import CartButton from "@/components/CartButton";
 
 export const metadata: Metadata = {
   title: "Linx Mall | Le plus grand centre commercial numérique du Togo",
@@ -17,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body>
-        <header className="main-header">
+        <Providers>
+          <CartDrawer />
+          <header className="main-header">
           <div className="container header-content">
             <div className="logo-section">
               <Menu className="mobile-menu-btn" size={24} />
@@ -52,10 +57,7 @@ export default function RootLayout({
               <button className="nav-btn-icon">
                 <User size={22} />
               </button>
-              <button className="nav-btn-icon cart-btn">
-                <ShoppingBag size={22} />
-                <span className="cart-count">0</span>
-              </button>
+              <CartButton />
             </nav>
           </div>
         </header>
@@ -289,6 +291,7 @@ export default function RootLayout({
           }
           .mb-1 { margin-bottom: 1rem; }
         ` }} />
+        </Providers>
       </body>
     </html>
   );
