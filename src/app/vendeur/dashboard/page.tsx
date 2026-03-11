@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { 
   LayoutDashboard, Package, ShoppingCart, Users, BarChart3, 
   Settings, Bell, Plus, Search, TrendingUp, ArrowUpRight, 
-  CheckCircle, Clock, AlertCircle
+  CheckCircle, Clock, AlertCircle, Sparkles
 } from 'lucide-react';
 import { products } from '@/data/products';
 import Link from 'next/link';
@@ -52,6 +52,10 @@ export default function SellerDashboard() {
             <input type="text" placeholder="Rechercher une commande..." />
           </div>
           <div className="header-actions">
+            <button className="upgrade-btn">
+              <Sparkles size={16} /> 
+              <span>Premium <small>(Bientôt)</small></span>
+            </button>
             <button className="icon-btn"><Bell size={20} /><span className="dot"></span></button>
             <button className="btn btn-primary"><Plus size={18} /> Nouveau Produit</button>
           </div>
@@ -171,6 +175,9 @@ export default function SellerDashboard() {
         .search-box input { border: none; background: none; font-size: 0.9rem; color: var(--text-main); outline: none; width: 100%; }
         
         .header-actions { display: flex; align-items: center; gap: 1.5rem; }
+        .upgrade-btn { display: flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 0.6rem 1.25rem; border-radius: 99px; font-weight: 700; font-size: 0.85rem; cursor: not-allowed; opacity: 0.9; }
+        .upgrade-btn small { font-weight: 400; opacity: 0.8; }
+        
         .icon-btn { position: relative; background: var(--card-bg); border: 1px solid var(--border); width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-muted); cursor: pointer; }
         .dot { position: absolute; top: 10px; right: 10px; width: 8px; height: 8px; background: var(--accent); border: 2px solid var(--card-bg); border-radius: 50%; }
 

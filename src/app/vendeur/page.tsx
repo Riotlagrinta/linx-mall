@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Store, TrendingUp, ShieldCheck, Zap, ArrowRight, BarChart3, Package, Users } from 'lucide-react';
+import { Store, TrendingUp, ShieldCheck, Zap, ArrowRight, BarChart3, Package, Users, Check, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 export default function SellerLandingPage() {
@@ -28,6 +28,39 @@ export default function SellerLandingPage() {
     }
   ];
 
+  const plans = [
+    {
+      name: "Standard",
+      price: "Gratuit",
+      description: "Idéal pour débuter votre activité en ligne.",
+      features: [
+        "Jusqu'à 15 produits",
+        "Tableau de bord basique",
+        "Support par email",
+        "Paiements Mobile Money"
+      ],
+      button: "Commencer gratuitement",
+      link: "/vendeur/inscription",
+      active: true
+    },
+    {
+      name: "Premium",
+      price: "Bientôt disponible",
+      description: "Pour les professionnels qui veulent dominer le marché.",
+      features: [
+        "Produits illimités",
+        "Statistiques avancées",
+        "Badge 'Vendeur Certifié'",
+        "Visibilité Prioritaire",
+        "Support dédié 24/7"
+      ],
+      button: "Me notifier au lancement",
+      link: "#",
+      active: false,
+      featured: true
+    }
+  ];
+
   return (
     <div className="seller-landing">
       {/* Hero Section */}
@@ -44,7 +77,7 @@ export default function SellerLandingPage() {
               <Link href="/vendeur/inscription" className="btn btn-primary btn-lg">
                 Ouvrir ma boutique gratuite <ArrowRight size={20} />
               </Link>
-              <a href="#how-it-works" className="btn btn-outline btn-lg">Comment ça marche ?</a>
+              <a href="#plans" className="btn btn-outline btn-lg">Voir nos tarifs</a>
             </div>
           </motion.div>
           <motion.div 
@@ -94,6 +127,45 @@ export default function SellerLandingPage() {
         </div>
       </section>
 
+      {/* Pricing Section */}
+      <section id="plans" className="pricing-section py-20 bg-surface">
+        <div className="container">
+          <div className="section-header text-center mb-16">
+            <h2 className="text-3xl font-bold mb-4">Choisissez le forfait qui vous ressemble</h2>
+            <p className="text-muted">Des solutions adaptées à la taille de votre entreprise.</p>
+          </div>
+          <div className="plans-grid">
+            {plans.map((plan, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                className={`plan-card ${plan.featured ? 'featured' : ''} ${!plan.active ? 'disabled' : ''}`}
+              >
+                {plan.featured && <div className="plan-badge"><Sparkles size={14} /> Recommandé</div>}
+                <div className="plan-header">
+                  <h3>{plan.name}</h3>
+                  <div className="plan-price">{plan.price}</div>
+                  <p>{plan.description}</p>
+                </div>
+                <ul className="plan-features">
+                  {plan.features.map((feature, fIndex) => (
+                    <li key={fIndex}><Check size={18} color={plan.featured ? "var(--primary)" : "#10b981"} /> {feature}</li>
+                  ))}
+                </ul>
+                <Link 
+                  href={plan.link} 
+                  className={`btn w-full ${plan.featured ? 'btn-primary' : 'btn-outline'} ${!plan.active ? 'btn-coming-soon' : ''}`}
+                >
+                  {plan.button}
+                </Link>
+                {!plan.active && <div className="coming-soon-overlay">Bientôt disponible</div>}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Steps Section */}
       <section id="how-it-works" className="steps-section py-20">
         <div className="container">
@@ -137,37 +209,15 @@ export default function SellerLandingPage() {
       <style dangerouslySetInnerHTML={{ __html: `
         .seller-landing { overflow-x: hidden; }
         
-        .seller-hero {
-          background: var(--hero-gradient);
-          padding: 8rem 0;
-          position: relative;
-        }
-        .hero-content {
-          display: grid;
-          grid-template-columns: 1fr 1.2fr;
-          align-items: center;
-          gap: 4rem;
-        }
+        .seller-hero { background: var(--hero-gradient); padding: 8rem 0; position: relative; }
+        .hero-content { display: grid; grid-template-columns: 1fr 1.2fr; align-items: center; gap: 4rem; }
         .hero-text h1 { font-size: 3.5rem; line-height: 1.1; font-weight: 800; margin-bottom: 1.5rem; }
         .hero-text .highlight { color: var(--primary); }
         .hero-text p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2.5rem; }
         .hero-actions { display: flex; gap: 1rem; }
 
-        .dashboard-mockup {
-          background: var(--card-bg);
-          border-radius: 16px;
-          border: 1px solid var(--border);
-          box-shadow: 0 30px 60px rgba(0,0,0,0.12);
-          overflow: hidden;
-        }
-        .mockup-header {
-          padding: 0.75rem 1.25rem;
-          background: var(--surface);
-          border-bottom: 1px solid var(--border);
-          display: flex;
-          align-items: center;
-          gap: 1.5rem;
-        }
+        .dashboard-mockup { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 30px 60px rgba(0,0,0,0.12); overflow: hidden; }
+        .mockup-header { padding: 0.75rem 1.25rem; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 1.5rem; }
         .dots { display: flex; gap: 6px; }
         .dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
         .url { font-size: 0.75rem; color: var(--text-muted); background: var(--card-bg); padding: 4px 12px; border-radius: 99px; border: 1px solid var(--border); flex: 1; text-align: center; }
@@ -186,7 +236,22 @@ export default function SellerLandingPage() {
         .benefit-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; }
         .benefit-card p { color: var(--text-muted); line-height: 1.6; }
 
-        .steps-section { background: var(--surface); }
+        /* Pricing Styles */
+        .plans-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem; max-width: 900px; margin: 0 auto; }
+        .plan-card { background: var(--card-bg); padding: 3rem; border-radius: 32px; border: 1px solid var(--border); position: relative; transition: var(--transition); display: flex; flex-direction: column; }
+        .plan-card.featured { border: 2px solid var(--primary); transform: scale(1.05); z-index: 10; box-shadow: 0 20px 40px rgba(37, 99, 235, 0.1); }
+        .plan-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 0.5rem 1.25rem; border-radius: 99px; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
+        .plan-header h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .plan-price { font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 1rem; }
+        .plan-header p { color: var(--text-muted); margin-bottom: 2rem; min-height: 3rem; }
+        .plan-features { list-style: none; margin-bottom: 3rem; flex: 1; }
+        .plan-features li { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; font-weight: 500; }
+        
+        .plan-card.disabled { opacity: 0.7; pointer-events: none; }
+        .coming-soon-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.03); border-radius: 32px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--text-muted); font-size: 1.2rem; transform: rotate(-15deg); pointer-events: none; z-index: 5; }
+        .btn-coming-soon { background: var(--border); color: var(--text-muted); border-color: var(--border); }
+
+        .steps-section { background: white; }
         .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem; position: relative; }
         .step-item { text-align: center; position: relative; z-index: 2; }
         .step-number { width: 40px; height: 40px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; margin: 0 auto 1.5rem; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
@@ -203,6 +268,8 @@ export default function SellerLandingPage() {
           .hero-content { grid-template-columns: 1fr; text-align: center; }
           .hero-actions { justify-content: center; }
           .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+          .plans-grid { grid-template-columns: 1fr; }
+          .plan-card.featured { transform: scale(1); }
           .steps-grid { grid-template-columns: 1fr; gap: 3rem; }
         }
       ` }} />
