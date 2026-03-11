@@ -120,12 +120,13 @@ export default function EngagementsPage() {
         .visual { display: flex; justify-content: center; }
         .trust-seal { width: 180px; height: 180px; background: var(--card-bg); border-radius: 50%; border: 4px double var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; color: var(--primary); font-weight: 800; text-transform: uppercase; font-size: 0.7rem; box-shadow: var(--shadow-lg); }
 
-        .cta-box { background: var(--text-main); color: white; padding: 4rem 2rem; border-radius: 32px; text-align: center; }
-        .cta-box h2 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
-        .cta-box p { opacity: 0.8; margin-bottom: 2.5rem; }
+        .cta-box { background: var(--surface); color: var(--text-main); padding: 4rem 2rem; border-radius: 32px; text-align: center; border: 1px solid var(--border); }
+        .cta-box h2 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main); }
+        .cta-box p { color: var(--text-muted); margin-bottom: 2.5rem; }
         .btns { display: flex; flex-direction: column; gap: 1rem; }
-        .btns .btn-outline { border-color: white; color: white; }
-        .btns .btn-outline:hover { background: var(--surface); color: var(--text-main); }
+        .btns .btn-primary { background: var(--primary); color: white; }
+        .btns .btn-outline { border-color: var(--primary); color: var(--primary); }
+        .btns .btn-outline:hover { background: var(--primary); color: white; }
 
         @media (min-width: 768px) {
           .engagements-hero h1 { font-size: 4rem; }

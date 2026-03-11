@@ -145,12 +145,13 @@ export default function AboutPage() {
         .value-card h3 { font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem; }
         .value-card p { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
 
-        .cta-card { background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%); padding: 4rem 2rem; border-radius: 32px; text-align: center; color: white; }
-        .cta-card h2 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
-        .cta-card p { opacity: 0.9; font-size: 1.1rem; margin-bottom: 2.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .cta-card { background: var(--text-main); padding: 4rem 2rem; border-radius: 32px; text-align: center; color: var(--background); border: 1px solid var(--border); }
+        .cta-card h2 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: var(--background); }
+        .cta-card p { opacity: 0.9; font-size: 1.1rem; margin-bottom: 2.5rem; max-width: 500px; margin-left: auto; margin-right: auto; color: var(--background); }
         .cta-btns { display: flex; flex-direction: column; gap: 1rem; }
-        .cta-btns .btn-outline { border-color: white; color: white; }
-        .cta-btns .btn-outline:hover { background: var(--text-main); color: white; }
+        .cta-btns .btn-primary { background: var(--background); color: var(--text-main); }
+        .cta-btns .btn-outline { border-color: var(--background); color: var(--background); }
+        .cta-btns .btn-outline:hover { background: var(--background); color: var(--text-main); }
 
         @media (min-width: 768px) {
           .about-hero h1 { font-size: 4rem; }

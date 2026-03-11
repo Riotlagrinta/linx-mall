@@ -110,11 +110,11 @@ export default function CareersPage() {
         .apply-btn { background: var(--surface); color: var(--text-main); font-weight: 700; border: 1px solid var(--border); padding: 0.75rem 1.5rem; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition); }
         .apply-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
-        .apply-card { background: var(--text-main); color: white; padding: 3rem 2rem; border-radius: 32px; text-align: center; }
-        .apply-card h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
-        .apply-card p { opacity: 0.8; margin-bottom: 2rem; }
-        .apply-card .btn-outline { border-color: white; color: white; }
-        .apply-card .btn-outline:hover { background: var(--text-main); color: white; }
+        .apply-card { background: var(--surface); padding: 3rem 2rem; border-radius: 32px; text-align: center; border: 1px solid var(--border); }
+        .apply-card h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main); }
+        .apply-card p { color: var(--text-muted); margin-bottom: 2rem; }
+        .apply-card .btn-outline { border-color: var(--primary); color: var(--primary); }
+        .apply-card .btn-outline:hover { background: var(--primary); color: white; }
 
         @media (min-width: 768px) {
           .careers-hero h1 { font-size: 4rem; }

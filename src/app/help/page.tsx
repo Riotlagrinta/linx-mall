@@ -103,9 +103,9 @@ export default function HelpCenterPage() {
         .faq-item h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--text-main); }
         .faq-item p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
 
-        .support-banner { background: var(--text-main); color: white; padding: 3rem 2rem; border-radius: 32px; text-align: center; }
-        .support-text h2 { font-size: 1.75rem; font-weight: 800; margin-bottom: 1rem; }
-        .support-text p { opacity: 0.8; margin-bottom: 2rem; }
+        .support-banner { background: var(--surface); color: var(--text-main); padding: 3rem 2rem; border-radius: 32px; text-align: center; border: 1px solid var(--border); }
+        .support-text h2 { font-size: 1.75rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main); }
+        .support-text p { color: var(--text-muted); margin-bottom: 2rem; }
         .support-actions { display: flex; flex-direction: column; gap: 1rem; }
         .support-btn { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 1rem; border-radius: 14px; font-weight: 700; text-decoration: none; transition: var(--transition); }
         .support-btn.whatsapp { background: #25d366; color: white; }

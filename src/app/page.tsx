@@ -279,8 +279,12 @@ export default function Home() {
           margin-top: 5rem;
           padding: 4rem 1.5rem;
           border-radius: 24px;
+          background: var(--surface);
+          border: 1px solid var(--border);
+          text-align: center;
         }
-        .seller-cta h2 { font-size: 2rem; }
+        .seller-cta h2 { font-size: 2rem; color: var(--text-main); margin-bottom: 1rem; }
+        .seller-cta p { color: var(--text-muted); margin-bottom: 2rem; }
 
         .filter-chips {
           display: flex;
