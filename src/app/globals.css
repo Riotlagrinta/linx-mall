@@ -118,6 +118,36 @@ img { max-width: 100%; display: block; }
   border-color: rgba(245, 158, 11, 0.2);
 }
 
+/* Micro-interactions & Feedback */
+.btn:active, .nav-btn-icon:active, .category-card:active, .product-card:active {
+  transform: scale(0.96);
+}
+
+.btn, .nav-btn-icon, .category-card, .product-card, .menu-link {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Skeleton Loading Animation */
+@keyframes shimmer {
+  0% { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
+}
+
+.skeleton {
+  background: #f6f7f8;
+  background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-repeat: no-repeat;
+  background-size: 800px 104px;
+  display: inline-block;
+  position: relative;
+  animation: shimmer 1.5s infinite linear;
+}
+
+[data-theme="dark"] .skeleton {
+  background: #1e293b;
+  background-image: linear-gradient(to right, #1e293b 0%, #334155 20%, #1e293b 40%, #1e293b 100%);
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
@@ -125,3 +155,11 @@ img { max-width: 100%; display: block; }
 }
 
 .animate-fade { animation: fadeIn 0.5s ease-out forwards; }
+
+.tap-highlight-none {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+}

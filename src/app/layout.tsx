@@ -12,34 +12,44 @@ import MobileMenuButton from "@/components/MobileMenuButton";
 import SearchBar from "@/components/SearchBar";
 import { useWishlist } from "@/context/WishlistContext";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 function Header() {
   const { wishlist } = useWishlist();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   
   return (
-    <header className="main-header">
+    <header className={`main-header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container header-content">
         <div className="logo-section">
           <MobileMenuButton />
-          <div className="logo-container">
-            <Link href="/" className="logo-container">
-              <Image 
-                src="/images/logo.png.jpeg" 
-                alt="Linx Mall Logo" 
-                width={40} 
-                height={40} 
-                className="logo-img"
-                priority
-              />
-              <div className="logo-text">
-                <span className="logo-linx">Linx</span>
-                <span className="logo-mall">Mall</span>
-              </div>
-            </Link>
-          </div>
+          <Link href="/" className="logo-container">
+            <Image 
+              src="/images/logo.png.jpeg" 
+              alt="Linx Mall Logo" 
+              width={isScrolled ? 32 : 40} 
+              height={isScrolled ? 32 : 40} 
+              className="logo-img"
+              priority
+            />
+            <div className="logo-text">
+              <span className="logo-linx">Linx</span>
+              <span className="logo-mall">Mall</span>
+            </div>
+          </Link>
         </div>
 
-        <SearchBar />
+        <div className="header-search-desktop">
+          <SearchBar />
+        </div>
 
         <nav className="nav-actions">
           <ThemeToggle />
@@ -147,59 +157,87 @@ export default function RootLayout({
               position: sticky;
               top: 0;
               background: var(--header-bg);
-              backdrop-filter: blur(10px);
+              backdrop-filter: blur(12px);
+              -webkit-backdrop-filter: blur(12px);
               border-bottom: 1px solid var(--border);
               z-index: 1000;
               padding: 1rem 0;
-              transition: var(--transition);
+              transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .main-header.scrolled {
+              padding: 0.6rem 0;
+              background: var(--card-bg);
+              box-shadow: var(--shadow);
             }
             .header-content {
               display: flex;
               align-items: center;
               justify-content: space-between;
-              gap: 2rem;
+              gap: 1.5rem;
             }
             .logo-section {
               display: flex;
               align-items: center;
-              gap: 1rem;
+              gap: 0.75rem;
             }
             .logo-container {
               display: flex;
               align-items: center;
-              gap: 0.75rem;
+              gap: 0.6rem;
               text-decoration: none;
             }
             .logo-img {
               object-fit: contain;
-              width: auto;
-              max-height: 40px;
+              transition: all 0.4s ease;
             }
             .logo-text {
-              font-size: 1.5rem;
+              font-size: 1.25rem;
               font-weight: 800;
-              letter-spacing: -1px;
+              letter-spacing: -0.8px;
               display: flex;
+              transition: all 0.4s ease;
             }
+            .main-header.scrolled .logo-text { font-size: 1.1rem; }
             .logo-linx { color: var(--primary); }
             .logo-mall { color: var(--text-main); }
             
+            .header-search-desktop { flex: 1; max-width: 500px; display: none; }
+
             .nav-actions {
               display: flex;
               align-items: center;
-              gap: 1.25rem;
+              gap: 1rem;
             }
             .nav-btn-icon {
-              background: transparent;
+              background: var(--surface);
               color: var(--text-main);
+              width: 40px;
+              height: 40px;
+              border-radius: 12px;
               position: relative;
               display: flex;
               align-items: center;
               justify-content: center;
               transition: var(--transition);
+              border: 1px solid var(--border);
             }
             .nav-btn-icon:hover {
               color: var(--primary);
+              border-color: var(--primary);
+              background: rgba(37, 99, 235, 0.05);
+            }
+
+            @media (min-width: 1024px) {
+              .header-search-desktop { display: block; }
+              .logo-text { font-size: 1.5rem; }
+              .nav-actions { gap: 1.25rem; }
+              .nav-btn-icon { width: 44px; height: 44px; }
+            }
+
+            @media (max-width: 768px) {
+              .header-content {
+                gap: 0.5rem;
+              }
             }
             .cart-count {
               position: absolute;
