@@ -7,6 +7,18 @@ import Link from 'next/link';
 
 export default function CartDrawer() {
   const { cart, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity, cartTotal } = useCart();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const variants = isMobile 
+    ? { initial: { y: '100%', x: 0 }, animate: { y: 0, x: 0 }, exit: { y: '100%', x: 0 } }
+    : { initial: { x: '100%', y: 0 }, animate: { x: 0, y: 0 }, exit: { x: '100%', y: 0 } };
 
   return (
     <AnimatePresence>
@@ -20,13 +32,15 @@ export default function CartDrawer() {
             onClick={() => setIsCartOpen(false)}
           />
           <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
+            variants={variants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="cart-drawer"
           >
             <div className="cart-header">
+              <div className="header-drag-handle"></div>
               <h2>Mon Panier</h2>
               <button onClick={() => setIsCartOpen(false)} className="cart-close">
                 <X size={24} />
@@ -36,26 +50,31 @@ export default function CartDrawer() {
             <div className="cart-items">
               {cart.length === 0 ? (
                 <div className="empty-cart">
-                  <ShoppingBag size={48} />
-                  <p>Votre panier est vide</p>
-                  <button onClick={() => setIsCartOpen(false)} className="btn btn-outline" style={{ border: '1px solid var(--border)', padding: '0.75rem 1.5rem', borderRadius: '12px' }}>Continuer vos achats</button>
+                  <div className="empty-icon-wrapper">
+                    <ShoppingBag size={48} />
+                  </div>
+                  <h3>Votre panier est vide</h3>
+                  <p>Il est temps de commencer votre shopping !</p>
+                  <button onClick={() => setIsCartOpen(false)} className="btn btn-primary" style={{ marginTop: '1rem' }}>Continuer vos achats</button>
                 </div>
               ) : (
                 cart.map(item => (
                   <div key={item.id} className="cart-item">
                     <div className="cart-item-img" style={{ backgroundImage: `url(${item.image})` }} />
                     <div className="cart-item-info">
-                      <h4>{item.name}</h4>
-                      <div className="cart-item-price">{(item.price).toLocaleString('fr-FR')} FCFA</div>
+                      <div className="item-top">
+                        <h4>{item.name}</h4>
+                        <button className="remove-btn-minimal" onClick={() => removeFromCart(item.id)}>
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+                      <div className="cart-item-price">{(item.price).toLocaleString('fr-FR')} <small>FCFA</small></div>
                       <div className="cart-item-actions">
                         <div className="quantity-controls">
-                          <button onClick={() => updateQuantity(item.id, item.quantity - 1)}><Minus size={14} /></button>
+                          <button onClick={() => updateQuantity(item.id, item.quantity - 1)}><Minus size={16} /></button>
                           <span>{item.quantity}</span>
-                          <button onClick={() => updateQuantity(item.id, item.quantity + 1)}><Plus size={14} /></button>
+                          <button onClick={() => updateQuantity(item.id, item.quantity + 1)}><Plus size={16} /></button>
                         </div>
-                        <button className="remove-btn" onClick={() => removeFromCart(item.id)}>
-                          <Trash2 size={16} />
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -66,16 +85,15 @@ export default function CartDrawer() {
             {cart.length > 0 && (
               <div className="cart-footer">
                 <div className="cart-summary">
-                  <span>Total</span>
-                  <span className="cart-total-price">{(cartTotal).toLocaleString('fr-FR')} FCFA</span>
+                  <span className="total-label">Total estimé</span>
+                  <span className="cart-total-price">{(cartTotal).toLocaleString('fr-FR')} <small>FCFA</small></span>
                 </div>
                 <Link 
                   href="/checkout" 
-                  className="btn btn-primary btn-block"
-                  style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                  className="btn btn-primary btn-checkout"
                   onClick={() => setIsCartOpen(false)}
                 >
-                  Commander ({cart.reduce((a, b) => a + b.quantity, 0)})
+                  Commander maintenant
                 </Link>
               </div>
             )}
@@ -84,34 +102,49 @@ export default function CartDrawer() {
               .cart-overlay {
                 position: fixed;
                 inset: 0;
-                background: rgba(0,0,0,0.5);
-                backdrop-filter: blur(4px);
+                background: rgba(15, 23, 42, 0.4);
+                backdrop-filter: blur(8px);
                 z-index: 10000;
               }
+              
+              /* Base styles (Mobile: Bottom Sheet) */
               .cart-drawer {
                 position: fixed;
-                top: 0;
-                right: 0;
                 bottom: 0;
-                width: 100%;
-                max-width: 400px;
-                background: var(--surface);
+                left: 0;
+                right: 0;
+                height: 85vh;
+                background: var(--card-bg);
                 z-index: 10001;
                 display: flex;
                 flex-direction: column;
-                box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-                border-left: 1px solid var(--border);
+                box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
+                border-radius: 32px 32px 0 0;
+                overflow: hidden;
+                border: 1px solid var(--border);
+                border-bottom: none;
               }
+              
               .cart-header {
                 padding: 1.5rem;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 border-bottom: 1px solid var(--border);
+                position: relative;
               }
-              .cart-header h2 { font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
-              .cart-close { background: none; color: var(--text-muted); padding: 0.5rem; border-radius: 50%; display: flex; transition: var(--transition); cursor: pointer; border: none; }
-              .cart-close:hover { background: var(--border); color: var(--text-main); }
+              .header-drag-handle {
+                position: absolute;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40px;
+                height: 5px;
+                background: var(--border);
+                border-radius: 99px;
+              }
+              .cart-header h2 { font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
+              .cart-close { background: var(--surface); color: var(--text-muted); padding: 0.5rem; border-radius: 12px; display: flex; transition: var(--transition); cursor: pointer; border: none; }
               
               .cart-items {
                 flex: 1;
@@ -127,70 +160,98 @@ export default function CartDrawer() {
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                gap: 1.5rem;
-                color: var(--text-muted);
                 text-align: center;
+                padding: 2rem;
               }
+              .empty-icon-wrapper { width: 100px; height: 100px; background: var(--surface); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-muted); margin-bottom: 1.5rem; }
+              .empty-cart h3 { font-size: 1.4rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem; }
+              .empty-cart p { color: var(--text-muted); }
+
               .cart-item {
                 display: flex;
-                gap: 1rem;
-                padding-bottom: 1rem;
+                gap: 1.25rem;
+                padding-bottom: 1.25rem;
                 border-bottom: 1px solid var(--border);
               }
               .cart-item-img {
-                width: 80px;
-                height: 80px;
-                border-radius: var(--radius);
+                width: 90px;
+                height: 90px;
+                border-radius: 20px;
                 background-size: cover;
                 background-position: center;
-                background-color: var(--border);
+                background-color: var(--surface);
+                border: 1px solid var(--border);
+                flex-shrink: 0;
               }
-              .cart-item-info { flex: 1; display: flex; flex-direction: column; }
-              .cart-item-info h4 { font-size: 0.95rem; color: var(--text-main); margin-bottom: 0.25rem; }
-              .cart-item-price { font-weight: 700; color: var(--primary); font-size: 1rem; margin-bottom: 0.75rem; }
-              .cart-item-actions { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+              .cart-item-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+              .item-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+              .item-top h4 { font-size: 1rem; font-weight: 700; color: var(--text-main); line-height: 1.3; }
+              .remove-btn-minimal { background: none; border: none; color: var(--text-muted); padding: 4px; cursor: pointer; transition: var(--transition); }
+              .remove-btn-minimal:hover { color: var(--accent); }
+              
+              .cart-item-price { font-weight: 800; color: var(--primary); font-size: 1.1rem; }
+              .cart-item-price small { font-size: 0.75rem; margin-left: 2px; }
               
               .quantity-controls {
                 display: flex;
                 align-items: center;
-                background: var(--background);
+                background: var(--surface);
                 border: 1px solid var(--border);
-                border-radius: 99px;
-                overflow: hidden;
+                border-radius: 14px;
+                width: fit-content;
+                padding: 2px;
               }
               .quantity-controls button {
-                background: none;
+                background: var(--card-bg);
                 border: none;
-                padding: 0.5rem 0.75rem;
+                width: 32px;
+                height: 32px;
+                border-radius: 10px;
                 color: var(--text-main);
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 cursor: pointer;
-                transition: var(--transition);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
               }
-              .quantity-controls button:hover { background: var(--border); }
-              .quantity-controls span { font-weight: 600; font-size: 0.9rem; min-width: 24px; text-align: center; color: var(--text-main); }
-              
-              .remove-btn { color: var(--accent); background: rgba(239, 68, 68, 0.1); padding: 0.5rem; border-radius: 8px; display: flex; transition: var(--transition); cursor: pointer; border: none; }
-              .remove-btn:hover { background: var(--accent); color: white; }
+              .quantity-controls span { font-weight: 800; font-size: 1rem; min-width: 36px; text-align: center; color: var(--text-main); }
               
               .cart-footer {
                 padding: 1.5rem;
                 border-top: 1px solid var(--border);
-                background: var(--surface);
+                background: var(--card-bg);
+                box-shadow: 0 -10px 30px rgba(0,0,0,0.03);
               }
               .cart-summary {
                 display: flex;
                 justify-content: space-between;
-                align-items: center;
+                align-items: flex-end;
                 margin-bottom: 1.5rem;
-                font-weight: 600;
-                color: var(--text-main);
-                font-size: 1.1rem;
               }
-              .cart-total-price { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
-              .btn-block { width: 100%; display: flex; justify-content: center; padding: 1rem; border-radius: 12px; font-weight: 700; font-size: 1.05rem; cursor: pointer; border: none; background: var(--primary); color: white; }
+              .total-label { color: var(--text-muted); font-weight: 600; font-size: 0.95rem; }
+              .cart-total-price { font-size: 1.6rem; font-weight: 900; color: var(--text-main); line-height: 1; }
+              .cart-total-price small { font-size: 0.9rem; color: var(--primary); }
+              
+              .btn-checkout { width: 100%; height: 60px; border-radius: 18px; font-size: 1.1rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+
+              /* Desktop Improvements (Side Drawer) */
+              @media (min-width: 768px) {
+                .cart-drawer {
+                  top: 0;
+                  right: 0;
+                  bottom: 0;
+                  left: auto;
+                  width: 420px;
+                  height: 100vh;
+                  border-radius: 0;
+                  border-left: 1px solid var(--border);
+                  border-top: none;
+                }
+                .header-drag-handle { display: none; }
+                .cart-header { padding: 2rem; }
+                .cart-items { padding: 2rem; }
+                .cart-footer { padding: 2rem; }
+              }
             ` }} />
           </motion.div>
         </>
