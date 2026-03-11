@@ -110,7 +110,7 @@ export default function RootLayout({
                 <ul>
                   <li><Link href="/about">À propos de nous</Link></li>
                   <li><Link href="/vendeur">Devenir vendeur</Link></li>
-                  <li><Link href="/about">Nos engagements</Link></li>
+                  <li><Link href="/engagements">Nos engagements</Link></li>
                   <li><Link href="/careers">Recrutement</Link></li>
                 </ul>
                 </div>
