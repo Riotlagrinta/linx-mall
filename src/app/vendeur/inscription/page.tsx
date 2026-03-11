@@ -2,124 +2,195 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Store, MapPin, Phone, Mail, User, ShieldCheck, ArrowRight, Loader2 } from 'lucide-react';
-import { useNotification } from '@/context/NotificationContext';
-import { useRouter } from 'next/navigation';
+import { Store, Mail, Phone, MapPin, ArrowRight, CheckCircle2, ShieldCheck, Sparkles, Building2 } from 'lucide-react';
+import Link from 'next/link';
+import AICopilot from '@/components/AICopilot';
 
-export default function SellerRegistrationPage() {
+export default function VendeurInscription() {
+  const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { showNotification } = useNotification();
-  const router = useRouter();
+  const [isComplete, setIsComplete] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulation d'inscription
-    setTimeout(() => {
-      setIsSubmitting(false);
-      showNotification("Votre demande d'ouverture de boutique a été reçue !", "success");
-      router.push('/vendeur/dashboard');
-    }, 2000);
+    if (step < 3) {
+      setStep(step + 1);
+    } else {
+      setIsSubmitting(true);
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setIsComplete(true);
+      }, 2000);
+    }
   };
 
+  if (isComplete) {
+    return (
+      <div className="container py-24 text-center">
+        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
+          <div className="success-icon-wrapper mb-8">
+            <CheckCircle2 size={64} color="#10b981" />
+          </div>
+          <h1 className="text-4xl font-extrabold mb-4">Félicitations !</h1>
+          <p className="text-muted text-lg mb-10">Votre demande de création de boutique a été reçue. Notre équipe va vérifier vos informations et vous contactera sous 24h.</p>
+          <Link href="/vendeur/dashboard" className="btn btn-primary btn-lg">Accéder à mon tableau de bord</Link>
+        </motion.div>
+        <style dangerouslySetInnerHTML={{ __html: `
+          .success-icon-wrapper { width: 100px; height: 100px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+        `}} />
+      </div>
+    );
+  }
+
   return (
-    <div className="registration-page container py-20">
-      <div className="registration-card">
-        <div className="registration-header">
-          <div className="icon-circle">
-            <Store size={32} />
-          </div>
-          <h1>Devenir vendeur Linx Mall</h1>
-          <p>Créez votre boutique en moins de 2 minutes et commencez à vendre.</p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="registration-form">
-          <div className="form-section">
-            <h3><User size={18} /> Informations Personnelles</h3>
-            <div className="form-grid">
-              <div className="form-group">
-                <label>Nom complet du responsable</label>
-                <input type="text" required placeholder="Ex: Koffi Mensah" />
-              </div>
-              <div className="form-group">
-                <label>Email professionnel</label>
-                <input type="email" required placeholder="contact@maboutique.tg" />
-              </div>
-            </div>
+    <div className="inscription-page">
+      <div className="container py-12">
+        <div className="inscription-container">
+          <div className="inscription-header text-center mb-12">
+            <span className="badge">Étape {step} sur 3</span>
+            <h1>Créez votre boutique</h1>
+            <p>Remplissez les informations pour lancer votre activité sur Linx Mall.</p>
           </div>
 
-          <div className="form-section">
-            <h3><Store size={18} /> Votre Boutique</h3>
-            <div className="form-grid">
-              <div className="form-group full">
-                <label>Nom de la boutique</label>
-                <input type="text" required placeholder="Ex: Kara Électronique" />
-              </div>
-              <div className="form-group">
-                <label>Téléphone professionnel</label>
-                <input type="tel" required placeholder="+228 90 00 00 00" />
-              </div>
-              <div className="form-group">
-                <label>Catégorie principale</label>
-                <select required>
-                  <option value="">Sélectionnez une catégorie</option>
-                  <option value="electronics">Électronique</option>
-                  <option value="fashion">Mode & Beauté</option>
-                  <option value="home">Maison & Jardin</option>
-                  <option value="local">Produits Locaux</option>
-                </select>
-              </div>
-              <div className="form-group full">
-                <label>Adresse physique (si applicable)</label>
-                <input type="text" placeholder="Ex: Marché de Hanoukopé, Lomé" />
-              </div>
-            </div>
+          <div className="step-indicator mb-12">
+            <div className={`step ${step >= 1 ? 'active' : ''}`}><span>1</span></div>
+            <div className={`line ${step >= 2 ? 'active' : ''}`}></div>
+            <div className={`step ${step >= 2 ? 'active' : ''}`}><span>2</span></div>
+            <div className={`line ${step >= 3 ? 'active' : ''}`}></div>
+            <div className={`step ${step >= 3 ? 'active' : ''}`}><span>3</span></div>
           </div>
 
-          <div className="terms-check">
-            <input type="checkbox" required id="terms" />
-            <label htmlFor="terms">J'accepte les conditions générales de vente et la charte de qualité Linx Mall.</label>
-          </div>
-
-          <button type="submit" className="btn btn-primary btn-lg w-full" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <><Loader2 className="animate-spin" /> Création en cours...</>
-            ) : (
-              <>{'Confirmer l\'ouverture de ma boutique'} <ArrowRight size={20} /></>
+          <form onSubmit={handleSubmit} className="inscription-form">
+            {step === 1 && (
+              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="form-step">
+                <h3>Informations Personnelles</h3>
+                <div className="form-group">
+                  <label>Nom complet du responsable</label>
+                  <input type="text" placeholder="Ex: Jean Dogbé" required />
+                </div>
+                <div className="form-group">
+                  <label>Email professionnel</label>
+                  <input type="email" placeholder="votre@email.com" required />
+                </div>
+                <div className="form-group">
+                  <label>Numéro de téléphone (WhatsApp)</label>
+                  <input type="tel" placeholder="90 00 00 00" required />
+                </div>
+              </motion.div>
             )}
-          </button>
-        </form>
+
+            {step === 2 && (
+              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="form-step">
+                <h3>Détails de la Boutique</h3>
+                <div className="form-group">
+                  <label>Nom de la boutique</label>
+                  <input type="text" placeholder="Ex: Kara Fashion" required />
+                </div>
+                <div className="form-group">
+                  <label>Catégorie principale</label>
+                  <select required>
+                    <option value="">Sélectionnez une catégorie</option>
+                    <option value="electronics">Électronique</option>
+                    <option value="fashion">Mode & Beauté</option>
+                    <option value="home">Maison</option>
+                    <option value="local">Produits Locaux</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label>Ville de localisation</label>
+                  <select required>
+                    <option value="Lomé">Lomé</option>
+                    <option value="Kara">Kara</option>
+                    <option value="Sokodé">Sokodé</option>
+                    <option value="Kpalimé">Kpalimé</option>
+                  </select>
+                </div>
+              </motion.div>
+            )}
+
+            {step === 3 && (
+              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="form-step">
+                <h3>Validation & Identité</h3>
+                <div className="form-group">
+                  <label>Type d'entreprise</label>
+                  <div className="radio-group">
+                    <label className="radio-option">
+                      <input type="radio" name="type" value="particulier" defaultChecked />
+                      <div className="opt-box">
+                        <strong>Particulier / Artisan</strong>
+                        <span>Vendez en votre nom propre</span>
+                      </div>
+                    </label>
+                    <label className="radio-option">
+                      <input type="radio" name="type" value="entreprise" />
+                      <div className="opt-box">
+                        <strong>Entreprise Enregistrée</strong>
+                        <span>SARL, EURL, etc.</span>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div className="security-notice">
+                  <ShieldCheck size={18} />
+                  <p>En cliquant sur confirmer, vous acceptez nos conditions de vente pour les marchands.</p>
+                </div>
+              </motion.div>
+            )}
+
+            <div className="form-footer mt-10">
+              {step > 1 && (
+                <button type="button" className="btn btn-outline" onClick={() => setStep(step - 1)}>Retour</button>
+              )}
+              <button type="submit" className="btn btn-primary flex-1">
+                {step < 3 ? 'Continuer' : isSubmitting ? 'Traitement...' : 'Confirmer la création'}
+                {step < 3 && <ArrowRight size={18} />}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
 
+      <AICopilot />
+
       <style dangerouslySetInnerHTML={{ __html: `
-        .registration-page { display: flex; justify-content: center; background: var(--surface); min-height: 100vh; }
-        .registration-card { background: var(--card-bg); width: 100%; max-width: 800px; padding: 3rem; border-radius: 24px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+        .inscription-page { background: var(--background); min-height: 100vh; }
+        .inscription-container { max-width: 600px; margin: 0 auto; }
         
-        .registration-header { text-align: center; margin-bottom: 3rem; }
-        .icon-circle { width: 70px; height: 70px; background: rgba(37, 99, 235, 0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; }
-        .registration-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
-        .registration-header p { color: var(--text-muted); }
-
-        .form-section { margin-bottom: 2.5rem; }
-        .form-section h3 { display: flex; align-items: center; gap: 0.75rem; font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-main); border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; }
+        .inscription-header .badge { background: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 0.4rem 1rem; border-radius: 99px; font-weight: 700; font-size: 0.8rem; margin-bottom: 1rem; display: inline-block; }
+        .inscription-header h1 { font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem; }
         
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        .form-group.full { grid-column: span 2; }
-        .form-group label { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; }
-        .form-group input, .form-group select { width: 100%; padding: 0.85rem 1rem; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text-main); font-family: inherit; transition: var(--transition); }
-        .form-group input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        .step-indicator { display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .step { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--text-muted); background: var(--card-bg); transition: all 0.3s ease; }
+        .step.active { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
+        .line { height: 2px; width: 40px; background: var(--border); }
+        .line.active { background: var(--primary); }
 
-        .terms-check { display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 2.5rem; font-size: 0.9rem; color: var(--text-muted); }
-        .terms-check input { margin-top: 0.25rem; }
+        .form-step h3 { font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-bottom: 2rem; text-align: center; }
+        .inscription-form { background: var(--card-bg); padding: 2.5rem; border-radius: 32px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); }
+        
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .form-group label { font-size: 0.9rem; font-weight: 700; color: var(--text-main); }
+        .form-group input, .form-group select { padding: 0.85rem 1.25rem; border-radius: 14px; border: 1px solid var(--border); background: var(--surface); color: var(--text-main); font-family: inherit; outline: none; }
+        .form-group input:focus { border-color: var(--primary); }
 
-        .animate-spin { animation: spin 1s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .radio-group { display: flex; flex-direction: column; gap: 1rem; }
+        .radio-option { position: relative; cursor: pointer; }
+        .radio-option input { position: absolute; opacity: 0; }
+        .opt-box { padding: 1.25rem; border: 1px solid var(--border); border-radius: 16px; display: flex; flex-direction: column; transition: var(--transition); }
+        .radio-option input:checked + .opt-box { border-color: var(--primary); background: rgba(37, 99, 235, 0.05); }
+        .opt-box strong { font-size: 1rem; color: var(--text-main); }
+        .opt-box span { font-size: 0.8rem; color: var(--text-muted); }
 
-        @media (max-width: 640px) {
-          .registration-card { padding: 1.5rem; }
-          .form-grid { grid-template-columns: 1fr; }
-          .form-group.full { grid-column: span 1; }
+        .security-notice { display: flex; gap: 0.75rem; background: var(--surface); padding: 1rem; border-radius: 12px; margin-top: 2rem; color: var(--text-muted); align-items: center; }
+        .security-notice p { font-size: 0.8rem; line-height: 1.4; }
+        .security-notice svg { color: #10b981; flex-shrink: 0; }
+
+        .form-footer { display: flex; gap: 1rem; }
+        .form-footer .btn { height: 56px; border-radius: 16px; font-weight: 800; }
+
+        @media (max-width: 768px) {
+          .inscription-form { padding: 1.5rem; border-radius: 24px; }
+          .inscription-header h1 { font-size: 1.75rem; }
         }
       ` }} />
     </div>

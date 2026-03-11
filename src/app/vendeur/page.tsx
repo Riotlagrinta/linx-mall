@@ -3,8 +3,9 @@
 import { motion } from 'framer-motion';
 import { Store, TrendingUp, ShieldCheck, Zap, ArrowRight, BarChart3, Package, Users, Check, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import AICopilot from '@/components/AICopilot';
 
-export default function SellerLandingPage() {
+export default function VendeurPage() {
   const benefits = [
     {
       icon: <Store size={32} />,
@@ -220,6 +221,7 @@ export default function SellerLandingPage() {
           .dashboard-preview-card { background: var(--card-bg); border-radius: 24px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); overflow: hidden; height: 400px; }
         }
       ` }} />
+      <AICopilot />
     </div>
   );
 }
