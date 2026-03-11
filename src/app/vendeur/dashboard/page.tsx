@@ -5,10 +5,11 @@ import { motion } from 'framer-motion';
 import { 
   LayoutDashboard, Package, ShoppingCart, Users, BarChart3, 
   Settings, Bell, Plus, Search, TrendingUp, ArrowUpRight, 
-  CheckCircle, Clock, AlertCircle, Sparkles
+  CheckCircle, Clock, AlertCircle, Sparkles, Wand2
 } from 'lucide-react';
 import { products } from '@/data/products';
 import Link from 'next/link';
+import AICopilot from '@/components/AICopilot';
 
 export default function SellerDashboard() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -40,6 +41,7 @@ export default function SellerDashboard() {
 
   return (
     <div className="seller-dashboard">
+      <AICopilot />
       {/* Add Product Modal */}
       {isAddModalOpen && (
         <div className="modal-overlay">
@@ -73,7 +75,12 @@ export default function SellerDashboard() {
                 </div>
               </div>
               <div className="form-group">
-                <label>Description</label>
+                <div className="label-row-ai">
+                  <label>Description</label>
+                  <button type="button" className="ai-gen-btn">
+                    <Wand2 size={14} /> <span>Générer avec l'IA</span>
+                  </button>
+                </div>
                 <textarea placeholder="Décrivez votre produit en quelques lignes..." rows={3}></textarea>
               </div>
               <div className="form-group">
@@ -324,6 +331,10 @@ export default function SellerDashboard() {
         
         .add-product-form { padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; background: var(--card-bg); }
         .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .label-row-ai { display: flex; justify-content: space-between; align-items: center; }
+        .ai-gen-btn { display: flex; align-items: center; gap: 0.4rem; background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%); color: white; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: var(--transition); }
+        .ai-gen-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); }
+        
         .form-group label { font-size: 0.9rem; font-weight: 700; color: var(--text-main); }
         .form-group input, .form-group select, .form-group textarea {
           padding: 0.8rem 1rem;
