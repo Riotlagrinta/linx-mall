@@ -125,6 +125,7 @@ export default function EngagementsPage() {
         .cta-box p { opacity: 0.8; margin-bottom: 2.5rem; }
         .btns { display: flex; flex-direction: column; gap: 1rem; }
         .btns .btn-outline { border-color: white; color: white; }
+        .btns .btn-outline:hover { background: var(--surface); color: var(--text-main); }
 
         @media (min-width: 768px) {
           .engagements-hero h1 { font-size: 4rem; }

@@ -150,7 +150,7 @@ export default function AboutPage() {
         .cta-card p { opacity: 0.9; font-size: 1.1rem; margin-bottom: 2.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
         .cta-btns { display: flex; flex-direction: column; gap: 1rem; }
         .cta-btns .btn-outline { border-color: white; color: white; }
-        .cta-btns .btn-outline:hover { background: white; color: var(--primary); }
+        .cta-btns .btn-outline:hover { background: var(--text-main); color: white; }
 
         @media (min-width: 768px) {
           .about-hero h1 { font-size: 4rem; }

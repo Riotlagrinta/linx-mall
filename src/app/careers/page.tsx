@@ -114,7 +114,7 @@ export default function CareersPage() {
         .apply-card h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
         .apply-card p { opacity: 0.8; margin-bottom: 2rem; }
         .apply-card .btn-outline { border-color: white; color: white; }
-        .apply-card .btn-outline:hover { background: white; color: var(--text-main); }
+        .apply-card .btn-outline:hover { background: var(--text-main); color: white; }
 
         @media (min-width: 768px) {
           .careers-hero h1 { font-size: 4rem; }

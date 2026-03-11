@@ -291,7 +291,7 @@ export default function SellerDashboard() {
         .modal-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(15, 23, 42, 0.6);
+          background: rgba(0, 0, 0, 0.5);
           backdrop-filter: blur(8px);
           display: flex;
           align-items: center;
@@ -317,11 +317,12 @@ export default function SellerDashboard() {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          background: var(--surface);
         }
         .modal-header h3 { font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
         .close-btn { font-size: 2rem; background: none; border: none; color: var(--text-muted); cursor: pointer; line-height: 1; }
         
-        .add-product-form { padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; }
+        .add-product-form { padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; background: var(--card-bg); }
         .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
         .form-group label { font-size: 0.9rem; font-weight: 700; color: var(--text-main); }
         .form-group input, .form-group select, .form-group textarea {
@@ -362,6 +363,7 @@ export default function SellerDashboard() {
           display: flex;
           justify-content: flex-end;
           gap: 1rem;
+          background: var(--surface);
         }
 
         @media (max-width: 768px) {

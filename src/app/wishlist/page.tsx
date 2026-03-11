@@ -84,7 +84,7 @@ export default function WishlistPage() {
         .product-card { background: var(--card-bg); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; position: relative; }
         .product-image { height: 180px; background-size: cover; background-position: center; position: relative; background-color: var(--surface); }
         
-        .remove-wishlist-btn { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: white; color: var(--accent); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow); z-index: 10; }
+        .remove-wishlist-btn { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: var(--card-bg); color: var(--accent); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow); z-index: 10; }
         
         .product-info { padding: 1rem; }
         .product-info h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main); height: 2.5rem; overflow: hidden; }
