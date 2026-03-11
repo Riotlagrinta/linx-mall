@@ -167,58 +167,57 @@ export default function SellerLandingPage() {
       </section>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        .seller-landing { background: var(--background); }
+        .seller-landing { background: var(--background); overflow-x: hidden; }
         
-        .seller-hero { padding: 10rem 0 6rem; background: var(--hero-gradient); }
-        .hero-content { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 5rem; }
+        /* Base styles (Mobile First) */
+        .seller-hero { padding: 6rem 1.5rem 4rem; background: var(--hero-gradient); text-align: center; }
+        .hero-content { display: flex; flex-direction: column; gap: 3rem; }
         
         .badge-promo { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 0.6rem 1.25rem; border-radius: 99px; font-weight: 700; font-size: 0.85rem; margin-bottom: 2rem; }
-        .hero-text h1 { font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1.5px; color: var(--text-main); }
+        .hero-text h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1px; color: var(--text-main); }
         .hero-text .highlight { color: var(--primary); }
-        .hero-text p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 3rem; line-height: 1.6; }
-        .hero-actions { display: flex; gap: 1.5rem; }
+        .hero-text p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2.5rem; line-height: 1.6; }
+        .hero-actions { display: flex; flex-direction: column; gap: 1rem; }
+        .hero-visual { display: none; }
 
-        .dashboard-preview-card { background: var(--card-bg); border-radius: 24px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); overflow: hidden; height: 400px; }
-        .preview-header { height: 40px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 1.5rem; }
-        .preview-dots { display: flex; gap: 6px; }
-        .preview-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
-        .preview-body { padding: 2rem; }
-        .preview-stats { display: flex; gap: 1rem; margin-bottom: 2rem; }
-        .p-stat { height: 60px; flex: 1; background: var(--surface); border-radius: 12px; }
-        .p-chart { height: 180px; background: var(--surface); border-radius: 16px; width: 100%; }
+        .benefits-section { padding: 4rem 1.5rem; }
+        .benefits-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        .benefit-card { background: var(--card-bg); padding: 2.5rem 1.5rem; border-radius: 24px; border: 1px solid var(--border); text-align: center; }
+        .benefit-icon-wrapper { width: 60px; height: 60px; background: var(--surface); color: var(--primary); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; }
+        .benefit-card h3 { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text-main); }
+        .benefit-card p { color: var(--text-muted); line-height: 1.5; font-size: 0.95rem; }
 
-        .benefit-card { background: var(--card-bg); padding: 3rem 2rem; border-radius: 32px; border: 1px solid var(--border); transition: var(--transition); text-align: center; }
-        .benefit-card:hover { border-color: var(--primary); box-shadow: var(--shadow-lg); }
-        .benefit-icon-wrapper { width: 70px; height: 70px; background: var(--surface); color: var(--primary); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; transition: var(--transition); }
-        .benefit-card:hover .benefit-icon-wrapper { background: var(--primary); color: white; transform: rotate(10deg); }
-        .benefit-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main); }
-        .benefit-card p { color: var(--text-muted); line-height: 1.6; font-size: 1.05rem; }
-
-        .plans-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3rem; max-width: 1000px; margin: 0 auto; }
-        .plan-card { background: var(--card-bg); padding: 4rem 3rem; border-radius: 40px; border: 1px solid var(--border); position: relative; transition: var(--transition); display: flex; flex-direction: column; }
-        .plan-card.featured { border: 2px solid var(--primary); box-shadow: 0 30px 60px rgba(37, 99, 235, 0.15); transform: translateY(-10px); }
-        .plan-tag { position: absolute; top: 20px; right: 30px; background: var(--primary); color: white; padding: 0.5rem 1rem; border-radius: 99px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
-        .plan-header h3 { font-size: 1.75rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main); }
-        .plan-price { font-size: 3rem; font-weight: 800; color: var(--primary); margin-bottom: 1.5rem; letter-spacing: -1px; }
-        .plan-header p { color: var(--text-muted); margin-bottom: 3rem; font-size: 1.1rem; }
-        .plan-features { list-style: none; margin-bottom: 4rem; flex: 1; }
-        .plan-features li { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; font-weight: 600; color: var(--text-main); }
+        .pricing-section { padding: 4rem 1.5rem; }
+        .plans-grid { display: flex; flex-direction: column; gap: 2rem; }
+        .plan-card { background: var(--card-bg); padding: 3rem 2rem; border-radius: 32px; border: 1px solid var(--border); position: relative; display: flex; flex-direction: column; }
+        .plan-card.featured { border: 2px solid var(--primary); box-shadow: var(--shadow-lg); }
+        .plan-tag { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 0.4rem 1rem; border-radius: 99px; font-weight: 700; font-size: 0.7rem; text-transform: uppercase; white-space: nowrap; }
+        .plan-header h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text-main); }
+        .plan-price { font-size: 2.25rem; font-weight: 800; color: var(--primary); margin-bottom: 1rem; }
+        .plan-header p { color: var(--text-muted); margin-bottom: 2rem; font-size: 1rem; }
+        .plan-features { list-style: none; margin-bottom: 2.5rem; flex: 1; }
+        .plan-features li { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; font-weight: 600; color: var(--text-main); font-size: 0.9rem; }
         .check-icon { color: #10b981; flex-shrink: 0; }
-        .plan-card.featured .check-icon { color: var(--primary); }
 
-        .is-coming-soon { opacity: 0.8; }
-        .coming-soon-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); backdrop-filter: blur(2px); border-radius: 40px; font-size: 1.5rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; transform: rotate(-10deg); pointer-events: none; z-index: 20; }
-        [data-theme="dark"] .coming-soon-label { background: rgba(0,0,0,0.2); }
+        /* Tablet & Desktop Improvements */
+        @media (min-width: 768px) {
+          .hero-text h1 { font-size: 3.5rem; }
+          .hero-actions { flex-direction: row; justify-content: center; }
+          .benefits-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+          .plans-grid { flex-direction: row; max-width: 900px; margin: 0 auto; }
+          .plan-card { flex: 1; }
+          .plan-tag { top: 20px; right: 30px; left: auto; transform: none; }
+        }
 
-        .btn-coming-soon { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
-
-        @media (max-width: 1024px) {
-          .hero-content { grid-template-columns: 1fr; text-align: center; }
-          .hero-actions { justify-content: center; }
-          .hero-text h1 { font-size: 3rem; }
-          .hero-visual { display: none; }
-          .plans-grid { grid-template-columns: 1fr; }
-          .plan-card.featured { transform: translateY(0); }
+        @media (min-width: 1024px) {
+          .seller-hero { padding: 8rem 0 6rem; text-align: left; }
+          .hero-content { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 5rem; }
+          .hero-actions { justify-content: flex-start; }
+          .hero-visual { display: block; }
+          .benefits-grid { grid-template-columns: repeat(4, 1fr); }
+          .benefit-card { padding: 3rem 2rem; }
+          .plan-price { font-size: 3rem; }
+          .dashboard-preview-card { background: var(--card-bg); border-radius: 24px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); overflow: hidden; height: 400px; }
         }
       ` }} />
     </div>
