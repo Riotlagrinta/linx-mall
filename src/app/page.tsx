@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Star, ShoppingCart, Zap, ShieldCheck, Truck } from "lucide-react";
+import { ArrowRight, Star, ShoppingCart, Zap, ShieldCheck, Truck, Heart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 import { products, categories } from "@/data/products";
 import Link from "next/link";
 
 export default function Home() {
   const { addToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const [activeCategory, setActiveCategory] = useState("Tout");
 
   const filteredProducts = activeCategory === "Tout" 
@@ -136,6 +138,16 @@ export default function Home() {
               <Link href={`/products/${product.id}`} className="product-link">
                 <div className="product-image" style={{ backgroundImage: `url(${product.image})` }}>
                   {product.badge && <span className="product-badge">{product.badge}</span>}
+                  <button 
+                    className={`wishlist-card-btn ${isInWishlist(product.id) ? 'active' : ''}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleWishlist(product);
+                    }}
+                  >
+                    <Heart size={18} fill={isInWishlist(product.id) ? "var(--accent)" : "none"} />
+                  </button>
                 </div>
               </Link>
               <div className="product-info">
@@ -332,23 +344,9 @@ export default function Home() {
           font-size: 0.75rem;
           font-weight: 700;
           box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+          z-index: 5;
+          position: relative;
         }
-        .wishlist-btn {
-          position: absolute;
-          top: 1rem;
-          right: 1rem;
-          background: var(--card-bg);
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: var(--shadow);
-          color: var(--text-muted);
-          transition: var(--transition);
-        }
-        .wishlist-btn:hover { color: var(--accent); transform: scale(1.1); }
         
         .product-info { padding: 1.5rem; }
         .product-rating {
@@ -385,6 +383,26 @@ export default function Home() {
           border-color: var(--primary);
           box-shadow: 0 8px 15px rgba(37, 99, 235, 0.2);
         }
+
+        .wishlist-card-btn {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background: var(--card-bg);
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: var(--shadow);
+          color: var(--text-muted);
+          transition: var(--transition);
+          border: 1px solid var(--border);
+          z-index: 10;
+        }
+        .wishlist-card-btn:hover { transform: scale(1.1); color: var(--accent); }
+        .wishlist-card-btn.active { color: var(--accent); border-color: var(--accent); }
 
         .seller-cta {
           margin-top: 7rem;

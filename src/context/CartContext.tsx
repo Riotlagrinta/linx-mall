@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useNotification } from './NotificationContext';
 
 export type CartItem = {
   id: number;
@@ -30,6 +31,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     setIsMounted(true);
@@ -57,11 +59,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, { ...item, quantity: 1 }];
     });
+    showNotification(`${item.name} ajouté au panier !`, 'success');
     setIsCartOpen(true);
   };
 
   const removeFromCart = (id: number) => {
+    const item = cart.find(i => i.id === id);
     setCart(prev => prev.filter(i => i.id !== id));
+    if (item) showNotification(`${item.name} retiré du panier`, 'info');
   };
 
   const updateQuantity = (id: number, quantity: number) => {

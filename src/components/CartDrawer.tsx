@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import Link from 'next/link';
 
 export default function CartDrawer() {
   const { cart, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity, cartTotal } = useCart();
@@ -68,9 +69,14 @@ export default function CartDrawer() {
                   <span>Total</span>
                   <span className="cart-total-price">{(cartTotal).toLocaleString('fr-FR')} FCFA</span>
                 </div>
-                <button className="btn btn-primary btn-block">
+                <Link 
+                  href="/checkout" 
+                  className="btn btn-primary btn-block"
+                  style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                  onClick={() => setIsCartOpen(false)}
+                >
                   Commander ({cart.reduce((a, b) => a + b.quantity, 0)})
-                </button>
+                </Link>
               </div>
             )}
             
@@ -147,7 +153,7 @@ export default function CartDrawer() {
               .quantity-controls {
                 display: flex;
                 align-items: center;
-                background: var(--bg-main);
+                background: var(--background);
                 border: 1px solid var(--border);
                 border-radius: 99px;
                 overflow: hidden;
@@ -184,7 +190,7 @@ export default function CartDrawer() {
                 font-size: 1.1rem;
               }
               .cart-total-price { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
-              .btn-block { width: 100%; display: flex; justify-content: center; padding: 1rem; border-radius: 12px; font-weight: 700; font-size: 1.05rem; cursor: pointer; border: none; }
+              .btn-block { width: 100%; display: flex; justify-content: center; padding: 1rem; border-radius: 12px; font-weight: 700; font-size: 1.05rem; cursor: pointer; border: none; background: var(--primary); color: white; }
             ` }} />
           </motion.div>
         </>
