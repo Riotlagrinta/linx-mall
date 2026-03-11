@@ -1,33 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
   --primary: #2563eb;
+  --primary-hover: #1d4ed8;
   --secondary: #f59e0b;
   --accent: #ef4444;
   --background: #ffffff;
   --surface: #f8fafc;
-  --header-bg: rgba(255, 255, 255, 0.8);
+  --header-bg: rgba(255, 255, 255, 0.85);
   --card-bg: #ffffff;
   --text-main: #0f172a;
   --text-muted: #64748b;
   --border: #e2e8f0;
   --hero-gradient: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
-  --radius: 12px;
-  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --max-width: 1200px;
+  --radius: 16px;
+  --radius-sm: 8px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --max-width: 1280px;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="dark"] {
-  --background: #0b0f1a;
-  --surface: #161b2a;
-  --header-bg: rgba(11, 15, 26, 0.8);
+  --background: #0f172a;
+  --surface: #1e293b;
+  --header-bg: rgba(15, 23, 42, 0.85);
   --card-bg: #1e293b;
   --text-main: #f1f5f9;
   --text-muted: #94a3b8;
   --border: #334155;
-  --hero-gradient: linear-gradient(135deg, #1e293b 0%, #0b0f1a 100%);
-  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  --hero-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -37,30 +40,17 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   background: var(--background);
   color: var(--text-main);
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  outline: none;
-  font-family: inherit;
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; outline: none; font-family: inherit; }
+img { max-width: 100%; display: block; }
 
 .container {
   max-width: var(--max-width);
@@ -68,16 +58,23 @@ img {
   padding: 0 1.5rem;
 }
 
+/* Scrollbar Custom */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
 /* Utils */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.5rem;
-  font-weight: 600;
+  padding: 0.85rem 1.75rem;
+  font-weight: 700;
   border-radius: var(--radius);
-  transition: all 0.2s ease;
-  gap: 0.5rem;
+  transition: var(--transition);
+  gap: 0.6rem;
+  font-size: 0.95rem;
 }
 
 .btn-primary {
@@ -86,33 +83,45 @@ img {
 }
 
 .btn-primary:hover {
-  background: #1d4ed8;
+  background: var(--primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
 }
 
 .btn-outline {
   background: transparent;
-  border: 2px solid var(--primary);
-  color: var(--primary);
+  border: 2px solid var(--border);
+  color: var(--text-main);
 }
 
 .btn-outline:hover {
-  background: var(--primary);
-  color: white;
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(37, 99, 235, 0.05);
 }
 
 .badge {
-  padding: 0.25rem 0.75rem;
+  padding: 0.35rem 0.85rem;
   border-radius: 9999px;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   background: var(--surface);
   border: 1px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .badge-featured {
-  background: #fef3c7;
-  color: #92400e;
-  border-color: #fcd34d;
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+  border-color: rgba(245, 158, 11, 0.2);
 }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade { animation: fadeIn 0.5s ease-out forwards; }

@@ -67,39 +67,37 @@ export default function SellerLandingPage() {
       <section className="seller-hero">
         <div className="container hero-content">
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
             className="hero-text"
           >
+            <div className="badge-promo animate-fade">
+              <Sparkles size={14} /> Partenaire de votre croissance
+            </div>
             <h1>Vendez plus, vendez mieux avec <span className="highlight">Linx Mall</span></h1>
-            <p>La marketplace N°1 au Togo pour digitaliser votre commerce et atteindre de nouveaux sommets.</p>
+            <p>La marketplace de référence au Togo pour digitaliser votre commerce et atteindre de nouveaux clients en un clic.</p>
             <div className="hero-actions">
               <Link href="/vendeur/inscription" className="btn btn-primary btn-lg">
-                Ouvrir ma boutique gratuite <ArrowRight size={20} />
+                Ouvrir ma boutique <ArrowRight size={20} />
               </Link>
-              <a href="#plans" className="btn btn-outline btn-lg">Voir nos tarifs</a>
+              <a href="#plans" className="btn btn-outline btn-lg">Voir nos forfaits</a>
             </div>
           </motion.div>
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="hero-preview"
+            className="hero-visual"
           >
-            <div className="dashboard-mockup">
-              <div className="mockup-header">
-                <div className="dots"><span></span><span></span><span></span></div>
-                <div className="url">vendeur.linxmall.tg/dashboard</div>
+            <div className="dashboard-preview-card">
+              <div className="preview-header">
+                <div className="preview-dots"><span></span><span></span><span></span></div>
               </div>
-              <div className="mockup-body">
-                <div className="sidebar"></div>
-                <div className="content">
-                  <div className="stats-row">
-                    <div className="stat-box"></div>
-                    <div className="stat-box"></div>
-                    <div className="stat-box"></div>
-                  </div>
-                  <div className="chart-box"></div>
+              <div className="preview-body">
+                <div className="preview-stats">
+                  <div className="p-stat"></div>
+                  <div className="p-stat"></div>
                 </div>
+                <div className="p-chart"></div>
               </div>
             </div>
           </motion.div>
@@ -107,32 +105,34 @@ export default function SellerLandingPage() {
       </section>
 
       {/* Benefits Grid */}
-      <section className="benefits container py-20">
-        <div className="section-header text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">Pourquoi choisir Linx Mall ?</h2>
-          <p className="text-muted max-w-2xl mx-auto">Nous fournissons les outils technologiques, vous fournissez les produits. Ensemble, révolutionnons le commerce au Togo.</p>
-        </div>
-        <div className="benefits-grid">
-          {benefits.map((benefit, index) => (
-            <motion.div 
-              key={index}
-              whileHover={{ y: -10 }}
-              className="benefit-card"
-            >
-              <div className="benefit-icon">{benefit.icon}</div>
-              <h3>{benefit.title}</h3>
-              <p>{benefit.description}</p>
-            </motion.div>
-          ))}
+      <section className="benefits-section py-24">
+        <div className="container">
+          <div className="section-header text-center mb-16">
+            <h2 className="text-4xl font-extrabold mb-4">Pourquoi choisir Linx Mall ?</h2>
+            <p className="text-muted max-w-2xl mx-auto text-lg">Nous fournissons les meilleurs outils technologiques du marché pour faire décoller votre business.</p>
+          </div>
+          <div className="benefits-grid">
+            {benefits.map((benefit, index) => (
+              <motion.div 
+                key={index}
+                whileHover={{ y: -10 }}
+                className="benefit-card"
+              >
+                <div className="benefit-icon-wrapper">{benefit.icon}</div>
+                <h3>{benefit.title}</h3>
+                <p>{benefit.description}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Pricing Section */}
-      <section id="plans" className="pricing-section py-20 bg-surface">
+      <section id="plans" className="pricing-section py-24">
         <div className="container">
           <div className="section-header text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">Choisissez le forfait qui vous ressemble</h2>
-            <p className="text-muted">Des solutions adaptées à la taille de votre entreprise.</p>
+            <h2 className="text-4xl font-extrabold mb-4">Tarifs simples et transparents</h2>
+            <p className="text-muted text-lg">Pas de frais cachés. Choisissez l'offre qui vous convient.</p>
           </div>
           <div className="plans-grid">
             {plans.map((plan, index) => (
@@ -140,9 +140,9 @@ export default function SellerLandingPage() {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                className={`plan-card ${plan.featured ? 'featured' : ''} ${!plan.active ? 'disabled' : ''}`}
+                className={`plan-card ${plan.featured ? 'featured' : ''} ${!plan.active ? 'is-coming-soon' : ''}`}
               >
-                {plan.featured && <div className="plan-badge"><Sparkles size={14} /> Recommandé</div>}
+                {plan.featured && <div className="plan-tag">Le plus populaire</div>}
                 <div className="plan-header">
                   <h3>{plan.name}</h3>
                   <div className="plan-price">{plan.price}</div>
@@ -150,127 +150,75 @@ export default function SellerLandingPage() {
                 </div>
                 <ul className="plan-features">
                   {plan.features.map((feature, fIndex) => (
-                    <li key={fIndex}><Check size={18} color={plan.featured ? "var(--primary)" : "#10b981"} /> {feature}</li>
+                    <li key={fIndex}><Check size={18} className="check-icon" /> {feature}</li>
                   ))}
                 </ul>
                 <Link 
                   href={plan.link} 
-                  className={`btn w-full ${plan.featured ? 'btn-primary' : 'btn-outline'} ${!plan.active ? 'btn-coming-soon' : ''}`}
+                  className={`btn w-full btn-lg ${plan.featured ? 'btn-primary' : 'btn-outline'} ${!plan.active ? 'disabled' : ''}`}
                 >
                   {plan.button}
                 </Link>
-                {!plan.active && <div className="coming-soon-overlay">Bientôt disponible</div>}
+                {!plan.active && <div className="coming-soon-label">Arrive bientôt</div>}
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Steps Section */}
-      <section id="how-it-works" className="steps-section py-20">
-        <div className="container">
-          <div className="section-header text-center mb-16">
-            <h2 className="text-3xl font-bold">Lancez-vous en 3 étapes</h2>
-          </div>
-          <div className="steps-grid">
-            <div className="step-item">
-              <div className="step-number">1</div>
-              <Store size={40} className="mb-4 text-primary" />
-              <h3>Créez votre boutique</h3>
-              <p>Remplissez le formulaire d'inscription avec vos infos professionnelles.</p>
-            </div>
-            <div className="step-item">
-              <div className="step-number">2</div>
-              <Package size={40} className="mb-4 text-primary" />
-              <h3>Ajoutez vos produits</h3>
-              <p>Importez vos photos, fixez vos prix et gérez vos stocks facilement.</p>
-            </div>
-            <div className="step-item">
-              <div className="step-number">3</div>
-              <Users size={40} className="mb-4 text-primary" />
-              <h3>Vendez et encaissez</h3>
-              <p>Recevez des commandes et soyez payé directement par Mobile Money.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Final */}
-      <section className="final-cta container py-20">
-        <div className="cta-card">
-          <h2>Prêt à booster votre business ?</h2>
-          <p>Rejoignez la communauté des marchands Linx Mall aujourd'hui.</p>
-          <Link href="/vendeur/inscription" className="btn btn-white btn-lg">
-            Commencer maintenant
-          </Link>
-        </div>
-      </section>
-
       <style dangerouslySetInnerHTML={{ __html: `
-        .seller-landing { overflow-x: hidden; }
+        .seller-landing { background: var(--background); }
         
-        .seller-hero { background: var(--hero-gradient); padding: 8rem 0; position: relative; }
-        .hero-content { display: grid; grid-template-columns: 1fr 1.2fr; align-items: center; gap: 4rem; }
-        .hero-text h1 { font-size: 3.5rem; line-height: 1.1; font-weight: 800; margin-bottom: 1.5rem; }
+        .seller-hero { padding: 10rem 0 6rem; background: var(--hero-gradient); }
+        .hero-content { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 5rem; }
+        
+        .badge-promo { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 0.6rem 1.25rem; border-radius: 99px; font-weight: 700; font-size: 0.85rem; margin-bottom: 2rem; }
+        .hero-text h1 { font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1.5px; color: var(--text-main); }
         .hero-text .highlight { color: var(--primary); }
-        .hero-text p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2.5rem; }
-        .hero-actions { display: flex; gap: 1rem; }
+        .hero-text p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 3rem; line-height: 1.6; }
+        .hero-actions { display: flex; gap: 1.5rem; }
 
-        .dashboard-mockup { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 30px 60px rgba(0,0,0,0.12); overflow: hidden; }
-        .mockup-header { padding: 0.75rem 1.25rem; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 1.5rem; }
-        .dots { display: flex; gap: 6px; }
-        .dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
-        .url { font-size: 0.75rem; color: var(--text-muted); background: var(--card-bg); padding: 4px 12px; border-radius: 99px; border: 1px solid var(--border); flex: 1; text-align: center; }
-        
-        .mockup-body { display: grid; grid-template-columns: 60px 1fr; height: 350px; }
-        .sidebar { background: var(--surface); border-right: 1px solid var(--border); }
-        .content { padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
-        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-        .stat-box { height: 60px; background: var(--surface); border-radius: 8px; }
-        .chart-box { flex: 1; background: var(--surface); border-radius: 12px; }
+        .dashboard-preview-card { background: var(--card-bg); border-radius: 24px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); overflow: hidden; height: 400px; }
+        .preview-header { height: 40px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 1.5rem; }
+        .preview-dots { display: flex; gap: 6px; }
+        .preview-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+        .preview-body { padding: 2rem; }
+        .preview-stats { display: flex; gap: 1rem; margin-bottom: 2rem; }
+        .p-stat { height: 60px; flex: 1; background: var(--surface); border-radius: 12px; }
+        .p-chart { height: 180px; background: var(--surface); border-radius: 16px; width: 100%; }
 
-        .benefits-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
-        .benefit-card { background: var(--card-bg); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border); transition: var(--transition); }
-        .benefit-card:hover { border-color: var(--primary); box-shadow: var(--shadow); }
-        .benefit-icon { color: var(--primary); margin-bottom: 1.5rem; }
-        .benefit-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; }
-        .benefit-card p { color: var(--text-muted); line-height: 1.6; }
+        .benefit-card { background: var(--card-bg); padding: 3rem 2rem; border-radius: 32px; border: 1px solid var(--border); transition: var(--transition); text-align: center; }
+        .benefit-card:hover { border-color: var(--primary); box-shadow: var(--shadow-lg); }
+        .benefit-icon-wrapper { width: 70px; height: 70px; background: var(--surface); color: var(--primary); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; transition: var(--transition); }
+        .benefit-card:hover .benefit-icon-wrapper { background: var(--primary); color: white; transform: rotate(10deg); }
+        .benefit-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main); }
+        .benefit-card p { color: var(--text-muted); line-height: 1.6; font-size: 1.05rem; }
 
-        /* Pricing Styles */
-        .plans-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem; max-width: 900px; margin: 0 auto; }
-        .plan-card { background: var(--card-bg); padding: 3rem; border-radius: 32px; border: 1px solid var(--border); position: relative; transition: var(--transition); display: flex; flex-direction: column; }
-        .plan-card.featured { border: 2px solid var(--primary); transform: scale(1.05); z-index: 10; box-shadow: 0 20px 40px rgba(37, 99, 235, 0.1); }
-        .plan-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 0.5rem 1.25rem; border-radius: 99px; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
-        .plan-header h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
-        .plan-price { font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 1rem; }
-        .plan-header p { color: var(--text-muted); margin-bottom: 2rem; min-height: 3rem; }
-        .plan-features { list-style: none; margin-bottom: 3rem; flex: 1; }
-        .plan-features li { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; font-weight: 500; }
-        
-        .plan-card.disabled { opacity: 0.7; pointer-events: none; }
-        .coming-soon-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.03); border-radius: 32px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--text-muted); font-size: 1.2rem; transform: rotate(-15deg); pointer-events: none; z-index: 5; }
-        .btn-coming-soon { background: var(--border); color: var(--text-muted); border-color: var(--border); }
+        .plans-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3rem; max-width: 1000px; margin: 0 auto; }
+        .plan-card { background: var(--card-bg); padding: 4rem 3rem; border-radius: 40px; border: 1px solid var(--border); position: relative; transition: var(--transition); display: flex; flex-direction: column; }
+        .plan-card.featured { border: 2px solid var(--primary); box-shadow: 0 30px 60px rgba(37, 99, 235, 0.15); transform: translateY(-10px); }
+        .plan-tag { position: absolute; top: 20px; right: 30px; background: var(--primary); color: white; padding: 0.5rem 1rem; border-radius: 99px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
+        .plan-header h3 { font-size: 1.75rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main); }
+        .plan-price { font-size: 3rem; font-weight: 800; color: var(--primary); margin-bottom: 1.5rem; letter-spacing: -1px; }
+        .plan-header p { color: var(--text-muted); margin-bottom: 3rem; font-size: 1.1rem; }
+        .plan-features { list-style: none; margin-bottom: 4rem; flex: 1; }
+        .plan-features li { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; font-weight: 600; color: var(--text-main); }
+        .check-icon { color: #10b981; flex-shrink: 0; }
+        .plan-card.featured .check-icon { color: var(--primary); }
 
-        .steps-section { background: white; }
-        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem; position: relative; }
-        .step-item { text-align: center; position: relative; z-index: 2; }
-        .step-number { width: 40px; height: 40px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; margin: 0 auto 1.5rem; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
-        .step-item h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; }
-        .step-item p { color: var(--text-muted); }
+        .is-coming-soon { opacity: 0.8; }
+        .coming-soon-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); backdrop-filter: blur(2px); border-radius: 40px; font-size: 1.5rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; transform: rotate(-10deg); pointer-events: none; z-index: 20; }
+        [data-theme="dark"] .coming-soon-label { background: rgba(0,0,0,0.2); }
 
-        .cta-card { background: var(--primary); color: white; border-radius: 32px; padding: 5rem 2rem; text-align: center; }
-        .cta-card h2 { font-size: 3rem; font-weight: 800; margin-bottom: 1.5rem; }
-        .cta-card p { font-size: 1.25rem; opacity: 0.9; margin-bottom: 2.5rem; }
-        .btn-white { background: white; color: var(--primary); }
-        .btn-white:hover { background: #f8fafc; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .btn-coming-soon { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
 
         @media (max-width: 1024px) {
           .hero-content { grid-template-columns: 1fr; text-align: center; }
           .hero-actions { justify-content: center; }
-          .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+          .hero-text h1 { font-size: 3rem; }
+          .hero-visual { display: none; }
           .plans-grid { grid-template-columns: 1fr; }
-          .plan-card.featured { transform: scale(1); }
-          .steps-grid { grid-template-columns: 1fr; gap: 3rem; }
+          .plan-card.featured { transform: translateY(0); }
         }
       ` }} />
     </div>
