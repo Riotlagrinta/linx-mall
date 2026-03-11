@@ -17,6 +17,13 @@ export default function Home() {
     ? products 
     : products.filter(p => p.category === activeCategory);
 
+  const scrollToProducts = () => {
+    const element = document.getElementById('products');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="home-wrapper">
       {/* Hero Section */}
@@ -32,12 +39,12 @@ export default function Home() {
             <h1>Le futur du commerce au Togo commence ici.</h1>
             <p>Achetez, vendez et faites-vous livrer en un clin d'œil sur la plateforme la plus sécurisée du pays.</p>
             <div className="hero-actions">
-              <button className="btn btn-primary">
+              <button className="btn btn-primary" onClick={scrollToProducts}>
                 Explorer la boutique <ArrowRight size={20} />
               </button>
-              <button className="btn btn-outline">
+              <Link href="/vendeur" className="btn btn-outline">
                 Devenir vendeur
-              </button>
+              </Link>
             </div>
           </motion.div>
           <motion.div 
@@ -175,7 +182,9 @@ export default function Home() {
         <div className="cta-content">
           <h2>Vous avez des produits à vendre ?</h2>
           <p>Rejoignez des centaines de marchands togolais et boostez votre chiffre d'affaires avec Linx Mall.</p>
-          <button className="btn btn-primary btn-lg">Ouvrir ma boutique gratuite</button>
+          <Link href="/vendeur" className="btn btn-primary btn-lg" style={{ textDecoration: 'none', display: 'inline-flex' }}>
+            Ouvrir ma boutique gratuite
+          </Link>
         </div>
       </section>
 
