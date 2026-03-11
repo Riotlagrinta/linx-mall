@@ -7,24 +7,24 @@ import Link from 'next/link';
 export default function SellerLandingPage() {
   const benefits = [
     {
-      icon: <TrendingUp size={32} />,
-      title: "Boostez vos ventes",
-      description: "Touchez des milliers de clients partout au Togo, 24h/24 et 7j/7."
+      icon: <Store size={32} />,
+      title: "Vitrine 100% digitale",
+      description: "Votre boutique accessible partout au Togo, 24h/24, sans frais de loyer physique."
     },
     {
-      icon: <ShieldCheck size={32} />,
-      title: "Paiements sécurisés",
-      description: "Recevez vos fonds via T-Money ou Flooz dès que la commande est validée."
+      icon: <Users size={32} />,
+      title: "Audience qualifiée",
+      description: "Profitez de notre trafic pour attirer des clients qui recherchent activement vos produits."
     },
     {
       icon: <Zap size={32} />,
-      title: "Gestion simplifiée",
-      description: "Un tableau de bord intuitif pour gérer vos stocks et vos commandes."
+      title: "Ventes instantanées",
+      description: "Recevez vos paiements via T-Money ou Flooz dès que la commande est confirmée."
     },
     {
-      icon: <BarChart3 size={32} />,
-      title: "Statistiques détaillées",
-      description: "Suivez l'évolution de votre chiffre d'affaires en temps réel."
+      icon: <ShieldCheck size={32} />,
+      title: "Confiance client",
+      description: "Bénéficiez de la notoriété de Linx Mall pour rassurer vos acheteurs et fidéliser votre clientèle."
     }
   ];
 
