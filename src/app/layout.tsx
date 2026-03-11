@@ -108,21 +108,21 @@ export default function RootLayout({
               <div className="footer-col">
                 <h4>Linx Mall</h4>
                 <ul>
-                  <li><a href="#">À propos de nous</a></li>
-                  <li><a href="#">Devenir vendeur</a></li>
-                  <li><a href="#">Nos engagements</a></li>
-                  <li><a href="#">Recrutement</a></li>
+                  <li><Link href="/about">À propos de nous</Link></li>
+                  <li><Link href="/vendeur">Devenir vendeur</Link></li>
+                  <li><Link href="/about">Nos engagements</Link></li>
+                  <li><Link href="/careers">Recrutement</Link></li>
                 </ul>
-              </div>
-              <div className="footer-col">
-                <h4>Aide & Support</h4>
+                </div>
+                <div className="footer-section">
+                <h4>Support</h4>
                 <ul>
-                  <li><a href="#">Centre d'aide</a></li>
-                  <li><a href="#">Livraison & Retours</a></li>
-                  <li><a href="#">Suivre ma commande</a></li>
-                  <li><a href="#">Contactez-nous</a></li>
+                  <li><Link href="/help">Centre d'aide</Link></li>
+                  <li><Link href="/help">Livraison & Retours</Link></li>
+                  <li><Link href="/tracking">Suivre ma commande</Link></li>
+                  <li><Link href="/help">Contactez-nous</Link></li>
                 </ul>
-              </div>
+                </div>
               <div className="footer-col">
                 <h4>Contact</h4>
                 <p>Lomé, Togo</p>

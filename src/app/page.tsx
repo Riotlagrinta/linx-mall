@@ -98,7 +98,7 @@ export default function Home() {
       <section className="categories container">
         <div className="section-header">
           <h2>Parcourir par catégories</h2>
-          <a href="#" className="view-all">Voir tout <ArrowRight size={16} /></a>
+          <Link href="/search" className="view-all">Voir tout <ArrowRight size={16} /></Link>
         </div>
         <div className="category-grid">
           {categories.filter(c => c.name !== "Tout").map((cat) => (
