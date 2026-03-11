@@ -2,70 +2,24 @@
 
 import { use, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Star, ShoppingCart, ShieldCheck, Truck, ArrowLeft, Heart, Share2, Check } from 'lucide-react';
+import { Star, ShoppingCart, ShieldCheck, Truck, ArrowLeft, Heart, Check } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { products } from '@/data/products';
+import { Product } from '@/types/product';
 import Link from 'next/link';
-import Image from 'next/image';
-
-const allProducts = [
-  {
-    id: 1,
-    name: "Smartphone NexGen Pro",
-    price: 155000,
-    rating: 4.8,
-    reviews: 124,
-    description: "Le NexGen Pro redéfinit la performance mobile. Avec son processeur ultra-rapide et son écran Super Retina, profitez d'une expérience fluide pour le gaming et le multitâche. Appareil photo 108MP pour des clichés professionnels même en basse lumière.",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80",
-    badge: "Populaire",
-    specs: ["Écran 6.7 pouces", "Batterie 5000mAh", "12GB RAM", "256GB Stockage"]
-  },
-  {
-    id: 2,
-    name: "Écouteurs Linx Buds",
-    price: 25000,
-    rating: 4.5,
-    reviews: 89,
-    description: "Une immersion sonore totale sans compromis. Les Linx Buds offrent une réduction de bruit active de pointe et une autonomie de 30 heures. Design ergonomique pour un confort optimal toute la journée.",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
-    badge: "Nouveau",
-    specs: ["Bluetooth 5.2", "Réduction de bruit", "Étanche IPX4", "USB-C Charge"]
-  },
-  {
-    id: 3,
-    name: "Montre Connectée S1",
-    price: 45000,
-    rating: 4.7,
-    reviews: 56,
-    description: "Votre compagnon santé et fitness ultime. Suivez votre rythme cardiaque, votre sommeil et plus de 20 modes sportifs. Notifications intelligentes et design élégant en acier inoxydable.",
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80",
-    badge: "Promo",
-    specs: ["Écran AMOLED", "GPS Intégré", "Autonomie 10j", "Bracelet Interchangeable"]
-  },
-  {
-    id: 4,
-    name: "Tablette WorkTab 10",
-    price: 120000,
-    rating: 4.6,
-    reviews: 42,
-    description: "La puissance d'un PC dans la finesse d'une tablette. Idéale pour les créatifs et les professionnels mobiles. Compatible avec stylet et clavier pour une productivité maximale.",
-    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800&q=80",
-    badge: "Exclusivité",
-    specs: ["Écran 2K 10.5\"", "Quad Speakers", "Puce M-Series", "Finition Aluminium"]
-  }
-];
 
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const { addToCart } = useCart();
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    const found = allProducts.find(p => p.id === parseInt(id));
-    setProduct(found);
+    const found = products.find(p => p.id === parseInt(id));
+    setProduct(found || null);
   }, [id]);
 
-  if (!product) return <div className="container py-10">Chargement...</div>;
+  if (!product) return <div className="container py-10">Produit introuvable...</div>;
 
   return (
     <div className="product-detail-page container">

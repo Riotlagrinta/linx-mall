@@ -1,54 +1,19 @@
 'use client';
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Star, ShoppingCart, Zap, ShieldCheck, Truck, Heart } from "lucide-react";
+import { ArrowRight, Star, ShoppingCart, Zap, ShieldCheck, Truck } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { products, categories } from "@/data/products";
 import Link from "next/link";
-
-const categories = [
-  { id: 1, name: "Électronique", icon: "💻", count: "1.2k+ produits" },
-  { id: 2, name: "Mode & Beauté", icon: "👗", count: "850+ produits" },
-  { id: 3, name: "Maison", icon: "🏠", count: "430+ produits" },
-  { id: 4, name: "Produits Locaux", icon: "🇹🇬", count: "210+ produits" },
-];
-
-const featuredProducts = [
-  {
-    id: 1,
-    name: "Smartphone NexGen Pro",
-    price: 155000,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&q=80",
-    badge: "Populaire"
-  },
-  {
-    id: 2,
-    name: "Écouteurs Linx Buds",
-    price: 25000,
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80",
-    badge: "Nouveau"
-  },
-  {
-    id: 3,
-    name: "Montre Connectée S1",
-    price: 45000,
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80",
-    badge: "Promo"
-  },
-  {
-    id: 4,
-    name: "Tablette WorkTab 10",
-    price: 120000,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500&q=80",
-    badge: "Exclusivité"
-  }
-];
 
 export default function Home() {
   const { addToCart } = useCart();
+  const [activeCategory, setActiveCategory] = useState("Tout");
+
+  const filteredProducts = activeCategory === "Tout" 
+    ? products 
+    : products.filter(p => p.category === activeCategory);
 
   return (
     <div className="home-wrapper">
@@ -127,11 +92,12 @@ export default function Home() {
           <a href="#" className="view-all">Voir tout <ArrowRight size={16} /></a>
         </div>
         <div className="category-grid">
-          {categories.map((cat) => (
+          {categories.filter(c => c.name !== "Tout").map((cat) => (
             <motion.div 
               key={cat.id} 
               whileHover={{ y: -5, borderColor: 'var(--primary)' }}
               className="category-card"
+              onClick={() => setActiveCategory(cat.name)}
             >
               <span className="cat-icon">{cat.icon}</span>
               <h3>{cat.name}</h3>
@@ -142,25 +108,34 @@ export default function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="featured-products container">
+      <section className="featured-products container" id="products">
         <div className="section-header">
-          <h2>Les coups de cœur du moment</h2>
+          <h2>{activeCategory === "Tout" ? "Les coups de cœur du moment" : activeCategory}</h2>
           <div className="filter-chips">
-            <span className="chip active">Tout</span>
-            <span className="chip">Électronique</span>
-            <span className="chip">Mode</span>
+            {categories.map((cat) => (
+              <span 
+                key={cat.id} 
+                className={`chip ${activeCategory === cat.name ? 'active' : ''}`}
+                onClick={() => setActiveCategory(cat.name)}
+              >
+                {cat.name}
+              </span>
+            ))}
           </div>
         </div>
         <div className="product-grid">
-          {featuredProducts.map((product) => (
+          {filteredProducts.map((product) => (
             <motion.div 
               key={product.id} 
+              layout
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               whileHover={{ y: -8 }}
               className="product-card"
             >
               <Link href={`/products/${product.id}`} className="product-link">
                 <div className="product-image" style={{ backgroundImage: `url(${product.image})` }}>
-                  <span className="product-badge">{product.badge}</span>
+                  {product.badge && <span className="product-badge">{product.badge}</span>}
                 </div>
               </Link>
               <div className="product-info">

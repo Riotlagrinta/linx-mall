@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import "./globals.css";
-import { Search, User, Menu, Heart } from "lucide-react";
+import { User, Heart } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 import Providers from "@/components/Providers";
 import CartDrawer from "@/components/CartDrawer";
 import CartButton from "@/components/CartButton";
 import MobileMenu from "@/components/MobileMenu";
 import MobileMenuButton from "@/components/MobileMenuButton";
+import SearchBar from "@/components/SearchBar";
 
 export const metadata: Metadata = {
   title: "Linx Mall | Le plus grand centre commercial numérique du Togo",
@@ -45,12 +46,7 @@ export default function RootLayout({
               </div>
             </div>
 
-            <div className="search-bar">
-              <input type="text" placeholder="Rechercher un produit, une marque..." />
-              <button className="search-btn">
-                <Search size={20} />
-              </button>
-            </div>
+            <SearchBar />
 
             <nav className="nav-actions">
               <ThemeToggle />
@@ -146,10 +142,6 @@ export default function RootLayout({
             align-items: center;
             gap: 1rem;
           }
-          .mobile-menu-btn {
-            display: none;
-            color: var(--text-main);
-          }
           .logo-container {
             display: flex;
             align-items: center;
@@ -168,35 +160,6 @@ export default function RootLayout({
           }
           .logo-linx { color: var(--primary); }
           .logo-mall { color: var(--text-main); }
-          
-          .search-bar {
-            flex: 1;
-            max-width: 600px;
-            display: flex;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 0.25rem;
-            transition: var(--transition);
-          }
-          .search-bar input {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 0.5rem 1rem;
-            font-family: inherit;
-            outline: none;
-            color: var(--text-main);
-          }
-          .search-bar input::placeholder {
-            color: var(--text-muted);
-          }
-          .search-btn {
-            background: var(--primary);
-            color: white;
-            padding: 0.5rem 1.25rem;
-            border-radius: calc(var(--radius) - 4px);
-          }
           
           .nav-actions {
             display: flex;
@@ -280,9 +243,6 @@ export default function RootLayout({
           @media (max-width: 768px) {
             .header-content {
               gap: 1rem;
-            }
-            .search-bar {
-              display: none;
             }
             .mobile-menu-btn {
               display: block;
