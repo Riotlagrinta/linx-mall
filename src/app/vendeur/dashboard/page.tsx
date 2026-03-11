@@ -10,6 +10,20 @@ import { products } from '@/data/products';
 import Link from 'next/link';
 
 export default function SellerDashboard() {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const stats = [
     { label: "Ventes totales", value: "850.000", unit: "FCFA", icon: <TrendingUp size={20} />, trend: "+12.5%", color: "blue" },
     { label: "Commandes", value: "24", unit: "", icon: <ShoppingCart size={20} />, trend: "+5", color: "orange" },
@@ -25,6 +39,65 @@ export default function SellerDashboard() {
 
   return (
     <div className="seller-dashboard">
+      {/* Add Product Modal */}
+      {isAddModalOpen && (
+        <div className="modal-overlay">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="product-modal"
+          >
+            <div className="modal-header">
+              <h3>Ajouter un nouveau produit</h3>
+              <button className="close-btn" onClick={() => setIsAddModalOpen(false)}>×</button>
+            </div>
+            <form className="add-product-form" onSubmit={(e) => e.preventDefault()}>
+              <div className="form-group">
+                <label>Nom du produit</label>
+                <input type="text" placeholder="Ex: Smartphone NexGen Pro" />
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Prix (FCFA)</label>
+                  <input type="number" placeholder="0" />
+                </div>
+                <div className="form-group">
+                  <label>Catégorie</label>
+                  <select>
+                    <option>Électronique</option>
+                    <option>Mode & Beauté</option>
+                    <option>Maison</option>
+                    <option>Produits Locaux</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Description</label>
+                <textarea placeholder="Décrivez votre produit en quelques lignes..." rows={3}></textarea>
+              </div>
+              <div className="form-group">
+                <label>Image du produit</label>
+                <div className={`image-upload-zone ${previewImage ? 'has-preview' : ''}`}>
+                  {previewImage ? (
+                    <img src={previewImage} alt="Preview" />
+                  ) : (
+                    <div className="upload-placeholder">
+                      <Plus size={32} />
+                      <p>Cliquez pour choisir une photo</p>
+                    </div>
+                  )}
+                  <input type="file" accept="image/*" onChange={handleImageChange} />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-outline" onClick={() => setIsAddModalOpen(false)}>Annuler</button>
+                <button type="submit" className="btn btn-primary">Publier le produit</button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
+
       {/* Sidebar */}
       <aside className="dashboard-sidebar">
         <div className="sidebar-header">
@@ -64,7 +137,7 @@ export default function SellerDashboard() {
               <Bell size={20} />
               <span className="pulse-dot"></span>
             </button>
-            <button className="btn btn-primary add-product-btn">
+            <button className="btn btn-primary add-product-btn" onClick={() => setIsAddModalOpen(true)}>
               <Plus size={18} /> <span>Produit</span>
             </button>
           </div>
@@ -212,6 +285,88 @@ export default function SellerDashboard() {
         .card-panel { padding: 1.5rem; border-radius: 20px; }
         .table-responsive { overflow-x: auto; margin: 0 -1.5rem; padding: 0 1.5rem; }
         .dashboard-table { min-width: 500px; }
+
+        /* Modal Styles */
+        .modal-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(15, 23, 42, 0.6);
+          backdrop-filter: blur(8px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+          padding: 1rem;
+        }
+        .product-modal {
+          background: var(--card-bg);
+          width: 100%;
+          max-width: 600px;
+          border-radius: 24px;
+          border: 1px solid var(--border);
+          box-shadow: var(--shadow-lg);
+          overflow: hidden;
+          max-height: 90vh;
+          display: flex;
+          flex-direction: column;
+        }
+        .modal-header {
+          padding: 1.5rem 2rem;
+          border-bottom: 1px solid var(--border);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .modal-header h3 { font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
+        .close-btn { font-size: 2rem; background: none; border: none; color: var(--text-muted); cursor: pointer; line-height: 1; }
+        
+        .add-product-form { padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .form-group label { font-size: 0.9rem; font-weight: 700; color: var(--text-main); }
+        .form-group input, .form-group select, .form-group textarea {
+          padding: 0.8rem 1rem;
+          border-radius: 12px;
+          border: 1px solid var(--border);
+          background: var(--surface);
+          color: var(--text-main);
+          font-family: inherit;
+          font-size: 0.95rem;
+          outline: none;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+        .image-upload-zone {
+          height: 180px;
+          border: 2px dashed var(--border);
+          border-radius: 16px;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: var(--transition);
+          background: var(--surface);
+          overflow: hidden;
+        }
+        .image-upload-zone:hover { border-color: var(--primary); background: rgba(37, 99, 235, 0.05); }
+        .image-upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .upload-placeholder { text-align: center; color: var(--text-muted); }
+        .upload-placeholder p { font-size: 0.85rem; font-weight: 600; margin-top: 0.5rem; }
+        .image-upload-zone img { width: 100%; height: 100%; object-fit: cover; }
+
+        .modal-footer {
+          padding: 1.5rem 2rem;
+          border-top: 1px solid var(--border);
+          display: flex;
+          justify-content: flex-end;
+          gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+          .form-row { grid-template-columns: 1fr; }
+          .modal-header, .add-product-form, .modal-footer { padding: 1.5rem; }
+        }
 
         /* Desktop Improvements */
         @media (min-width: 1024px) {
