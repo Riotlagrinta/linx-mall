@@ -47,9 +47,9 @@ function Header() {
             <Heart size={22} />
             {wishlist.length > 0 && <span className="cart-count wishlist-count">{wishlist.length}</span>}
           </Link>
-          <button className="nav-btn-icon">
+          <Link href="/login" className="nav-btn-icon">
             <User size={22} />
-          </button>
+          </Link>
           <CartButton />
         </nav>
       </div>
@@ -120,7 +120,7 @@ export default function RootLayout({
                   <li><Link href="/help">Centre d'aide</Link></li>
                   <li><Link href="/help">Livraison & Retours</Link></li>
                   <li><Link href="/tracking">Suivre ma commande</Link></li>
-                  <li><Link href="/help">Contactez-nous</Link></li>
+                  <li><Link href="/contact">Contactez-nous</Link></li>
                 </ul>
                 </div>
               <div className="footer-col">

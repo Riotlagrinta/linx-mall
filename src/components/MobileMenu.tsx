@@ -14,6 +14,7 @@ export default function MobileMenu() {
     { icon: <ShoppingBag size={22} />, label: 'Boutique', href: '/search' },
     { icon: <Truck size={22} />, label: 'Suivi de commande', href: '/tracking' },
     { icon: <Heart size={22} />, label: 'Ma Wishlist', href: '/wishlist' },
+    { icon: <User size={22} />, label: 'Mon Compte', href: '/login' },
   ];
 
   const supportItems = [
