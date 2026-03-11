@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Home, ShoppingBag, Heart, User, Settings, Sparkles, LayoutDashboard } from 'lucide-react';
+import { X, Home, ShoppingBag, Heart, User, Settings, Sparkles, LayoutDashboard, Info } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,6 +13,7 @@ export default function MobileMenu() {
     { icon: <Home size={22} />, label: 'Accueil', href: '/' },
     { icon: <ShoppingBag size={22} />, label: 'Boutique', href: '/search' },
     { icon: <Heart size={22} />, label: 'Ma Wishlist', href: '/wishlist' },
+    { icon: <Info size={22} />, label: 'À Propos', href: '/about' },
     { icon: <User size={22} />, label: 'Mon Compte', href: '#' },
   ];
 
