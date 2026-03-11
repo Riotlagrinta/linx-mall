@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   LayoutDashboard, Package, ShoppingCart, Users, BarChart3, 
