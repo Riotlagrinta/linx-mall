@@ -3,10 +3,9 @@
 import { useState } from 'react';
 import { useCart } from '@/context/CartContext';
 import { useNotification } from '@/context/NotificationContext';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Truck, CreditCard, ShieldCheck, CheckCircle2, ArrowLeft, Loader2, MapPin, Phone, User } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { CreditCard, ShieldCheck, CheckCircle2, ArrowLeft, Loader2, MapPin, Phone, User } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 export default function CheckoutPage() {
   const { cart, cartTotal } = useCart();
@@ -53,36 +52,31 @@ export default function CheckoutPage() {
 
   if (orderComplete) {
     return (
-      <div className="container py-24 max-w-3xl">
+      <div className="container py-12">
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           className="order-success-card"
         >
-          <div className="success-lottie">🎉</div>
           <div className="success-icon-bg">
-            <CheckCircle2 size={60} color="#10b981" strokeWidth={3} />
+            <CheckCircle2 size={48} color="#10b981" strokeWidth={3} />
           </div>
-          <h1>Commande confirmée !</h1>
-          <p className="order-number">N° de commande : <strong>#LX-{Math.floor(Math.random() * 9000) + 1000}</strong></p>
+          <h1>Merci pour votre commande !</h1>
+          <p className="order-number">N° #LX-{Math.floor(Math.random() * 9000) + 1000}</p>
           
-          <div className="success-summary mt-10">
+          <div className="success-summary mt-8">
             <div className="summary-row">
               <span>Client</span>
               <strong>{formData.fullName}</strong>
             </div>
             <div className="summary-row">
-              <span>Destination</span>
-              <strong>{formData.city}, {formData.address}</strong>
-            </div>
-            <div className="summary-row">
-              <span>Mode de paiement</span>
+              <span>Mode</span>
               <strong className="uppercase">{formData.paymentMethod}</strong>
             </div>
           </div>
 
-          <div className="next-steps mt-10">
-            <p>Notre équipe va vous appeler au <strong>{formData.phone}</strong> pour confirmer l'heure de livraison.</p>
+          <div className="next-steps mt-8">
+            <p>On vous appelle au <strong>{formData.phone}</strong> pour la livraison.</p>
           </div>
 
           <Link href="/" className="btn btn-primary btn-lg w-full mt-10">
@@ -91,201 +85,202 @@ export default function CheckoutPage() {
         </motion.div>
         
         <style dangerouslySetInnerHTML={{ __html: `
-          .order-success-card { background: var(--card-bg); padding: 4rem; border-radius: 40px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); text-align: center; }
-          .success-lottie { font-size: 4rem; margin-bottom: 1rem; }
-          .success-icon-bg { width: 100px; height: 100px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; }
-          .order-success-card h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main); }
-          .order-number { color: var(--text-muted); font-size: 1.1rem; }
-          .success-summary { background: var(--surface); border-radius: 24px; padding: 2rem; border: 1px solid var(--border); }
-          .summary-row { display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+          .order-success-card { background: var(--card-bg); padding: 3rem 1.5rem; border-radius: 32px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); text-align: center; max-width: 500px; margin: 0 auto; }
+          .success-icon-bg { width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; }
+          .order-success-card h1 { font-size: 1.75rem; font-weight: 800; color: var(--text-main); line-height: 1.2; }
+          .order-number { color: var(--text-muted); margin-top: 0.5rem; font-weight: 600; }
+          .success-summary { background: var(--surface); border-radius: 20px; padding: 1.5rem; }
+          .summary-row { display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
           .summary-row:last-child { border-bottom: none; }
-          .next-steps { color: var(--text-muted); font-size: 1.05rem; }
+          .next-steps { color: var(--text-muted); font-size: 0.95rem; }
         `}} />
       </div>
     );
   }
 
   return (
-    <div className="checkout-page container py-12">
-      <Link href="/" className="back-link mb-10">
-        <ArrowLeft size={18} /> Retour à la boutique
-      </Link>
+    <div className="checkout-page">
+      <div className="container py-6">
+        <Link href="/" className="back-link mb-6">
+          <ArrowLeft size={18} /> Retour
+        </Link>
 
-      <h1 className="text-4xl font-extrabold mb-12 letter-tight">Caisse</h1>
+        <h1 className="checkout-title">Finaliser la commande</h1>
 
-      <div className="checkout-layout">
-        <div className="checkout-form-side">
-          <form onSubmit={handleSubmit}>
-            {/* Delivery */}
-            <div className="checkout-card mb-8">
-              <div className="card-title">
-                <div className="icon-box blue"><MapPin size={20} /></div>
-                <h2>Livraison</h2>
-              </div>
-              <div className="form-grid">
-                <div className="input-group full">
-                  <label>Nom complet</label>
-                  <div className="input-wrapper">
-                    <User size={18} className="input-icon" />
-                    <input type="text" name="fullName" required placeholder="Votre nom" value={formData.fullName} onChange={handleInputChange} />
-                  </div>
-                </div>
-                <div className="input-group">
-                  <label>Téléphone</label>
-                  <div className="input-wrapper">
-                    <Phone size={18} className="input-icon" />
-                    <input type="tel" name="phone" required placeholder="+228 90..." value={formData.phone} onChange={handleInputChange} />
-                  </div>
-                </div>
-                <div className="input-group">
-                  <label>Ville</label>
-                  <select name="city" value={formData.city} onChange={handleInputChange}>
-                    <option value="Lomé">Lomé</option>
-                    <option value="Kara">Kara</option>
-                    <option value="Sokodé">Sokodé</option>
-                    <option value="Kpalimé">Kpalimé</option>
-                  </select>
-                </div>
-                <div className="input-group full">
-                  <label>Adresse / Quartier</label>
-                  <input type="text" name="address" required placeholder="Ex: Hedzranawoé, rue 123" value={formData.address} onChange={handleInputChange} />
-                </div>
-              </div>
-            </div>
-
-            {/* Payment */}
-            <div className="checkout-card">
-              <div className="card-title">
-                <div className="icon-box orange"><CreditCard size={20} /></div>
-                <h2>Paiement</h2>
-              </div>
-              <div className="payment-stack">
-                <label className={`payment-pill ${formData.paymentMethod === 't-money' ? 'active' : ''}`}>
-                  <input type="radio" name="paymentMethod" value="t-money" checked={formData.paymentMethod === 't-money'} onChange={handleInputChange} />
-                  <div className="pill-content">
-                    <div className="p-icon tm"></div>
-                    <div className="p-text">
-                      <strong>T-Money</strong>
-                      <span>Paiement instantané Togocom</span>
+        <div className="checkout-layout">
+          {/* Order Summary */}
+          <aside className="checkout-summary-side">
+            <div className="summary-card">
+              <h3>Résumé de la commande</h3>
+              <div className="summary-items">
+                {cart.map((item) => (
+                  <div key={item.id} className="item-row">
+                    <div className="item-img" style={{ backgroundImage: `url(${item.image})` }}>
+                      <span>{item.quantity}</span>
+                    </div>
+                    <div className="item-info">
+                      <h4>{item.name}</h4>
+                      <p>{item.price.toLocaleString()} FCFA</p>
                     </div>
                   </div>
-                </label>
-                <label className={`payment-pill ${formData.paymentMethod === 'flooz' ? 'active' : ''}`}>
-                  <input type="radio" name="paymentMethod" value="flooz" checked={formData.paymentMethod === 'flooz'} onChange={handleInputChange} />
-                  <div className="pill-content">
-                    <div className="p-icon flz"></div>
-                    <div className="p-text">
-                      <strong>Flooz</strong>
-                      <span>Paiement sécurisé Moov</span>
-                    </div>
-                  </div>
-                </label>
-                <label className={`payment-pill ${formData.paymentMethod === 'cash' ? 'active' : ''}`}>
-                  <input type="radio" name="paymentMethod" value="cash" checked={formData.paymentMethod === 'cash'} onChange={handleInputChange} />
-                  <div className="pill-content">
-                    <div className="p-icon cash">💵</div>
-                    <div className="p-text">
-                      <strong>Cash à la livraison</strong>
-                      <span>Payez quand vous recevez</span>
-                    </div>
-                  </div>
-                </label>
+                ))}
+              </div>
+              <div className="summary-footer">
+                <div className="total-line grand-total">
+                  <span>Total à payer</span>
+                  <span>{cartTotal.toLocaleString()} <small>FCFA</small></span>
+                </div>
               </div>
             </div>
+          </aside>
 
-            <button type="submit" className="btn btn-primary btn-lg w-full mt-10 submit-btn" disabled={isSubmitting}>
-              {isSubmitting ? <><Loader2 className="animate-spin" /> Traitement...</> : `Payer ${cartTotal.toLocaleString()} FCFA`}
-            </button>
-          </form>
-        </div>
-
-        <aside className="checkout-summary-side">
-          <div className="summary-sticky-card">
-            <h3>Votre commande</h3>
-            <div className="summary-items">
-              {cart.map((item) => (
-                <div key={item.id} className="item-row">
-                  <div className="item-img" style={{ backgroundImage: `url(${item.image})` }}>
-                    <span>{item.quantity}</span>
+          <div className="checkout-form-side">
+            <form onSubmit={handleSubmit}>
+              {/* Delivery Section */}
+              <div className="checkout-section">
+                <div className="section-title">
+                  <div className="icon-box"><MapPin size={20} /></div>
+                  <h2>Informations de livraison</h2>
+                </div>
+                <div className="form-grid">
+                  <div className="input-group">
+                    <label>Nom complet</label>
+                    <div className="input-wrapper">
+                      <User size={18} className="input-icon" />
+                      <input type="text" name="fullName" required placeholder="Votre nom" value={formData.fullName} onChange={handleInputChange} />
+                    </div>
                   </div>
-                  <div className="item-info">
-                    <h4>{item.name}</h4>
-                    <p>{item.price.toLocaleString()} FCFA</p>
+                  <div className="input-group">
+                    <label>Téléphone (T-Money / Flooz)</label>
+                    <div className="input-wrapper">
+                      <Phone size={18} className="input-icon" />
+                      <input type="tel" name="phone" required placeholder="Ex: 90 00 00 00" value={formData.phone} onChange={handleInputChange} />
+                    </div>
+                  </div>
+                  <div className="input-group">
+                    <label>Ville</label>
+                    <select name="city" value={formData.city} onChange={handleInputChange}>
+                      <option value="Lomé">Lomé</option>
+                      <option value="Kara">Kara</option>
+                      <option value="Sokodé">Sokodé</option>
+                      <option value="Kpalimé">Kpalimé</option>
+                    </select>
+                  </div>
+                  <div className="input-group">
+                    <label>Quartier / Adresse précise</label>
+                    <input type="text" name="address" required placeholder="Ex: Adidogomé, face école..." value={formData.address} onChange={handleInputChange} />
                   </div>
                 </div>
-              ))}
-            </div>
-            <div className="summary-footer">
-              <div className="total-line">
-                <span>Sous-total</span>
-                <span>{cartTotal.toLocaleString()} FCFA</span>
               </div>
-              <div className="total-line">
-                <span>Livraison</span>
-                <span className="free">Gratuit</span>
+
+              {/* Payment Section */}
+              <div className="checkout-section mt-6">
+                <div className="section-title">
+                  <div className="icon-box orange"><CreditCard size={20} /></div>
+                  <h2>Mode de paiement</h2>
+                </div>
+                <div className="payment-options">
+                  <label className={`payment-option ${formData.paymentMethod === 't-money' ? 'active' : ''}`}>
+                    <input type="radio" name="paymentMethod" value="t-money" checked={formData.paymentMethod === 't-money'} onChange={handleInputChange} />
+                    <div className="opt-content">
+                      <div className="opt-icon tm"></div>
+                      <div className="opt-text">
+                        <strong>T-Money</strong>
+                        <span>Paiement Togocom</span>
+                      </div>
+                    </div>
+                  </label>
+                  <label className={`payment-option ${formData.paymentMethod === 'flooz' ? 'active' : ''}`}>
+                    <input type="radio" name="paymentMethod" value="flooz" checked={formData.paymentMethod === 'flooz'} onChange={handleInputChange} />
+                    <div className="opt-content">
+                      <div className="opt-icon flz"></div>
+                      <div className="opt-text">
+                        <strong>Flooz</strong>
+                        <span>Paiement Moov Africa</span>
+                      </div>
+                    </div>
+                  </label>
+                  <label className={`payment-option ${formData.paymentMethod === 'cash' ? 'active' : ''}`}>
+                    <input type="radio" name="paymentMethod" value="cash" checked={formData.paymentMethod === 'cash'} onChange={handleInputChange} />
+                    <div className="opt-content">
+                      <div className="opt-icon cash">💵</div>
+                      <div className="opt-text">
+                        <strong>À la livraison</strong>
+                        <span>Payez en espèces</span>
+                      </div>
+                    </div>
+                  </label>
+                </div>
               </div>
-              <div className="total-line grand-total">
-                <span>Total</span>
-                <span>{cartTotal.toLocaleString()} FCFA</span>
+
+              <button type="submit" className="btn btn-primary btn-submit" disabled={isSubmitting}>
+                {isSubmitting ? <><Loader2 className="animate-spin" /> En cours...</> : `Confirmer la commande`}
+              </button>
+              
+              <div className="security-notice">
+                <ShieldCheck size={14} /> Vos données sont protégées et sécurisées.
               </div>
-            </div>
-            <div className="security-guarantee">
-              <ShieldCheck size={16} /> 100% Sécurisé
-            </div>
+            </form>
           </div>
-        </aside>
+        </div>
       </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        .checkout-layout { display: grid; grid-template-columns: 1fr 420px; gap: 4rem; }
-        .checkout-card { background: var(--card-bg); padding: 2.5rem; border-radius: 32px; border: 1px solid var(--border); }
-        .card-title { display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; }
-        .card-title h2 { font-size: 1.5rem; font-weight: 800; color: var(--text-main); }
-        .icon-box { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-        .icon-box.blue { background: rgba(37, 99, 235, 0.1); color: var(--primary); }
+        .checkout-page { background: var(--background); min-height: 100vh; padding-bottom: 4rem; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
+        .checkout-title { font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 2rem; }
+
+        .checkout-layout { display: flex; flex-direction: column; gap: 2rem; }
+        
+        .summary-card { background: var(--surface); border-radius: 24px; padding: 1.5rem; border: 1px solid var(--border); }
+        .summary-card h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-main); }
+        .summary-items { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+        .item-row { display: flex; align-items: center; gap: 1rem; }
+        .item-img { width: 50px; height: 50px; border-radius: 10px; background-size: cover; background-position: center; border: 1px solid var(--border); position: relative; flex-shrink: 0; }
+        .item-img span { position: absolute; top: -6px; right: -6px; background: var(--text-main); color: white; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 800; }
+        .item-info h4 { font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .item-info p { color: var(--primary); font-weight: 800; font-size: 0.85rem; }
+        
+        .summary-footer { border-top: 1px dashed var(--border); padding: 1rem 0 0; }
+        .total-line { display: flex; justify-content: space-between; align-items: center; }
+        .grand-total { color: var(--text-main); font-size: 1.25rem; font-weight: 900; }
+        .grand-total small { color: var(--primary); font-size: 0.85rem; }
+
+        .checkout-section { background: var(--card-bg); padding: 1.5rem; border-radius: 24px; border: 1px solid var(--border); }
+        .section-title { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+        .section-title h2 { font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
+        .icon-box { width: 36px; height: 36px; background: rgba(37, 99, 235, 0.1); color: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
         .icon-box.orange { background: rgba(245, 158, 11, 0.1); color: var(--secondary); }
 
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        .form-grid .full { grid-column: span 2; }
-        .input-group label { display: block; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.6rem; }
+        .form-grid { display: flex; flex-direction: column; gap: 1.25rem; }
+        .input-group label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem; }
         .input-wrapper { position: relative; }
-        .input-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+        .input-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
         .input-wrapper input { padding-left: 3rem !important; }
-        .input-group input, .input-group select { width: 100%; padding: 0.9rem 1.25rem; border-radius: 14px; border: 1px solid var(--border); background: var(--surface); color: var(--text-main); font-family: inherit; font-size: 1rem; transition: var(--transition); }
-        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); outline: none; }
+        .input-group input, .input-group select { width: 100%; padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text-main); font-family: inherit; font-size: 0.95rem; }
 
-        .payment-stack { display: flex; flex-direction: column; gap: 1rem; }
-        .payment-pill { border: 1px solid var(--border); padding: 1.25rem; border-radius: 20px; cursor: pointer; transition: var(--transition); position: relative; overflow: hidden; }
-        .payment-pill:hover { border-color: var(--primary); background: rgba(37, 99, 235, 0.02); }
-        .payment-pill.active { border-color: var(--primary); background: rgba(37, 99, 235, 0.05); }
-        .payment-pill input { position: absolute; opacity: 0; }
-        .pill-content { display: flex; align-items: center; gap: 1.25rem; }
-        .p-icon { width: 50px; height: 35px; background-size: contain; background-repeat: no-repeat; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
-        .p-text strong { display: block; font-size: 1.1rem; color: var(--text-main); }
-        .p-text span { font-size: 0.85rem; color: var(--text-muted); }
+        .payment-options { display: flex; flex-direction: column; gap: 0.75rem; }
+        .payment-option { border: 1px solid var(--border); padding: 1rem; border-radius: 16px; cursor: pointer; transition: var(--transition); position: relative; }
+        .payment-option.active { border-color: var(--primary); background: rgba(37, 99, 235, 0.05); }
+        .payment-option input { position: absolute; opacity: 0; }
+        .opt-content { display: flex; align-items: center; gap: 1rem; }
+        .opt-icon { width: 40px; height: 30px; background-size: contain; background-repeat: no-repeat; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .opt-text strong { display: block; font-size: 0.95rem; color: var(--text-main); }
+        .opt-text span { font-size: 0.75rem; color: var(--text-muted); }
 
-        .summary-sticky-card { position: sticky; top: 120px; background: var(--surface); border-radius: 32px; padding: 2.5rem; border: 1px solid var(--border); }
-        .summary-sticky-card h3 { font-size: 1.25rem; font-weight: 800; margin-bottom: 2rem; }
-        .summary-items { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2.5rem; }
-        .item-row { display: flex; align-items: center; gap: 1.25rem; }
-        .item-img { width: 64px; height: 64px; border-radius: 12px; background-size: cover; background-position: center; border: 1px solid var(--border); position: relative; }
-        .item-img span { position: absolute; top: -8px; right: -8px; background: var(--text-main); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; }
-        .item-info h4 { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 2px; }
-        .item-info p { color: var(--primary); font-weight: 800; font-size: 0.9rem; }
-
-        .summary-footer { border-top: 1px solid var(--border); padding-top: 2rem; }
-        .total-line { display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: 600; color: var(--text-muted); }
-        .total-line.grand-total { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px dashed var(--border); color: var(--text-main); font-size: 1.5rem; font-weight: 900; }
-        .free { color: #10b981; }
-
-        .security-guarantee { margin-top: 2rem; text-align: center; font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        .submit-btn { height: 64px; font-size: 1.2rem; border-radius: 20px; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2); }
+        .btn-submit { width: 100%; height: 56px; border-radius: 16px; font-size: 1.1rem; font-weight: 800; margin-top: 2rem; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2); }
+        .security-notice { text-align: center; margin-top: 1rem; font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
+        
         .animate-spin { animation: spin 1s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        @media (max-width: 1024px) {
-          .checkout-layout { grid-template-columns: 1fr; }
-          .checkout-summary-side { order: -1; }
+        @media (min-width: 1024px) {
+          .checkout-title { font-size: 2.5rem; margin-bottom: 3rem; }
+          .checkout-layout { display: grid; grid-template-columns: 1fr 400px; gap: 4rem; align-items: start; }
+          .checkout-summary-side { position: sticky; top: 100px; }
+          .checkout-section { padding: 2.5rem; }
+          .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+          .summary-card { padding: 2.5rem; }
         }
       `}} />
     </div>

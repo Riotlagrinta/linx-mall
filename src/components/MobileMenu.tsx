@@ -1,20 +1,24 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Home, ShoppingBag, Heart, User, Settings, Info, Phone } from 'lucide-react';
+import { X, Home, ShoppingBag, Heart, User, Settings, Sparkles, LayoutDashboard } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function MobileMenu() {
   const { isMenuOpen, setIsMenuOpen } = useCart();
 
   const menuItems = [
-    { icon: <Home size={20} />, label: 'Accueil', href: '/' },
-    { icon: <ShoppingBag size={20} />, label: 'Boutique', href: '#' },
-    { icon: <Heart size={20} />, label: 'Favoris', href: '#' },
-    { icon: <User size={20} />, label: 'Mon Compte', href: '#' },
-    { icon: <Info size={20} />, label: 'À Propos', href: '#' },
-    { icon: <Phone size={20} />, label: 'Contact', href: '#' },
+    { icon: <Home size={22} />, label: 'Accueil', href: '/' },
+    { icon: <ShoppingBag size={22} />, label: 'Boutique', href: '/search' },
+    { icon: <Heart size={22} />, label: 'Ma Wishlist', href: '/wishlist' },
+    { icon: <User size={22} />, label: 'Mon Compte', href: '#' },
+  ];
+
+  const sellerItems = [
+    { icon: <Sparkles size={22} />, label: 'Espace Vendeur', href: '/vendeur' },
+    { icon: <LayoutDashboard size={22} />, label: 'Tableau de bord', href: '/vendeur/dashboard' },
   ];
 
   return (
@@ -37,128 +41,76 @@ export default function MobileMenu() {
           >
             <div className="menu-header">
               <div className="logo-container">
-                <Image 
-                  src="/images/logo.png.jpeg" 
-                  alt="Linx Mall Logo" 
-                  width={32} 
-                  height={32} 
-                />
-                <div className="logo-text">
-                  <span className="logo-linx">Linx</span>
-                  <span className="logo-mall">Mall</span>
-                </div>
+                <Image src="/images/logo.png.jpeg" alt="Linx Mall" width={32} height={32} className="logo-img" />
+                <span className="logo-name">Linx Mall</span>
               </div>
               <button onClick={() => setIsMenuOpen(false)} className="menu-close">
                 <X size={24} />
               </button>
             </div>
 
-            <nav className="menu-nav">
-              {menuItems.map((item, idx) => (
-                <a 
-                  key={idx} 
-                  href={item.href} 
-                  className="menu-link"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <span className="menu-icon">{item.icon}</span>
-                  <span className="menu-label">{item.label}</span>
-                </a>
-              ))}
-            </nav>
+            <div className="menu-content">
+              <nav className="menu-section">
+                <span className="section-label">Navigation</span>
+                {menuItems.map((item, idx) => (
+                  <Link key={idx} href={item.href} className="menu-link" onClick={() => setIsMenuOpen(false)}>
+                    <span className="menu-icon">{item.icon}</span>
+                    <span className="menu-label">{item.label}</span>
+                  </Link>
+                ))}
+              </nav>
+
+              <nav className="menu-section">
+                <span className="section-label">Vendre</span>
+                {sellerItems.map((item, idx) => (
+                  <Link key={idx} href={item.href} className="menu-link seller-link" onClick={() => setIsMenuOpen(false)}>
+                    <span className="menu-icon">{item.icon}</span>
+                    <span className="menu-label">{item.label}</span>
+                  </Link>
+                ))}
+              </nav>
+            </div>
 
             <div className="menu-footer">
-              <div className="user-brief">
-                <div className="user-avatar">K</div>
-                <div className="user-info">
-                  <p className="user-name">Kelvyn K.</p>
-                  <p className="user-status">Client Premium</p>
+              <div className="user-profile-brief">
+                <div className="avatar">K</div>
+                <div className="info">
+                  <p className="name">Kelvyn Karaboka</p>
+                  <p className="role">Client Premium</p>
                 </div>
-                <Settings size={20} className="settings-icon" />
+                <button className="settings-btn"><Settings size={20} /></button>
               </div>
             </div>
 
             <style dangerouslySetInnerHTML={{ __html: `
-              .menu-overlay {
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,0.5);
-                backdrop-filter: blur(4px);
-                z-index: 10000;
-              }
-              .mobile-menu {
-                position: fixed;
-                top: 0;
-                left: 0;
-                bottom: 0;
-                width: 80%;
-                max-width: 300px;
-                background: var(--surface);
-                z-index: 10001;
-                display: flex;
-                flex-direction: column;
-                box-shadow: 10px 0 30px rgba(0,0,0,0.1);
-                border-right: 1px solid var(--border);
-              }
-              .menu-header {
-                padding: 1.5rem;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                border-bottom: 1px solid var(--border);
-              }
-              .menu-close { background: none; color: var(--text-muted); padding: 0.5rem; border-radius: 50%; display: flex; border: none; cursor: pointer; }
-              
-              .menu-nav {
-                flex: 1;
-                padding: 1.5rem 1rem;
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-              }
-              .menu-link {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                padding: 1rem;
-                border-radius: 12px;
-                color: var(--text-main);
-                text-decoration: none;
-                font-weight: 500;
-                transition: var(--transition);
-              }
-              .menu-link:hover {
-                background: var(--bg-main);
-                color: var(--primary);
-              }
-              .menu-icon { color: var(--text-muted); }
-              .menu-link:hover .menu-icon { color: var(--primary); }
+              .menu-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(8px); z-index: 10000; }
+              .mobile-menu { position: fixed; top: 0; left: 0; bottom: 0; width: 85%; max-width: 320px; background: var(--card-bg); z-index: 10001; display: flex; flex-direction: column; box-shadow: 20px 0 50px rgba(0,0,0,0.1); border-right: 1px solid var(--border); }
 
-              .menu-footer {
-                padding: 1.5rem;
-                border-top: 1px solid var(--border);
-                background: var(--bg-main);
-              }
-              .user-brief {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-              }
-              .user-avatar {
-                width: 40px;
-                height: 40px;
-                background: var(--primary);
-                color: white;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: 700;
-              }
-              .user-info { flex: 1; }
-              .user-name { font-weight: 600; color: var(--text-main); font-size: 0.95rem; }
-              .user-status { font-size: 0.75rem; color: var(--text-muted); }
-              .settings-icon { color: var(--text-muted); cursor: pointer; }
+              .menu-header { padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+              .logo-container { display: flex; align-items: center; gap: 0.75rem; }
+              .logo-img { border-radius: 8px; }
+              .logo-name { font-weight: 800; font-size: 1.2rem; color: var(--text-main); letter-spacing: -0.5px; }
+              .menu-close { background: var(--surface); color: var(--text-muted); padding: 0.5rem; border-radius: 12px; border: none; cursor: pointer; }
+
+              .menu-content { flex: 1; padding: 1.5rem; overflow-y: auto; }
+              .menu-section { margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+              .section-label { font-size: 0.75rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; padding-left: 0.75rem; }
+
+              .menu-link { display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: 16px; color: var(--text-main); text-decoration: none; font-weight: 600; transition: var(--transition); }
+              .menu-link:hover { background: var(--surface); color: var(--primary); }
+              .menu-icon { color: var(--text-muted); display: flex; align-items: center; }
+              .menu-link:hover .menu-icon { color: var(--primary); }
+              .seller-link { color: var(--primary); }
+              .seller-link .menu-icon { color: var(--primary); }
+
+              .menu-footer { padding: 1.5rem; border-top: 1px solid var(--border); background: var(--surface); }
+              .user-profile-brief { display: flex; align-items: center; gap: 1rem; }
+              .avatar { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; }
+              .info { flex: 1; }
+              .name { font-weight: 700; color: var(--text-main); font-size: 0.95rem; margin-bottom: 2px; }
+              .role { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
+              .settings-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0.5rem; border-radius: 10px; transition: var(--transition); }
+              .settings-btn:hover { background: var(--border); color: var(--text-main); }
             ` }} />
           </motion.div>
         </>

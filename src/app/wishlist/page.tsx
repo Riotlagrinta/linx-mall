@@ -11,92 +11,99 @@ export default function WishlistPage() {
   const { addToCart } = useCart();
 
   return (
-    <div className="wishlist-page container py-10">
-      <div className="section-header mb-10">
-        <h1 className="text-3xl font-bold">Ma Liste de Souhaits</h1>
-        <p className="text-muted">{wishlist.length} produit(s) sauvegardé(s)</p>
-      </div>
+    <div className="wishlist-page">
+      <header className="wishlist-hero">
+        <div className="container">
+          <h1>Ma Liste de Souhaits</h1>
+          <p>{wishlist.length} produit(s) sauvegardé(s)</p>
+        </div>
+      </header>
 
-      {wishlist.length > 0 ? (
-        <div className="product-grid">
-          {wishlist.map((product) => (
-            <motion.div 
-              key={product.id} 
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="product-card"
-            >
-              <div className="product-image" style={{ backgroundImage: `url(${product.image})` }}>
-                <button 
-                  className="remove-wishlist-btn"
-                  onClick={() => removeFromWishlist(product.id)}
-                  title="Retirer des favoris"
-                >
-                  <Trash2 size={18} />
-                </button>
-              </div>
-              <div className="product-info">
-                <div className="product-rating">
-                  <Star size={14} fill="var(--secondary)" color="var(--secondary)" />
-                  <span>{product.rating}</span>
-                </div>
-                <Link href={`/products/${product.id}`} className="product-name-link">
-                  <h3>{product.name}</h3>
-                </Link>
-                <div className="product-footer">
-                  <span className="price">{(product.price).toLocaleString('fr-FR')} <small>FCFA</small></span>
-                  <button className="add-to-cart" onClick={() => addToCart({ id: product.id, name: product.name, price: product.price, image: product.image })}>
-                    <ShoppingCart size={18} />
+      <div className="container py-8">
+        {wishlist.length > 0 ? (
+          <div className="product-grid">
+            {wishlist.map((product) => (
+              <motion.div 
+                key={product.id} 
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="product-card"
+              >
+                <div className="product-image" style={{ backgroundImage: `url(${product.image})` }}>
+                  <button 
+                    className="remove-wishlist-btn"
+                    onClick={() => removeFromWishlist(product.id)}
+                  >
+                    <Trash2 size={16} />
                   </button>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      ) : (
-        <div className="empty-state py-20 text-center">
-          <div className="empty-icon mb-6" style={{ display: 'flex', justifyContent: 'center' }}>
-            <HeartOff size={80} color="var(--text-muted)" opacity={0.2} />
+                <div className="product-info">
+                  <Link href={`/products/${product.id}`} className="product-name-link">
+                    <h3>{product.name}</h3>
+                  </Link>
+                  <div className="product-footer">
+                    <span className="price">{(product.price).toLocaleString('fr-FR')} <small>FCFA</small></span>
+                    <button className="add-to-cart" onClick={() => addToCart({ id: product.id, name: product.name, price: product.price, image: product.image })}>
+                      <ShoppingCart size={18} />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
-          <h2 className="text-2xl font-bold mb-3">Votre liste est vide</h2>
-          <p className="text-muted mb-8">Vous n'avez pas encore ajouté de produits à vos favoris.</p>
-          <Link href="/" className="btn btn-primary">Découvrir nos produits</Link>
-        </div>
-      )}
+        ) : (
+          <div className="empty-state">
+            <div className="empty-icon"><HeartOff size={48} /></div>
+            <h2>Votre liste est vide</h2>
+            <p>Vous n'avez pas encore de produits en favoris. Parcourez la boutique pour en ajouter.</p>
+            <Link href="/" className="btn btn-primary">Explorer la boutique</Link>
+          </div>
+        )}
+      </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        .wishlist-page { min-height: 70vh; }
+        .wishlist-page { min-height: 80vh; padding-bottom: 5rem; background: var(--background); }
+        
+        .wishlist-hero { background: var(--hero-gradient); padding: 4rem 0; text-align: center; border-bottom: 1px solid var(--border); }
+        .wishlist-hero h1 { font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem; }
+        .wishlist-hero p { color: var(--text-muted); font-weight: 600; }
+
         .product-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1.5rem;
-        }
-        .remove-wishlist-btn {
-          position: absolute;
-          top: 1rem;
-          right: 1rem;
-          background: white;
-          color: var(--accent);
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: var(--shadow);
-          transition: var(--transition);
-        }
-        .remove-wishlist-btn:hover {
-          background: var(--accent);
-          color: white;
-          transform: scale(1.1);
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
         }
 
-        @media (max-width: 1024px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 640px) { .product-grid { grid-template-columns: 1fr; } }
-      `}} />
+        .empty-state { text-align: center; padding: 5rem 1rem; max-width: 400px; margin: 0 auto; }
+        .empty-icon { width: 80px; height: 80px; background: var(--surface); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: var(--text-muted); }
+        .empty-state h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-main); }
+        .empty-state p { color: var(--text-muted); margin-bottom: 2rem; line-height: 1.5; }
+
+        /* Shared Card Styles */
+        .product-card { background: var(--card-bg); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; position: relative; }
+        .product-image { height: 180px; background-size: cover; background-position: center; position: relative; background-color: var(--surface); }
+        
+        .remove-wishlist-btn { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: white; color: var(--accent); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow); z-index: 10; }
+        
+        .product-info { padding: 1rem; }
+        .product-info h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main); height: 2.5rem; overflow: hidden; }
+        .product-footer { display: flex; justify-content: space-between; align-items: center; }
+        .price { font-weight: 800; color: var(--primary); font-size: 1.1rem; }
+        .price small { font-size: 0.7rem; opacity: 0.8; }
+        .add-to-cart { width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); }
+        .add-to-cart:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        @media (min-width: 768px) {
+          .wishlist-hero h1 { font-size: 3rem; }
+          .product-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+          .product-image { height: 220px; }
+        }
+
+        @media (min-width: 1024px) {
+          .product-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+      ` }} />
     </div>
   );
 }
