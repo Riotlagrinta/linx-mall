@@ -58,7 +58,7 @@ export default function SellerDashboard() {
           <div className="header-actions">
             <button className="upgrade-premium-btn">
               <Sparkles size={16} /> 
-              <span>Premium <small>(Bientôt)</small></span>
+              <span>Devenir Premium</span>
             </button>
             <button className="icon-btn notification-btn">
               <Bell size={20} />

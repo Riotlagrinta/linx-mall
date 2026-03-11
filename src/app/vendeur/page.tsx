@@ -45,7 +45,7 @@ export default function SellerLandingPage() {
     },
     {
       name: "Premium",
-      price: "Bientôt disponible",
+      price: "9 900 FCFA",
       description: "Pour les professionnels qui veulent dominer le marché.",
       features: [
         "Produits illimités",
@@ -54,9 +54,9 @@ export default function SellerLandingPage() {
         "Visibilité Prioritaire",
         "Support dédié 24/7"
       ],
-      button: "Me notifier au lancement",
-      link: "#",
-      active: false,
+      button: "Devenir Premium",
+      link: "/vendeur/inscription",
+      active: true,
       featured: true
     }
   ];
