@@ -266,31 +266,92 @@ export default function SellerDashboard() {
     </motion.div>
   );
 
+  const [isCreatingPromo, setIsCreatingPromo] = useState(false);
+
   const renderPromotions = () => (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view">
       <div className="view-header">
         <div><h2>Promotions</h2><p className="text-muted">Booster vos ventes avec des offres spéciales.</p></div>
-        <button className="btn btn-primary"><Plus size={18} /> Nouvelle Promo</button>
+        {!isCreatingPromo && <button className="btn btn-primary" onClick={() => setIsCreatingPromo(true)}><Plus size={18} /> Nouvelle Promo</button>}
       </div>
-      <div className="promo-grid">
-        <div className="promo-card-create">
-          <div className="p-icon-bg"><Percent size={32} /></div>
-          <h3>Réduction Flash</h3>
-          <p>Appliquez un pourcentage de remise sur une sélection de produits.</p>
-          <button className="btn btn-surface w-full mt-4">Configurer</button>
-        </div>
-        <div className="promo-card-active">
-          <div className="p-tag">EN COURS</div>
-          <div className="p-info">
-            <h3>Soldes de Mars</h3>
-            <p>15% sur toute la catégorie Électronique</p>
-            <div className="p-progress">
-              <div className="p-bar" style={{ width: '65%' }}></div>
+
+      {isCreatingPromo ? (
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="promo-form-card">
+          <div className="form-header">
+            <h3>Configurer une nouvelle offre</h3>
+            <button className="btn-close-form" onClick={() => setIsCreatingPromo(false)}>Annuler</button>
+          </div>
+          <form className="promo-form" onSubmit={(e) => { e.preventDefault(); setIsCreatingPromo(false); }}>
+            <div className="form-grid-promo">
+              <div className="form-group">
+                <label>Nom de l'opération</label>
+                <input type="text" placeholder="Ex: Soldes de Pâques" required />
+              </div>
+              <div className="form-group">
+                <label>Type de remise</label>
+                <select>
+                  <option>Pourcentage (%)</option>
+                  <option>Montant fixe (FCFA)</option>
+                  <option>Livraison Gratuite</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Valeur de la remise</label>
+                <input type="number" placeholder="Ex: 15" required />
+              </div>
+              <div className="form-group">
+                <label>Durée (jours)</label>
+                <input type="number" placeholder="7" />
+              </div>
             </div>
-            <span className="p-time">Expire dans 3 jours</span>
+            
+            <div className="product-selection-zone">
+              <label>Produits concernés</label>
+              <div className="p-select-grid">
+                {products.slice(0, 4).map(p => (
+                  <label key={p.id} className="p-checkbox-card">
+                    <input type="checkbox" />
+                    <div className="p-card-content">
+                      <div className="p-img-mini" style={{ backgroundImage: `url(${p.image})` }}></div>
+                      <span>{p.name}</span>
+                    </div>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="form-actions-promo">
+              <button type="submit" className="btn btn-primary btn-lg w-full">Lancer la promotion maintenant</button>
+            </div>
+          </form>
+        </motion.div>
+      ) : (
+        <div className="promo-grid">
+          <div className="promo-card-create" onClick={() => setIsCreatingPromo(true)}>
+            <div className="p-icon-bg"><Percent size={32} /></div>
+            <h3>Créer une réduction</h3>
+            <p>Attirez plus de clients en quelques clics.</p>
+          </div>
+          <div className="promo-card-active">
+            <div className="p-tag">EN COURS</div>
+            <div className="p-info">
+              <div className="p-header-row">
+                <h3>Soldes de Mars</h3>
+                <button className="btn-stop">Arrêter</button>
+              </div>
+              <p>15% sur toute la catégorie Électronique</p>
+              <div className="p-stats-mini">
+                <span><strong>124</strong> vues</span>
+                <span><strong>18</strong> ventes</span>
+              </div>
+              <div className="p-progress">
+                <div className="p-bar" style={{ width: '65%' }}></div>
+              </div>
+              <span className="p-time">Il reste 3 jours</span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </motion.div>
   );
 
