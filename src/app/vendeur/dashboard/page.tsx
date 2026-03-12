@@ -80,20 +80,229 @@ export default function SellerDashboard() {
     { id: 2, type: 'info', message: "Nouveau message d'un client sur 'Robe d'Été'", time: "Il y a 45 min" }
   ];
 
+  // --- RENDU DES ONGLETS DÉTAILLÉS ---
+
+  const renderOverview = () => (
+    <>
+      <section className="dashboard-hero">
+        <div className="welcome-text">
+          <h1>Salut, Kara Boutique ! 👋</h1>
+          <p>Voici ce qui se passe dans votre boutique aujourd'hui.</p>
+        </div>
+        <div className="quick-info">
+          <div className="date-display">
+            <Calendar size={16} />
+            {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
+          </div>
+        </div>
+      </section>
+
+      <div className="alerts-container mb-8">
+        {alerts.map(alert => (
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} key={alert.id} className={`alert-item ${alert.type}`}>
+            <AlertCircle size={18} />
+            <span className="alert-msg">{alert.message}</span>
+            <span className="alert-time">{alert.time}</span>
+            <button className="alert-close">×</button>
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="stats-grid">
+        {stats.map((stat, i) => (
+          <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="stat-card">
+            <div className={`stat-icon-wrapper ${stat.color}`}>{stat.icon}</div>
+            <div className="stat-data">
+              <span className="stat-label">{stat.label}</span>
+              <div className="stat-value-row">
+                <h3>{stat.value} <small>{stat.unit}</small></h3>
+                <span className={`stat-trend-tag ${stat.trend.startsWith('+') ? 'up' : 'down'}`}>
+                  {stat.trend.startsWith('+') ? <TrendingUp size={12} /> : <ArrowDownRight size={12} />}
+                  {stat.trend}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="dashboard-grid-layout">
+        <div className="card-panel analytics-panel">
+          <div className="panel-header">
+            <div><h3>Performance des ventes</h3><p className="text-muted">Évolution de votre chiffre d'affaires</p></div>
+            <select className="period-select"><option>7 derniers jours</option><option>30 derniers jours</option></select>
+          </div>
+          <SalesChart />
+        </div>
+
+        <div className="card-panel actions-panel">
+          <div className="panel-header"><h3>Actions rapides</h3></div>
+          <div className="quick-actions-grid">
+            <button className="q-action" onClick={() => setActiveTab('products')}><div className="q-icon"><ShoppingBag size={20} /></div><span>Voir Boutique</span></button>
+            <button className="q-action" onClick={() => setActiveTab('promotions')}><div className="q-icon"><Tag size={20} /></div><span>Créer Promo</span></button>
+            <button className="q-action"><div className="q-icon"><BarChart3 size={20} /></div><span>Exporter PDF</span></button>
+            <button className="q-action"><div className="q-icon"><Users size={20} /></div><span>Support</span></button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+
+  const renderProducts = () => (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view">
+      <div className="view-header">
+        <div>
+          <h2>Mes Produits</h2>
+          <p className="text-muted">Gérez votre inventaire et vos prix.</p>
+        </div>
+        <div className="view-actions">
+          <div className="view-search">
+            <Search size={16} />
+            <input type="text" placeholder="Rechercher un produit..." />
+          </div>
+          <button className="btn btn-primary" onClick={() => setIsAddModalOpen(true)}>+ Ajouter</button>
+        </div>
+      </div>
+
+      <div className="card-panel">
+        <div className="table-responsive">
+          <table className="dashboard-table">
+            <thead>
+              <tr>
+                <th>Produit</th>
+                <th>Catégorie</th>
+                <th>Prix</th>
+                <th>Stock</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.slice(0, 6).map((p) => (
+                <tr key={p.id}>
+                  <td>
+                    <div className="p-table-info">
+                      <div className="p-table-img" style={{ backgroundImage: `url(${p.image})` }}></div>
+                      <span>{p.name}</span>
+                    </div>
+                  </td>
+                  <td>{p.category}</td>
+                  <td>{p.price.toLocaleString()} FCFA</td>
+                  <td>{p.stock} art.</td>
+                  <td><span className="badge-pill completed">Actif</span></td>
+                  <td><button className="action-dot-btn"><MoreVertical size={16} /></button></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  const renderOrders = () => (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view">
+      <div className="view-header">
+        <div><h2>Commandes</h2><p className="text-muted">Suivez et gérez vos ventes récentes.</p></div>
+        <div className="filter-chips-row">
+          <span className="chip-mini active">Toutes</span>
+          <span className="chip-mini">En attente</span>
+          <span className="chip-mini">Livrées</span>
+        </div>
+      </div>
+      <div className="card-panel">
+        <div className="table-responsive">
+          <table className="dashboard-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Client</th>
+                <th>Articles</th>
+                <th>Total</th>
+                <th>Statut</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recentOrders.map((o) => (
+                <tr key={o.id}>
+                  <td className="order-id">#{o.id}</td>
+                  <td><div className="customer-cell"><div className="c-avatar">{o.customer[0]}</div> {o.customer}</div></td>
+                  <td>2 articles</td>
+                  <td className="order-amount">{o.amount.toLocaleString()} FCFA</td>
+                  <td><span className={`badge-pill ${o.status}`}>{o.status === 'completed' ? 'Livré' : 'En attente'}</span></td>
+                  <td className="order-date">{o.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  const renderCustomers = () => (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view">
+      <div className="view-header">
+        <div><h2>Mes Clients</h2><p className="text-muted">Vos acheteurs les plus fidèles.</p></div>
+      </div>
+      <div className="customers-grid">
+        {['Amivi D.', 'Koffi A.', 'Fousseni M.', 'Sika G.'].map((name, i) => (
+          <div key={i} className="customer-card-premium">
+            <div className="c-header">
+              <div className="c-avatar-lg">{name[0]}</div>
+              <button className="action-dot-btn"><MoreVertical size={16} /></button>
+            </div>
+            <h4>{name}</h4>
+            <span className="c-location">Lomé, Togo</span>
+            <div className="c-stats">
+              <div className="c-stat"><span>Commandes</span><strong>{5 + i}</strong></div>
+              <div className="c-stat"><span>Dépenses</span><strong>{(150000 * (i+1)).toLocaleString()} F</strong></div>
+            </div>
+            <button className="btn btn-outline btn-sm w-full mt-4">Voir profil</button>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+
+  const renderPromotions = () => (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view">
+      <div className="view-header">
+        <div><h2>Promotions</h2><p className="text-muted">Booster vos ventes avec des offres spéciales.</p></div>
+        <button className="btn btn-primary"><Plus size={18} /> Nouvelle Promo</button>
+      </div>
+      <div className="promo-grid">
+        <div className="promo-card-create">
+          <div className="p-icon-bg"><Percent size={32} /></div>
+          <h3>Réduction Flash</h3>
+          <p>Appliquez un pourcentage de remise sur une sélection de produits.</p>
+          <button className="btn btn-surface w-full mt-4">Configurer</button>
+        </div>
+        <div className="promo-card-active">
+          <div className="p-tag">EN COURS</div>
+          <div className="p-info">
+            <h3>Soldes de Mars</h3>
+            <p>15% sur toute la catégorie Électronique</p>
+            <div className="p-progress">
+              <div className="p-bar" style={{ width: '65%' }}></div>
+            </div>
+            <span className="p-time">Expire dans 3 jours</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+
   return (
     <div className={`seller-dashboard ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
       <AICopilot />
       
-      {/* Add Product Modal */}
+      {/* ... Add Product Modal Content Resté inchangé ... */}
       <AnimatePresence>
         {isAddModalOpen && (
           <div className="modal-overlay">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="product-modal"
-            >
+            <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="product-modal">
               <div className="modal-header">
                 <h3>Ajouter un nouveau produit</h3>
                 <button className="close-btn" onClick={() => setIsAddModalOpen(false)}>×</button>
@@ -121,23 +330,14 @@ export default function SellerDashboard() {
                 <div className="form-group">
                   <div className="label-row-ai">
                     <label>Description</label>
-                    <button type="button" className="ai-gen-btn">
-                      <Wand2 size={14} /> <span>Générer avec l'IA</span>
-                    </button>
+                    <button type="button" className="ai-gen-btn"><Wand2 size={14} /> <span>Générer avec l'IA</span></button>
                   </div>
                   <textarea placeholder="Décrivez votre produit en quelques lignes..." rows={3}></textarea>
                 </div>
                 <div className="form-group">
                   <label>Image du produit</label>
                   <div className={`image-upload-zone ${previewImage ? 'has-preview' : ''}`}>
-                    {previewImage ? (
-                      <img src={previewImage} alt="Preview" />
-                    ) : (
-                      <div className="upload-placeholder">
-                        <Plus size={32} />
-                        <p>Cliquez pour choisir une photo</p>
-                      </div>
-                    )}
+                    {previewImage ? <img src={previewImage} alt="Preview" /> : <div className="upload-placeholder"><Plus size={32} /><p>Cliquez pour choisir une photo</p></div>}
                     <input type="file" accept="image/*" onChange={handleImageChange} />
                   </div>
                 </div>
@@ -153,17 +353,12 @@ export default function SellerDashboard() {
 
       {/* Sidebar */}
       <aside className="dashboard-sidebar">
-        <button 
-          className="sidebar-toggle-btn"
-          onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-        >
+        <button className="sidebar-toggle-btn" onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}>
           {isSidebarCollapsed ? <ChevronRight size={16} /> : <ChevronRight size={16} style={{ transform: 'rotate(180deg)' }} />}
         </button>
 
         <div className="sidebar-header">
-          <div className="vendor-logo">
-            <Sparkles size={24} />
-          </div>
+          <div className="vendor-logo"><Sparkles size={24} /></div>
           {!isSidebarCollapsed && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="vendor-info">
               <h4>Kara Boutique</h4>
@@ -172,20 +367,26 @@ export default function SellerDashboard() {
           )}
         </div>
         <nav className="sidebar-nav">
-          <Link href="/vendeur/dashboard" className={`nav-item ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}>
+          <button className={`nav-item ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}>
             <LayoutDashboard size={20} /> {!isSidebarCollapsed && <span>Dashboard</span>}
-          </Link>
-          <a href="#" className={`nav-item ${activeTab === 'products' ? 'active' : ''}`} onClick={() => setActiveTab('products')}>
+          </button>
+          <button className={`nav-item ${activeTab === 'products' ? 'active' : ''}`} onClick={() => setActiveTab('products')}>
             <Package size={20} /> {!isSidebarCollapsed && <span>Mes Produits</span>}
-          </a>
-          <a href="#" className={`nav-item ${activeTab === 'orders' ? 'active' : ''}`} onClick={() => setActiveTab('orders')}>
+          </button>
+          <button className={`nav-item ${activeTab === 'orders' ? 'active' : ''}`} onClick={() => setActiveTab('orders')}>
             <ShoppingCart size={20} /> {!isSidebarCollapsed && <span>Commandes</span>}
-          </a>
-          <a href="#" className="nav-item"><Users size={20} /> {!isSidebarCollapsed && <span>Clients</span>}</a>
-          <a href="#" className="nav-item"><Percent size={20} /> {!isSidebarCollapsed && <span>Promotions</span>}</a>
-          <a href="#" className="nav-item"><BarChart3 size={20} /> {!isSidebarCollapsed && <span>Rapports</span>}</a>
+          </button>
+          <button className={`nav-item ${activeTab === 'customers' ? 'active' : ''}`} onClick={() => setActiveTab('customers')}>
+            <Users size={20} /> {!isSidebarCollapsed && <span>Clients</span>}
+          </button>
+          <button className={`nav-item ${activeTab === 'promotions' ? 'active' : ''}`} onClick={() => setActiveTab('promotions')}>
+            <Percent size={20} /> {!isSidebarCollapsed && <span>Promotions</span>}
+          </button>
+          <button className={`nav-item ${activeTab === 'reports' ? 'active' : ''}`} onClick={() => setActiveTab('reports')}>
+            <BarChart3 size={20} /> {!isSidebarCollapsed && <span>Rapports</span>}
+          </button>
           <div className="nav-divider"></div>
-          <a href="#" className="nav-item"><Settings size={20} /> {!isSidebarCollapsed && <span>Paramètres</span>}</a>
+          <button className="nav-item"><Settings size={20} /> {!isSidebarCollapsed && <span>Paramètres</span>}</button>
         </nav>
       </aside>
 
@@ -199,178 +400,28 @@ export default function SellerDashboard() {
             </div>
           </div>
           <div className="header-actions">
-            <button className="upgrade-premium-btn">
-              <Sparkles size={16} /> 
-              <span>Devenir Premium</span>
-            </button>
-            <div className="icon-btn notification-btn">
-              <Bell size={20} />
-              <span className="pulse-dot"></span>
-            </div>
+            <button className="upgrade-premium-btn"><Sparkles size={16} /> <span>Devenir Premium</span></button>
+            <div className="icon-btn notification-btn"><Bell size={20} /><span className="pulse-dot"></span></div>
             <button className="btn btn-primary add-product-btn" onClick={() => setIsAddModalOpen(true)}>
               <Plus size={18} /> <span>Produit</span>
             </button>
           </div>
         </header>
 
-        <section className="dashboard-hero">
-          <div className="welcome-text">
-            <h1>Salut, Kara Boutique ! 👋</h1>
-            <p>Voici ce qui se passe dans votre boutique aujourd'hui.</p>
-          </div>
-          <div className="quick-info">
-            <div className="date-display">
-              <Calendar size={16} />
-              {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
-            </div>
-          </div>
-        </section>
-
-        {/* System Alerts */}
-        <div className="alerts-container mb-8">
-          {alerts.map(alert => (
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              key={alert.id} 
-              className={`alert-item ${alert.type}`}
-            >
-              <AlertCircle size={18} />
-              <span className="alert-msg">{alert.message}</span>
-              <span className="alert-time">{alert.time}</span>
-              <button className="alert-close">×</button>
+        <AnimatePresence mode="wait">
+          {activeTab === 'overview' && renderOverview()}
+          {activeTab === 'products' && renderProducts()}
+          {activeTab === 'orders' && renderOrders()}
+          {activeTab === 'customers' && renderCustomers()}
+          {activeTab === 'promotions' && renderPromotions()}
+          {activeTab === 'reports' && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view text-center py-20">
+              <BarChart3 size={48} className="mx-auto mb-4 opacity-20" />
+              <h2>Rapports détaillés</h2>
+              <p className="text-muted">Analyse approfondie de vos performances à venir.</p>
             </motion.div>
-          ))}
-        </div>
-
-        {/* Stats Grid */}
-        <div className="stats-grid">
-          {stats.map((stat, i) => (
-            <motion.div 
-              key={i} 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              className="stat-card"
-            >
-              <div className={`stat-icon-wrapper ${stat.color}`}>
-                {stat.icon}
-              </div>
-              <div className="stat-data">
-                <span className="stat-label">{stat.label}</span>
-                <div className="stat-value-row">
-                  <h3>{stat.value} <small>{stat.unit}</small></h3>
-                  <span className={`stat-trend-tag ${stat.trend.startsWith('+') ? 'up' : 'down'}`}>
-                    {stat.trend.startsWith('+') ? <TrendingUp size={12} /> : <ArrowDownRight size={12} />}
-                    {stat.trend}
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="dashboard-grid-layout">
-          {/* Sales Analytics */}
-          <div className="card-panel analytics-panel">
-            <div className="panel-header">
-              <div>
-                <h3>Performance des ventes</h3>
-                <p className="text-muted">Évolution de votre chiffre d'affaires</p>
-              </div>
-              <select className="period-select">
-                <option>7 derniers jours</option>
-                <option>30 derniers jours</option>
-              </select>
-            </div>
-            <SalesChart />
-          </div>
-
-          {/* Quick Actions */}
-          <div className="card-panel actions-panel">
-            <div className="panel-header">
-              <h3>Actions rapides</h3>
-            </div>
-            <div className="quick-actions-grid">
-              <button className="q-action">
-                <div className="q-icon"><ShoppingBag size={20} /></div>
-                <span>Voir Boutique</span>
-              </button>
-              <button className="q-action">
-                <div className="q-icon"><Tag size={20} /></div>
-                <span>Créer Promo</span>
-              </button>
-              <button className="q-action">
-                <div className="q-icon"><BarChart3 size={20} /></div>
-                <span>Exporter PDF</span>
-              </button>
-              <button className="q-action">
-                <div className="q-icon"><Users size={20} /></div>
-                <span>Support</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Recent Orders */}
-          <div className="card-panel orders-panel">
-            <div className="panel-header">
-              <h3>Dernières commandes</h3>
-              <Link href="#" className="view-all-link">Tout voir <ArrowRight size={14} /></Link>
-            </div>
-            <div className="table-responsive">
-              <table className="dashboard-table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Client</th>
-                    <th>Montant</th>
-                    <th>Statut</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentOrders.map((order) => (
-                    <tr key={order.id}>
-                      <td className="order-id">#{order.id}</td>
-                      <td className="customer-name">{order.customer}</td>
-                      <td className="order-amount">{order.amount.toLocaleString()} <small>FCFA</small></td>
-                      <td>
-                        <span className={`badge-pill ${order.status}`}>
-                          {order.status === 'completed' ? 'Livré' : 'En attente'}
-                        </span>
-                      </td>
-                      <td>
-                        <button className="action-dot-btn"><MoreVertical size={16} /></button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Top Products */}
-          <div className="card-panel products-panel">
-            <div className="panel-header">
-              <h3>Produits les plus vendus</h3>
-            </div>
-            <div className="top-products-stack">
-              {products.slice(0, 3).map((product) => (
-                <div key={product.id} className="mini-product-item">
-                  <div className="mini-img" style={{ backgroundImage: `url(${product.image})` }}></div>
-                  <div className="mini-info">
-                    <h4>{product.name}</h4>
-                    <p>{product.price.toLocaleString()} FCFA</p>
-                  </div>
-                  <div className="mini-stats">
-                    <span className="sales-count">12</span>
-                    <span className="sales-label">ventes</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+          )}
+        </AnimatePresence>
       </main>
 
       <style dangerouslySetInnerHTML={{ __html: `
