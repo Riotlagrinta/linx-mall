@@ -48,6 +48,7 @@ const SalesChart = () => (
 export default function SellerDashboard() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +81,7 @@ export default function SellerDashboard() {
   ];
 
   return (
-    <div className="seller-dashboard">
+    <div className={`seller-dashboard ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
       <AICopilot />
       
       {/* Add Product Modal */}
@@ -152,30 +153,39 @@ export default function SellerDashboard() {
 
       {/* Sidebar */}
       <aside className="dashboard-sidebar">
+        <button 
+          className="sidebar-toggle-btn"
+          onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+        >
+          {isSidebarCollapsed ? <ChevronRight size={16} /> : <ChevronRight size={16} style={{ transform: 'rotate(180deg)' }} />}
+        </button>
+
         <div className="sidebar-header">
           <div className="vendor-logo">
             <Sparkles size={24} />
           </div>
-          <div className="vendor-info">
-            <h4>Kara Boutique</h4>
-            <span className="badge-status">Vendeur Certifié</span>
-          </div>
+          {!isSidebarCollapsed && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="vendor-info">
+              <h4>Kara Boutique</h4>
+              <span className="badge-status">Vendeur Certifié</span>
+            </motion.div>
+          )}
         </div>
         <nav className="sidebar-nav">
           <Link href="/vendeur/dashboard" className={`nav-item ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}>
-            <LayoutDashboard size={20} /> Dashboard
+            <LayoutDashboard size={20} /> {!isSidebarCollapsed && <span>Dashboard</span>}
           </Link>
           <a href="#" className={`nav-item ${activeTab === 'products' ? 'active' : ''}`} onClick={() => setActiveTab('products')}>
-            <Package size={20} /> Mes Produits
+            <Package size={20} /> {!isSidebarCollapsed && <span>Mes Produits</span>}
           </a>
           <a href="#" className={`nav-item ${activeTab === 'orders' ? 'active' : ''}`} onClick={() => setActiveTab('orders')}>
-            <ShoppingCart size={20} /> Commandes
+            <ShoppingCart size={20} /> {!isSidebarCollapsed && <span>Commandes</span>}
           </a>
-          <a href="#" className="nav-item"><Users size={20} /> Clients</a>
-          <a href="#" className="nav-item"><Percent size={20} /> Promotions</a>
-          <a href="#" className="nav-item"><BarChart3 size={20} /> Rapports</a>
+          <a href="#" className="nav-item"><Users size={20} /> {!isSidebarCollapsed && <span>Clients</span>}</a>
+          <a href="#" className="nav-item"><Percent size={20} /> {!isSidebarCollapsed && <span>Promotions</span>}</a>
+          <a href="#" className="nav-item"><BarChart3 size={20} /> {!isSidebarCollapsed && <span>Rapports</span>}</a>
           <div className="nav-divider"></div>
-          <a href="#" className="nav-item"><Settings size={20} /> Paramètres</a>
+          <a href="#" className="nav-item"><Settings size={20} /> {!isSidebarCollapsed && <span>Paramètres</span>}</a>
         </nav>
       </aside>
 
@@ -463,21 +473,50 @@ export default function SellerDashboard() {
 
         /* Desktop Improvements */
         @media (min-width: 1024px) {
-          .seller-dashboard { display: grid; grid-template-columns: 280px 1fr; }
+          .seller-dashboard { display: grid; grid-template-columns: 280px 1fr; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+          .seller-dashboard.sidebar-collapsed { grid-template-columns: 80px 1fr; }
+          
           .dashboard-sidebar { 
             display: flex; background: var(--card-bg); border-right: 1px solid var(--border); padding: 2.5rem 1.5rem; flex-direction: column; position: sticky; top: 0; height: 100vh;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: visible;
           }
+          .sidebar-collapsed .dashboard-sidebar { padding: 2.5rem 0.75rem; align-items: center; }
+
+          .sidebar-toggle-btn {
+            position: absolute;
+            right: -14px;
+            top: 32px;
+            width: 28px;
+            height: 28px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--background);
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+          }
+          .sidebar-toggle-btn:hover { transform: scale(1.1); background: var(--primary-hover); }
+
           .sidebar-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3.5rem; }
-          .vendor-logo { width: 48px; height: 48px; background: var(--primary); color: white; border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 15px rgba(37, 99, 235, 0.25); }
+          .sidebar-collapsed .sidebar-header { justify-content: center; width: 100%; }
+          
+          .vendor-logo { width: 48px; height: 48px; background: var(--primary); color: white; border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 15px rgba(37, 99, 235, 0.25); flex-shrink: 0; }
           .vendor-info h4 { font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 2px; }
           .badge-status { font-size: 0.7rem; color: #10b981; font-weight: 700; text-transform: uppercase; }
-          .sidebar-nav { display: flex; flex-direction: column; gap: 0.4rem; }
-          .nav-item { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.25rem; border-radius: 12px; color: var(--text-muted); font-weight: 600; transition: var(--transition); text-decoration: none; font-size: 0.95rem; }
+          
+          .sidebar-nav { display: flex; flex-direction: column; gap: 0.4rem; width: 100%; }
+          .nav-item { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.25rem; border-radius: 12px; color: var(--text-muted); font-weight: 600; transition: var(--transition); text-decoration: none; font-size: 0.95rem; white-space: nowrap; }
+          .sidebar-collapsed .nav-item { padding: 0.9rem; justify-content: center; }
           .nav-item:hover { background: var(--surface); color: var(--primary); }
           .nav-item.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
           .nav-divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
 
-          .dashboard-content { padding: 2rem 3.5rem; }
+          .dashboard-content { padding: 2rem 3.5rem; transition: all 0.4s ease; }
           .content-header { flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
           .header-left { width: 400px; }
           .header-actions { display: flex; width: auto; align-items: center; gap: 1.25rem; }
