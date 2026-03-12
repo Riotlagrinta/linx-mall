@@ -76,10 +76,12 @@ function SearchResults() {
                       <Star size={12} fill="var(--secondary)" color="var(--secondary)" />
                       <span>{product.rating}</span>
                     </div>
+                    <Link href={`/shop/${product.shop.id}`} className="shop-link">
+                      Vendu par <strong>{product.shop.name}</strong>
+                    </Link>
                     <Link href={`/products/${product.id}`} className="product-name-link">
                       <h3>{product.name}</h3>
-                    </Link>
-                    <div className="product-footer">
+                    </Link>                    <div className="product-footer">
                       <span className="price">{(product.price).toLocaleString('fr-FR')} <small>FCFA</small></span>
                       <button className="add-to-cart" onClick={() => addToCart({ id: product.id, name: product.name, price: product.price, image: product.image })}>
                         <ShoppingCart size={18} />
@@ -128,6 +130,8 @@ function SearchResults() {
         .product-badge { position: absolute; top: 10px; left: 10px; background: var(--primary); color: white; padding: 0.3rem 0.7rem; border-radius: 99px; font-size: 0.7rem; font-weight: 700; }
         .product-info { padding: 1rem; }
         .product-rating { display: flex; align-items: center; gap: 4px; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .shop-link { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-decoration: none; margin-bottom: 0.5rem; display: block; }
+        .shop-link:hover { color: var(--primary); }
         .product-info h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main); height: 2.5rem; overflow: hidden; }
         .product-footer { display: flex; justify-content: space-between; align-items: center; }
         .price { font-weight: 800; color: var(--primary); font-size: 1.1rem; }
