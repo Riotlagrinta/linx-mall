@@ -50,6 +50,17 @@ export default function SellerDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  
+  // Nouveaux états pour le peaufinage
+  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [editingProduct, setEditingProduct] = useState<any>(null);
+  const [shopSettings, setShopSettings] = useState({
+    name: 'Kara Boutique',
+    description: 'Le meilleur de la mode et de l\'électronique à Kara.',
+    phone: '+228 90 00 00 00',
+    tmoney: '90123456',
+    flooz: '99123456'
+  });
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -70,9 +81,9 @@ export default function SellerDashboard() {
   ];
 
   const recentOrders = [
-    { id: "LX-102", customer: "Amivi D.", amount: 45000, status: "pending", date: "Il y a 2h" },
-    { id: "LX-101", customer: "Koffi A.", amount: 155000, status: "completed", date: "Il y a 5h" },
-    { id: "LX-100", customer: "Fousseni M.", amount: 25000, status: "completed", date: "Hier" }
+    { id: "LX-102", customer: "Amivi D.", amount: 45000, status: 'pending', date: "Il y a 2h", items: ['Smartphone NexGen Pro'], address: 'Lomé, Adidogomé' },
+    { id: "LX-101", customer: "Koffi A.", amount: 155000, status: 'completed', date: "Il y a 5h", items: ['NexGen Pro', 'Linx Buds'], address: 'Kara, Grand Marché' },
+    { id: "LX-100", customer: "Fousseni M.", amount: 25000, status: 'completed', date: "Hier", items: ['Montre S1'], address: 'Sokodé' }
   ];
 
   const alerts = [
@@ -86,7 +97,7 @@ export default function SellerDashboard() {
     <>
       <section className="dashboard-hero">
         <div className="welcome-text">
-          <h1>Salut, Kara Boutique ! 👋</h1>
+          <h1>Salut, {shopSettings.name} ! 👋</h1>
           <p>Voici ce qui se passe dans votre boutique aujourd'hui.</p>
         </div>
         <div className="quick-info">
@@ -141,7 +152,7 @@ export default function SellerDashboard() {
             <button className="q-action" onClick={() => setActiveTab('products')}><div className="q-icon"><ShoppingBag size={20} /></div><span>Voir Boutique</span></button>
             <button className="q-action" onClick={() => setActiveTab('promotions')}><div className="q-icon"><Tag size={20} /></div><span>Créer Promo</span></button>
             <button className="q-action"><div className="q-icon"><BarChart3 size={20} /></div><span>Exporter PDF</span></button>
-            <button className="q-action"><div className="q-icon"><Users size={20} /></div><span>Support</span></button>
+            <button className="q-action" onClick={() => setActiveTab('settings')}><div className="q-icon"><Settings size={20} /></div><span>Paramètres</span></button>
           </div>
         </div>
       </div>
@@ -158,7 +169,7 @@ export default function SellerDashboard() {
         <div className="view-actions">
           <div className="view-search">
             <Search size={16} />
-            <input type="text" placeholder="Rechercher un produit..." />
+            <input type="text" placeholder="Rechercher..." />
           </div>
           <button className="btn btn-primary" onClick={() => setIsAddModalOpen(true)}>+ Ajouter</button>
         </div>
@@ -187,10 +198,15 @@ export default function SellerDashboard() {
                     </div>
                   </td>
                   <td>{p.category}</td>
-                  <td>{p.price.toLocaleString()} FCFA</td>
-                  <td>{p.stock} art.</td>
+                  <td>{p.price.toLocaleString()} F</td>
+                  <td><span className={p.stock < 5 ? 'text-accent font-bold' : ''}>{p.stock} art.</span></td>
                   <td><span className="badge-pill completed">Actif</span></td>
-                  <td><button className="action-dot-btn"><MoreVertical size={16} /></button></td>
+                  <td>
+                    <div className="actions-btns">
+                      <button className="icon-action edit" onClick={() => setEditingProduct(p)}><Settings size={14} /></button>
+                      <button className="icon-action delete"><AlertCircle size={14} /></button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -203,39 +219,92 @@ export default function SellerDashboard() {
   const renderOrders = () => (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view">
       <div className="view-header">
-        <div><h2>Commandes</h2><p className="text-muted">Suivez et gérez vos ventes récentes.</p></div>
-        <div className="filter-chips-row">
-          <span className="chip-mini active">Toutes</span>
-          <span className="chip-mini">En attente</span>
-          <span className="chip-mini">Livrées</span>
-        </div>
+        <div><h2>Commandes</h2><p className="text-muted">Gérez vos expéditions.</p></div>
       </div>
-      <div className="card-panel">
-        <div className="table-responsive">
-          <table className="dashboard-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Client</th>
-                <th>Articles</th>
-                <th>Total</th>
-                <th>Statut</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentOrders.map((o) => (
-                <tr key={o.id}>
-                  <td className="order-id">#{o.id}</td>
-                  <td><div className="customer-cell"><div className="c-avatar">{o.customer[0]}</div> {o.customer}</div></td>
-                  <td>2 articles</td>
-                  <td className="order-amount">{o.amount.toLocaleString()} FCFA</td>
-                  <td><span className={`badge-pill ${o.status}`}>{o.status === 'completed' ? 'Livré' : 'En attente'}</span></td>
-                  <td className="order-date">{o.date}</td>
+      
+      {selectedOrder ? (
+        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="order-details-view">
+          <button className="btn-back-link" onClick={() => setSelectedOrder(null)}><ArrowLeft size={16} /> Retour à la liste</button>
+          <div className="details-grid mt-6">
+            <div className="card-panel info-side">
+              <h3>Détails Commande #{selectedOrder.id}</h3>
+              <div className="detail-item"><span>Client</span><strong>{selectedOrder.customer}</strong></div>
+              <div className="detail-item"><span>Adresse</span><strong>{selectedOrder.address}</strong></div>
+              <div className="detail-item"><span>Articles</span>
+                <ul>{selectedOrder.items.map((item: string, i: number) => <li key={i}>{item}</li>)}</ul>
+              </div>
+              <div className="detail-item"><span>Total</span><strong className="text-primary">{selectedOrder.amount.toLocaleString()} FCFA</strong></div>
+            </div>
+            <div className="card-panel action-side">
+              <h3>Action Requise</h3>
+              <p className="text-muted mb-6">Mettre à jour le statut de livraison.</p>
+              <button className="btn btn-primary w-full mb-3">Marquer comme Livré</button>
+              <button className="btn btn-outline w-full">Contacter le client</button>
+            </div>
+          </div>
+        </motion.div>
+      ) : (
+        <div className="card-panel">
+          <div className="table-responsive">
+            <table className="dashboard-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Client</th>
+                  <th>Total</th>
+                  <th>Statut</th>
+                  <th>Date</th>
+                  <th>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {recentOrders.map((o) => (
+                  <tr key={o.id}>
+                    <td className="order-id">#{o.id}</td>
+                    <td>{o.customer}</td>
+                    <td className="order-amount">{o.amount.toLocaleString()} F</td>
+                    <td><span className={`badge-pill ${o.status}`}>{o.status === 'completed' ? 'Livré' : 'En attente'}</span></td>
+                    <td className="order-date">{o.date}</td>
+                    <td><button className="btn btn-surface btn-sm" onClick={() => setSelectedOrder(o)}>Détails</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+    </motion.div>
+  );
+
+  const renderSettings = () => (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view">
+      <div className="view-header">
+        <div><h2>Paramètres</h2><p className="text-muted">Gérez votre profil de vendeur.</p></div>
+      </div>
+      <div className="settings-container">
+        <div className="card-panel">
+          <h3>Profil de la boutique</h3>
+          <div className="settings-form mt-6">
+            <div className="form-group">
+              <label>Nom de la boutique</label>
+              <input type="text" value={shopSettings.name} onChange={(e) => setShopSettings({...shopSettings, name: e.target.value})} />
+            </div>
+            <div className="form-group">
+              <label>Description (Bio)</label>
+              <textarea rows={3} value={shopSettings.description} onChange={(e) => setShopSettings({...shopSettings, description: e.target.value})}></textarea>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Numéro T-Money</label>
+                <input type="text" value={shopSettings.tmoney} onChange={(e) => setShopSettings({...shopSettings, tmoney: e.target.value})} />
+              </div>
+              <div className="form-group">
+                <label>Numéro Flooz</label>
+                <input type="text" value={shopSettings.flooz} onChange={(e) => setShopSettings({...shopSettings, flooz: e.target.value})} />
+              </div>
+            </div>
+            <button className="btn btn-primary mt-4">Enregistrer les modifications</button>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -565,6 +634,47 @@ export default function SellerDashboard() {
         .mini-stats { margin-left: auto; text-align: right; }
         .sales-count { display: block; font-size: 1rem; font-weight: 800; color: var(--text-main); }
         .sales-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
+
+        /* Detail Views Styles */
+        .tab-view { padding-top: 1rem; }
+        .view-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; gap: 1.5rem; flex-wrap: wrap; }
+        .view-header h2 { font-size: 1.75rem; font-weight: 800; color: var(--text-main); }
+        .view-actions { display: flex; gap: 1rem; align-items: center; }
+        .view-search { display: flex; align-items: center; gap: 0.5rem; background: var(--surface); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 10px; width: 250px; }
+        .view-search input { border: none; background: none; outline: none; font-size: 0.85rem; color: var(--text-main); width: 100%; }
+
+        .p-table-info { display: flex; align-items: center; gap: 1rem; }
+        .p-table-img { width: 40px; height: 40px; border-radius: 8px; background-size: cover; background-position: center; border: 1px solid var(--border); }
+        .actions-btns { display: flex; gap: 0.5rem; }
+        .icon-action { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); }
+        .icon-action.edit:hover { border-color: var(--primary); color: var(--primary); }
+        .icon-action.delete:hover { border-color: var(--accent); color: var(--accent); }
+
+        .order-details-view .btn-back-link { background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
+        .details-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        .detail-item { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 1.25rem; }
+        .detail-item span { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        .detail-item strong { font-size: 1rem; color: var(--text-main); }
+        .detail-item ul { list-style: none; padding-top: 0.5rem; }
+        .detail-item li { font-weight: 700; padding: 4px 0; border-bottom: 1px solid var(--border); }
+
+        .customers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+        .customer-card-premium { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 1.5rem; text-align: center; transition: var(--transition); }
+        .customer-card-premium:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .c-header { display: flex; justify-content: space-between; margin-bottom: 1rem; }
+        .c-avatar-lg { width: 64px; height: 64px; border-radius: 20px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin: 0 auto; }
+        .customer-card-premium h4 { font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem; }
+        .c-location { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+        .c-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+        .c-stat span { display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px; }
+        .c-stat strong { font-size: 0.9rem; color: var(--text-main); }
+
+        .settings-container { max-width: 800px; }
+        .settings-form { display: flex; flex-direction: column; gap: 1.5rem; }
+
+        @media (min-width: 1024px) {
+          .details-grid { grid-template-columns: 1.5fr 1fr; }
+        }
 
         /* Modal Styles */
         .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 1rem; }
