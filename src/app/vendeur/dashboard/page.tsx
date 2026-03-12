@@ -113,9 +113,35 @@ export default function SellerDashboard() {
           <SalesChart />
         </div>
         <div className="card-panel">
-          <div className="panel-header"><h3>Alertes</h3></div>
-          <div className="alert-item warning"><AlertCircle size={18} /> <span>2 produits bientôt en rupture</span></div>
-          <div className="alert-item info"><MessageCircle size={18} /> <span>Nouveau message client</span></div>
+          <div className="panel-header"><h3>Activité récente</h3></div>
+          <div className="table-responsive">
+            <table className="activity-table">
+              <thead>
+                <tr>
+                  <th>Événement</th>
+                  <th>Statut</th>
+                  <th>Heure</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div className="event-cell"><ShoppingCart size={14} /> Nouvelle commande</div></td>
+                  <td><span className="status-dot pending"></span> En attente</td>
+                  <td>14:20</td>
+                </tr>
+                <tr>
+                  <td><div className="event-cell"><Users size={14} /> Nouveau client</div></td>
+                  <td><span className="status-dot success"></span> Inscrit</td>
+                  <td>12:05</td>
+                </tr>
+                <tr>
+                  <td><div className="event-cell"><Package size={14} /> Stock faible</div></td>
+                  <td><span className="status-dot warning"></span> Alerte</td>
+                  <td>Hier</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </>
@@ -499,6 +525,34 @@ export default function SellerDashboard() {
         .send-btn-pro { width: 44px; height: 44px; background: var(--primary); color: white; border: none; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
         .chat-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); font-weight: 600; }
+
+        /* Activity & Settings Tables */
+        .activity-table, .settings-table-pro { width: 100%; border-collapse: collapse; }
+        .activity-table th, .settings-table-pro th { text-align: left; padding: 1rem; border-bottom: 1px solid var(--border); font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+        .activity-table td, .settings-table-pro td { padding: 1.25rem 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        
+        .event-cell { display: flex; align-items: center; gap: 0.75rem; font-weight: 600; color: var(--text-main); font-size: 0.85rem; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+        .status-dot.pending { background: #f59e0b; }
+        .status-dot.success { background: #10b981; }
+        .status-dot.warning { background: #ef4444; }
+
+        .setting-main { display: flex; align-items: center; gap: 1rem; }
+        .setting-icon { width: 40px; height: 40px; background: var(--surface); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--primary); border: 1px solid var(--border); }
+        .setting-main strong { display: block; font-size: 0.95rem; color: var(--text-main); }
+        .setting-main p { font-size: 0.75rem; color: var(--text-muted); }
+        
+        .current-val { font-weight: 700; color: var(--text-main); font-size: 0.9rem; }
+        .btn-table-action { background: var(--surface); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: var(--primary); cursor: pointer; transition: var(--transition); }
+        .btn-table-action:hover { border-color: var(--primary); background: var(--card-bg); }
+
+        .payment-badges { display: flex; gap: 0.5rem; }
+        .p-tm, .p-flz { padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 900; color: white; }
+        .p-tm { background: #ee3124; }
+        .p-flz { background: #00a1e4; }
+
+        .no-padding { padding: 0 !important; }
+        .overflow-hidden { overflow: hidden; }
 
         @media (max-width: 1024px) {
           .chat-layout-pro { grid-template-columns: 1fr; }
