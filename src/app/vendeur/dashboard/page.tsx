@@ -7,13 +7,15 @@ import {
   Settings, Bell, Plus, Search, TrendingUp, ArrowUpRight, ArrowRight,
   CheckCircle, Clock, AlertCircle, Sparkles, Wand2,
   Calendar, CreditCard, ChevronRight, MoreVertical,
-  ArrowDownRight, ShoppingBag, Percent, Tag
+  ArrowDownRight, ShoppingBag, Percent, Tag, Camera, X,
+  MessageCircle, Phone, MapPin, Trash2, Edit3, Star
 } from 'lucide-react';
 import { products } from '@/data/products';
 import Link from 'next/link';
 import AICopilot from '@/components/AICopilot';
 
-// Custom Simple Line Chart using SVG
+// --- COMPOSANTS INTERNES ---
+
 const SalesChart = () => (
   <div className="chart-container">
     <svg viewBox="0 0 400 150" className="line-chart">
@@ -23,736 +25,383 @@ const SalesChart = () => (
           <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
         </linearGradient>
       </defs>
-      <path 
-        d="M0,120 Q50,110 80,80 T160,60 T240,90 T320,40 T400,20" 
-        fill="none" 
-        stroke="var(--primary)" 
-        strokeWidth="3" 
-        strokeLinecap="round"
-      />
-      <path 
-        d="M0,120 Q50,110 80,80 T160,60 T240,90 T320,40 T400,20 V150 H0 Z" 
-        fill="url(#chartGradient)" 
-      />
-      {/* Grid Lines */}
-      {[0, 1, 2, 3, 4, 5].map(i => (
-        <line key={i} x1={i * 80} y1="0" x2={i * 80} y2="150" stroke="var(--border)" strokeWidth="1" strokeDasharray="4" />
-      ))}
+      <path d="M0,120 Q50,110 80,80 T160,60 T240,90 T320,40 T400,20" fill="none" stroke="var(--primary)" strokeWidth="3" strokeLinecap="round" />
+      <path d="M0,120 Q50,110 80,80 T160,60 T240,90 T320,40 T400,20 V150 H0 Z" fill="url(#chartGradient)" />
     </svg>
-    <div className="chart-labels">
-      <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span>
-    </div>
   </div>
 );
 
 export default function SellerDashboard() {
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isCreatingPromo, setIsCreatingPromo] = useState(false);
   
-  // Nouveaux états pour le peaufinage
-  const [selectedOrder, setSelectedOrder] = useState<any>(null);
-  const [editingProduct, setEditingProduct] = useState<any>(null);
+  // Gestion multi-images avec légendes
+  const [productImages, setProductImages] = useState<{file: string, caption: string}[]>([]);
+  
   const [shopSettings, setShopSettings] = useState({
     name: 'Kara Boutique',
     description: 'Le meilleur de la mode et de l\'électronique à Kara.',
     phone: '+228 90 00 00 00',
     tmoney: '90123456',
-    flooz: '99123456'
+    flooz: '99123456',
+    location: 'Kara, Togo'
   });
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewImage(reader.result as string);
+        setProductImages([...productImages, { file: reader.result as string, caption: '' }]);
       };
       reader.readAsDataURL(file);
     }
   };
 
+  const generateAICaption = (index: number) => {
+    const newImages = [...productImages];
+    newImages[index].caption = "Cette image met en avant les finitions premium et le design élégant du produit. Idéal pour un usage quotidien.";
+    setProductImages(newImages);
+  };
+
   const stats = [
-    { label: "Ventes totales", value: "850.000", unit: "FCFA", icon: <TrendingUp size={20} />, trend: "+12.5%", color: "blue" },
+    { label: "Ventes totales", value: "850.000", unit: "F", icon: <TrendingUp size={20} />, trend: "+12.5%", color: "blue" },
     { label: "Commandes", value: "24", unit: "", icon: <ShoppingCart size={20} />, trend: "+5", color: "orange" },
     { label: "Stock total", value: "156", unit: "art.", icon: <Package size={20} />, trend: "-2", color: "green" },
-    { label: "Revenu net", value: "720.500", unit: "FCFA", icon: <CreditCard size={20} />, trend: "+8.2%", color: "purple" }
+    { label: "Avis Clients", value: "4.8", unit: "/5", icon: <Star size={20} />, trend: "+0.2", color: "purple" }
   ];
 
   const recentOrders = [
-    { id: "LX-102", customer: "Amivi D.", amount: 45000, status: 'pending', date: "Il y a 2h", items: ['Smartphone NexGen Pro'], address: 'Lomé, Adidogomé' },
-    { id: "LX-101", customer: "Koffi A.", amount: 155000, status: 'completed', date: "Il y a 5h", items: ['NexGen Pro', 'Linx Buds'], address: 'Kara, Grand Marché' },
-    { id: "LX-100", customer: "Fousseni M.", amount: 25000, status: 'completed', date: "Hier", items: ['Montre S1'], address: 'Sokodé' }
+    { id: "LX-102", customer: "Amivi D.", amount: 45000, status: 'pending', date: "Il y a 2h" },
+    { id: "LX-101", customer: "Koffi A.", amount: 155000, status: 'completed', date: "Il y a 5h" }
   ];
 
-  const alerts = [
-    { id: 1, type: 'warning', message: "Stock faible: Smartphone NexGen Pro (2 restants)", time: "Il y a 10 min" },
-    { id: 2, type: 'info', message: "Nouveau message d'un client sur 'Robe d'Été'", time: "Il y a 45 min" }
-  ];
-
-  // --- RENDU DES ONGLETS DÉTAILLÉS ---
+  // --- RENDU DES VUES ---
 
   const renderOverview = () => (
     <>
       <section className="dashboard-hero">
         <div className="welcome-text">
-          <h1>Salut, {shopSettings.name} ! 👋</h1>
-          <p>Voici ce qui se passe dans votre boutique aujourd'hui.</p>
+          <h1>Tableau de bord 📊</h1>
+          <p>Bienvenue chez <strong>{shopSettings.name}</strong>. Voici vos performances.</p>
         </div>
         <div className="quick-info">
-          <div className="date-display">
-            <Calendar size={16} />
-            {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
-          </div>
+          <div className="date-display"><Calendar size={16} /> {new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</div>
         </div>
       </section>
 
-      <div className="alerts-container mb-8">
-        {alerts.map(alert => (
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} key={alert.id} className={`alert-item ${alert.type}`}>
-            <AlertCircle size={18} />
-            <span className="alert-msg">{alert.message}</span>
-            <span className="alert-time">{alert.time}</span>
-            <button className="alert-close">×</button>
-          </motion.div>
-        ))}
-      </div>
-
       <div className="stats-grid">
         {stats.map((stat, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="stat-card">
+          <div key={i} className="stat-card">
             <div className={`stat-icon-wrapper ${stat.color}`}>{stat.icon}</div>
             <div className="stat-data">
               <span className="stat-label">{stat.label}</span>
               <div className="stat-value-row">
                 <h3>{stat.value} <small>{stat.unit}</small></h3>
-                <span className={`stat-trend-tag ${stat.trend.startsWith('+') ? 'up' : 'down'}`}>
-                  {stat.trend.startsWith('+') ? <TrendingUp size={12} /> : <ArrowDownRight size={12} />}
-                  {stat.trend}
-                </span>
+                <span className={`stat-trend-tag ${stat.trend.startsWith('+') ? 'up' : 'down'}`}>{stat.trend}</span>
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
       <div className="dashboard-grid-layout">
         <div className="card-panel analytics-panel">
-          <div className="panel-header">
-            <div><h3>Performance des ventes</h3><p className="text-muted">Évolution de votre chiffre d'affaires</p></div>
-            <select className="period-select"><option>7 derniers jours</option><option>30 derniers jours</option></select>
-          </div>
+          <div className="panel-header"><h3>Ventes de la semaine</h3></div>
           <SalesChart />
         </div>
-
-        <div className="card-panel actions-panel">
-          <div className="panel-header"><h3>Actions rapides</h3></div>
-          <div className="quick-actions-grid">
-            <button className="q-action" onClick={() => setActiveTab('products')}><div className="q-icon"><ShoppingBag size={20} /></div><span>Voir Boutique</span></button>
-            <button className="q-action" onClick={() => setActiveTab('promotions')}><div className="q-icon"><Tag size={20} /></div><span>Créer Promo</span></button>
-            <button className="q-action"><div className="q-icon"><BarChart3 size={20} /></div><span>Exporter PDF</span></button>
-            <button className="q-action" onClick={() => setActiveTab('settings')}><div className="q-icon"><Settings size={20} /></div><span>Paramètres</span></button>
-          </div>
+        <div className="card-panel">
+          <div className="panel-header"><h3>Alertes</h3></div>
+          <div className="alert-item warning"><AlertCircle size={18} /> <span>2 produits bientôt en rupture</span></div>
+          <div className="alert-item info"><MessageCircle size={18} /> <span>Nouveau message client</span></div>
         </div>
       </div>
     </>
   );
 
   const renderProducts = () => (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view">
+    <div className="tab-view">
       <div className="view-header">
-        <div>
-          <h2>Mes Produits</h2>
-          <p className="text-muted">Gérez votre inventaire et vos prix.</p>
-        </div>
-        <div className="view-actions">
-          <div className="view-search">
-            <Search size={16} />
-            <input type="text" placeholder="Rechercher..." />
-          </div>
-          <button className="btn btn-primary" onClick={() => setIsAddModalOpen(true)}>+ Ajouter</button>
-        </div>
-      </div>
-
-      <div className="card-panel">
-        <div className="table-responsive">
-          <table className="dashboard-table">
-            <thead>
-              <tr>
-                <th>Produit</th>
-                <th>Catégorie</th>
-                <th>Prix</th>
-                <th>Stock</th>
-                <th>Statut</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.slice(0, 6).map((p) => (
-                <tr key={p.id}>
-                  <td>
-                    <div className="p-table-info">
-                      <div className="p-table-img" style={{ backgroundImage: `url(${p.image})` }}></div>
-                      <span>{p.name}</span>
-                    </div>
-                  </td>
-                  <td>{p.category}</td>
-                  <td>{p.price.toLocaleString()} F</td>
-                  <td><span className={p.stock < 5 ? 'text-accent font-bold' : ''}>{p.stock} art.</span></td>
-                  <td><span className="badge-pill completed">Actif</span></td>
-                  <td>
-                    <div className="actions-btns">
-                      <button className="icon-action edit" onClick={() => setEditingProduct(p)}><Settings size={14} /></button>
-                      <button className="icon-action delete"><AlertCircle size={14} /></button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </motion.div>
-  );
-
-  const renderOrders = () => (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view">
-      <div className="view-header">
-        <div><h2>Commandes</h2><p className="text-muted">Gérez vos expéditions.</p></div>
+        <h2>Mes Articles</h2>
+        <button className="btn btn-primary" onClick={() => setIsAddModalOpen(true)}><Plus size={18} /> Publier une annonce</button>
       </div>
       
-      {selectedOrder ? (
-        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="order-details-view">
-          <button className="btn-back-link" onClick={() => setSelectedOrder(null)}><ArrowLeft size={16} /> Retour à la liste</button>
-          <div className="details-grid mt-6">
-            <div className="card-panel info-side">
-              <h3>Détails Commande #{selectedOrder.id}</h3>
-              <div className="detail-item"><span>Client</span><strong>{selectedOrder.customer}</strong></div>
-              <div className="detail-item"><span>Adresse</span><strong>{selectedOrder.address}</strong></div>
-              <div className="detail-item"><span>Articles</span>
-                <ul>{selectedOrder.items.map((item: string, i: number) => <li key={i}>{item}</li>)}</ul>
+      <div className="product-listing-style">
+        {products.slice(0, 5).map(p => (
+          <div key={p.id} className="listing-card">
+            <div className="listing-img" style={{ backgroundImage: `url(${p.image})` }}></div>
+            <div className="listing-info">
+              <div className="listing-top">
+                <h3>{p.name}</h3>
+                <span className="listing-price">{p.price.toLocaleString()} FCFA</span>
               </div>
-              <div className="detail-item"><span>Total</span><strong className="text-primary">{selectedOrder.amount.toLocaleString()} FCFA</strong></div>
-            </div>
-            <div className="card-panel action-side">
-              <h3>Action Requise</h3>
-              <p className="text-muted mb-6">Mettre à jour le statut de livraison.</p>
-              <button className="btn btn-primary w-full mb-3">Marquer comme Livré</button>
-              <button className="btn btn-outline w-full">Contacter le client</button>
-            </div>
-          </div>
-        </motion.div>
-      ) : (
-        <div className="card-panel">
-          <div className="table-responsive">
-            <table className="dashboard-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Client</th>
-                  <th>Total</th>
-                  <th>Statut</th>
-                  <th>Date</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentOrders.map((o) => (
-                  <tr key={o.id}>
-                    <td className="order-id">#{o.id}</td>
-                    <td>{o.customer}</td>
-                    <td className="order-amount">{o.amount.toLocaleString()} F</td>
-                    <td><span className={`badge-pill ${o.status}`}>{o.status === 'completed' ? 'Livré' : 'En attente'}</span></td>
-                    <td className="order-date">{o.date}</td>
-                    <td><button className="btn btn-surface btn-sm" onClick={() => setSelectedOrder(o)}>Détails</button></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-    </motion.div>
-  );
-
-  const renderSettings = () => (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view">
-      <div className="view-header">
-        <div><h2>Paramètres</h2><p className="text-muted">Gérez votre profil de vendeur.</p></div>
-      </div>
-      <div className="settings-container">
-        <div className="card-panel">
-          <h3>Profil de la boutique</h3>
-          <div className="settings-form mt-6">
-            <div className="form-group">
-              <label>Nom de la boutique</label>
-              <input type="text" value={shopSettings.name} onChange={(e) => setShopSettings({...shopSettings, name: e.target.value})} />
-            </div>
-            <div className="form-group">
-              <label>Description (Bio)</label>
-              <textarea rows={3} value={shopSettings.description} onChange={(e) => setShopSettings({...shopSettings, description: e.target.value})}></textarea>
-            </div>
-            <div className="form-row">
-              <div className="form-group">
-                <label>Numéro T-Money</label>
-                <input type="text" value={shopSettings.tmoney} onChange={(e) => setShopSettings({...shopSettings, tmoney: e.target.value})} />
+              <div className="listing-meta">
+                <span><Tag size={14} /> {p.category}</span>
+                <span><Package size={14} /> Stock: {p.stock}</span>
               </div>
-              <div className="form-group">
-                <label>Numéro Flooz</label>
-                <input type="text" value={shopSettings.flooz} onChange={(e) => setShopSettings({...shopSettings, flooz: e.target.value})} />
+              <div className="listing-actions">
+                <button className="btn-icon-text"><Edit3 size={14} /> Modifier</button>
+                <button className="btn-icon-text delete"><Trash2 size={14} /> Supprimer</button>
               </div>
             </div>
-            <button className="btn btn-primary mt-4">Enregistrer les modifications</button>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-
-  const renderCustomers = () => (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view">
-      <div className="view-header">
-        <div><h2>Mes Clients</h2><p className="text-muted">Vos acheteurs les plus fidèles.</p></div>
-      </div>
-      <div className="customers-grid">
-        {['Amivi D.', 'Koffi A.', 'Fousseni M.', 'Sika G.'].map((name, i) => (
-          <div key={i} className="customer-card-premium">
-            <div className="c-header">
-              <div className="c-avatar-lg">{name[0]}</div>
-              <button className="action-dot-btn"><MoreVertical size={16} /></button>
-            </div>
-            <h4>{name}</h4>
-            <span className="c-location">Lomé, Togo</span>
-            <div className="c-stats">
-              <div className="c-stat"><span>Commandes</span><strong>{5 + i}</strong></div>
-              <div className="c-stat"><span>Dépenses</span><strong>{(150000 * (i+1)).toLocaleString()} F</strong></div>
-            </div>
-            <button className="btn btn-outline btn-sm w-full mt-4">Voir profil</button>
           </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 
-  const [isCreatingPromo, setIsCreatingPromo] = useState(false);
+  const renderCustomers = () => (
+    <div className="tab-view">
+      <div className="view-header">
+        <h2>Clients Fidèles</h2>
+        <p className="text-muted">Vos meilleurs ambassadeurs.</p>
+      </div>
+      <div className="customers-list-pro">
+        {[
+          { name: "Amivi Dogbé", orders: 12, spent: "450.000", last: "Il y a 2 jours", avatar: "AD" },
+          { name: "Koffi Amélédji", orders: 8, spent: "820.000", last: "Il y a 5h", avatar: "KA" },
+          { name: "Sika Gakou", orders: 5, spent: "120.000", last: "Hier", avatar: "SG" }
+        ].map((c, i) => (
+          <div key={i} className="customer-row-pro">
+            <div className="c-avatar-pro">{c.avatar}</div>
+            <div className="c-info-pro">
+              <h4>{c.name}</h4>
+              <p>{c.orders} commandes • <strong>{c.spent} F</strong></p>
+            </div>
+            <div className="c-actions-pro">
+              <a href="#" className="c-btn wa"><MessageCircle size={18} /></a>
+              <a href="#" className="c-btn call"><Phone size={18} /></a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 
   const renderPromotions = () => (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view">
+    <div className="tab-view">
       <div className="view-header">
-        <div><h2>Promotions</h2><p className="text-muted">Booster vos ventes avec des offres spéciales.</p></div>
-        {!isCreatingPromo && <button className="btn btn-primary" onClick={() => setIsCreatingPromo(true)}><Plus size={18} /> Nouvelle Promo</button>}
+        <h2>Booster mes ventes</h2>
+        <button className="btn btn-primary" onClick={() => setIsCreatingPromo(true)}><Sparkles size={18} /> Créer un Boost</button>
       </div>
+      
+      <div className="promo-options-grid">
+        <div className="promo-type-card featured">
+          <div className="p-badge">POPULAIRE</div>
+          <div className="p-icon-l"><Star size={32} /></div>
+          <h3>Article Vedette</h3>
+          <p>Votre produit s'affiche en haut des résultats de recherche.</p>
+          <button className="btn btn-primary w-full mt-4">Activer</button>
+        </div>
+        <div className="promo-type-card urgent">
+          <div className="p-icon-l"><Clock size={32} /></div>
+          <h3>Vente Urgente</h3>
+          <p>Ajoute un badge "URGENT" pour accélérer la vente.</p>
+          <button className="btn btn-outline w-full mt-4">Activer</button>
+        </div>
+      </div>
+    </div>
+  );
 
-      {isCreatingPromo ? (
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="promo-form-card">
-          <div className="form-header">
-            <h3>Configurer une nouvelle offre</h3>
-            <button className="btn-close-form" onClick={() => setIsCreatingPromo(false)}>Annuler</button>
-          </div>
-          <form className="promo-form" onSubmit={(e) => { e.preventDefault(); setIsCreatingPromo(false); }}>
-            <div className="form-grid-promo">
-              <div className="form-group">
-                <label>Nom de l'opération</label>
-                <input type="text" placeholder="Ex: Soldes de Pâques" required />
-              </div>
-              <div className="form-group">
-                <label>Type de remise</label>
-                <select>
-                  <option>Pourcentage (%)</option>
-                  <option>Montant fixe (FCFA)</option>
-                  <option>Livraison Gratuite</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Valeur de la remise</label>
-                <input type="number" placeholder="Ex: 15" required />
-              </div>
-              <div className="form-group">
-                <label>Durée (jours)</label>
-                <input type="number" placeholder="7" />
-              </div>
-            </div>
-            
-            <div className="product-selection-zone">
-              <label>Produits concernés</label>
-              <div className="p-select-grid">
-                {products.slice(0, 4).map(p => (
-                  <label key={p.id} className="p-checkbox-card">
-                    <input type="checkbox" />
-                    <div className="p-card-content">
-                      <div className="p-img-mini" style={{ backgroundImage: `url(${p.image})` }}></div>
-                      <span>{p.name}</span>
-                    </div>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="form-actions-promo">
-              <button type="submit" className="btn btn-primary btn-lg w-full">Lancer la promotion maintenant</button>
-            </div>
-          </form>
-        </motion.div>
-      ) : (
-        <div className="promo-grid">
-          <div className="promo-card-create" onClick={() => setIsCreatingPromo(true)}>
-            <div className="p-icon-bg"><Percent size={32} /></div>
-            <h3>Créer une réduction</h3>
-            <p>Attirez plus de clients en quelques clics.</p>
-          </div>
-          <div className="promo-card-active">
-            <div className="p-tag">EN COURS</div>
-            <div className="p-info">
-              <div className="p-header-row">
-                <h3>Soldes de Mars</h3>
-                <button className="btn-stop">Arrêter</button>
-              </div>
-              <p>15% sur toute la catégorie Électronique</p>
-              <div className="p-stats-mini">
-                <span><strong>124</strong> vues</span>
-                <span><strong>18</strong> ventes</span>
-              </div>
-              <div className="p-progress">
-                <div className="p-bar" style={{ width: '65%' }}></div>
-              </div>
-              <span className="p-time">Il reste 3 jours</span>
-            </div>
+  const renderSettings = () => (
+    <div className="tab-view">
+      <div className="view-header">
+        <h2>Configuration Boutique</h2>
+      </div>
+      <div className="card-panel settings-form-pro">
+        <div className="form-group">
+          <label>Nom public</label>
+          <input type="text" value={shopSettings.name} onChange={(e) => setShopSettings({...shopSettings, name: e.target.value})} />
+        </div>
+        <div className="form-group">
+          <label>Localisation</label>
+          <div className="input-with-icon">
+            <MapPin size={18} />
+            <input type="text" value={shopSettings.location} onChange={(e) => setShopSettings({...shopSettings, location: e.target.value})} />
           </div>
         </div>
-      )}
-    </motion.div>
+        <div className="form-row">
+          <div className="form-group">
+            <label>WhatsApp Business</label>
+            <input type="text" value={shopSettings.phone} onChange={(e) => setShopSettings({...shopSettings, phone: e.target.value})} />
+          </div>
+          <div className="form-group">
+            <label>Numéro T-Money (Réception paiements)</label>
+            <input type="text" value={shopSettings.tmoney} />
+          </div>
+        </div>
+        <button className="btn btn-primary btn-lg mt-6">Mettre à jour ma boutique</button>
+      </div>
+    </div>
   );
 
   return (
     <div className={`seller-dashboard ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
       <AICopilot />
       
-      {/* ... Add Product Modal Content Resté inchangé ... */}
+      {/* Multi-Image Add Modal (Coin Afrique Style) */}
       <AnimatePresence>
         {isAddModalOpen && (
           <div className="modal-overlay">
-            <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="product-modal">
-              <div className="modal-header">
-                <h3>Ajouter un nouveau produit</h3>
-                <button className="close-btn" onClick={() => setIsAddModalOpen(false)}>×</button>
+            <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} className="product-modal-pro">
+              <div className="modal-header-pro">
+                <h3>Vendre un article</h3>
+                <button onClick={() => setIsAddModalOpen(false)}><X /></button>
               </div>
-              <form className="add-product-form" onSubmit={(e) => e.preventDefault()}>
-                <div className="form-group">
-                  <label>Nom du produit</label>
-                  <input type="text" placeholder="Ex: Smartphone NexGen Pro" />
-                </div>
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Prix (FCFA)</label>
-                    <input type="number" placeholder="0" />
+              <div className="modal-body-pro">
+                <div className="image-upload-section">
+                  <label>Photos de l'article (max 5)</label>
+                  <div className="images-grid-pro">
+                    {productImages.map((img, i) => (
+                      <div key={i} className="img-item-pro">
+                        <div className="img-thumb" style={{ backgroundImage: `url(${img.file})` }}>
+                          <button className="remove-img" onClick={() => setProductImages(productImages.filter((_, idx) => idx !== i))}><X size={12} /></button>
+                        </div>
+                        <div className="caption-area">
+                          <input 
+                            type="text" 
+                            placeholder="Ajouter une légende..." 
+                            value={img.caption}
+                            onChange={(e) => {
+                              const n = [...productImages];
+                              n[i].caption = e.target.value;
+                              setProductImages(n);
+                            }}
+                          />
+                          <button className="ai-caption-btn" onClick={() => generateAICaption(i)}><Wand2 size={14} /></button>
+                        </div>
+                      </div>
+                    ))}
+                    {productImages.length < 5 && (
+                      <label className="add-img-btn-pro">
+                        <Camera size={32} />
+                        <span>Ajouter</span>
+                        <input type="file" hidden accept="image/*" onChange={handleAddImage} />
+                      </label>
+                    )}
                   </div>
-                  <div className="form-group">
+                </div>
+
+                <div className="form-group-pro mt-6">
+                  <label>Titre de l'annonce</label>
+                  <input type="text" placeholder="Que vendez-vous ?" />
+                </div>
+                <div className="form-row-pro">
+                  <div className="form-group-pro">
+                    <label>Prix</label>
+                    <input type="number" placeholder="Prix en FCFA" />
+                  </div>
+                  <div className="form-group-pro">
                     <label>Catégorie</label>
-                    <select>
-                      <option>Électronique</option>
-                      <option>Mode & Beauté</option>
-                      <option>Maison</option>
-                      <option>Produits Locaux</option>
-                    </select>
+                    <select><option>Électronique</option><option>Mode</option></select>
                   </div>
                 </div>
-                <div className="form-group">
-                  <div className="label-row-ai">
-                    <label>Description</label>
-                    <button type="button" className="ai-gen-btn"><Wand2 size={14} /> <span>Générer avec l'IA</span></button>
-                  </div>
-                  <textarea placeholder="Décrivez votre produit en quelques lignes..." rows={3}></textarea>
-                </div>
-                <div className="form-group">
-                  <label>Image du produit</label>
-                  <div className={`image-upload-zone ${previewImage ? 'has-preview' : ''}`}>
-                    {previewImage ? <img src={previewImage} alt="Preview" /> : <div className="upload-placeholder"><Plus size={32} /><p>Cliquez pour choisir une photo</p></div>}
-                    <input type="file" accept="image/*" onChange={handleImageChange} />
-                  </div>
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-outline" onClick={() => setIsAddModalOpen(false)}>Annuler</button>
-                  <button type="submit" className="btn btn-primary">Publier le produit</button>
-                </div>
-              </form>
+              </div>
+              <div className="modal-footer-pro">
+                <button className="btn btn-primary w-full btn-lg">Publier l'annonce</button>
+              </div>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-      {/* Sidebar */}
       <aside className="dashboard-sidebar">
         <button className="sidebar-toggle-btn" onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}>
-          {isSidebarCollapsed ? <ChevronRight size={16} /> : <ChevronRight size={16} style={{ transform: 'rotate(180deg)' }} />}
+          <ChevronRight size={16} style={{ transform: isSidebarCollapsed ? '' : 'rotate(180deg)' }} />
         </button>
-
         <div className="sidebar-header">
           <div className="vendor-logo"><Sparkles size={24} /></div>
-          {!isSidebarCollapsed && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="vendor-info">
-              <h4>Kara Boutique</h4>
-              <span className="badge-status">Vendeur Certifié</span>
-            </motion.div>
-          )}
+          {!isSidebarCollapsed && <div className="vendor-info"><h4>{shopSettings.name}</h4><span className="badge-status">Pro</span></div>}
         </div>
         <nav className="sidebar-nav">
-          <button className={`nav-item ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}>
-            <LayoutDashboard size={20} /> {!isSidebarCollapsed && <span>Dashboard</span>}
-          </button>
-          <button className={`nav-item ${activeTab === 'products' ? 'active' : ''}`} onClick={() => setActiveTab('products')}>
-            <Package size={20} /> {!isSidebarCollapsed && <span>Mes Produits</span>}
-          </button>
-          <button className={`nav-item ${activeTab === 'orders' ? 'active' : ''}`} onClick={() => setActiveTab('orders')}>
-            <ShoppingCart size={20} /> {!isSidebarCollapsed && <span>Commandes</span>}
-          </button>
-          <button className={`nav-item ${activeTab === 'customers' ? 'active' : ''}`} onClick={() => setActiveTab('customers')}>
-            <Users size={20} /> {!isSidebarCollapsed && <span>Clients</span>}
-          </button>
-          <button className={`nav-item ${activeTab === 'promotions' ? 'active' : ''}`} onClick={() => setActiveTab('promotions')}>
-            <Percent size={20} /> {!isSidebarCollapsed && <span>Promotions</span>}
-          </button>
-          <button className={`nav-item ${activeTab === 'reports' ? 'active' : ''}`} onClick={() => setActiveTab('reports')}>
-            <BarChart3 size={20} /> {!isSidebarCollapsed && <span>Rapports</span>}
-          </button>
-          <div className="nav-divider"></div>
-          <button className="nav-item"><Settings size={20} /> {!isSidebarCollapsed && <span>Paramètres</span>}</button>
+          <button className={`nav-item ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}><LayoutDashboard size={20} /> {!isSidebarCollapsed && "Dashboard"}</button>
+          <button className={`nav-item ${activeTab === 'products' ? 'active' : ''}`} onClick={() => setActiveTab('products')}><Package size={20} /> {!isSidebarCollapsed && "Mes Articles"}</button>
+          <button className={`nav-item ${activeTab === 'customers' ? 'active' : ''}`} onClick={() => setActiveTab('customers')}><Users size={20} /> {!isSidebarCollapsed && "Clients Fidèles"}</button>
+          <button className={`nav-item ${activeTab === 'promotions' ? 'active' : ''}`} onClick={() => setActiveTab('promotions')}><Zap size={20} /> {!isSidebarCollapsed && "Boosts"}</button>
+          <button className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`} onClick={() => setActiveTab('settings')}><Settings size={20} /> {!isSidebarCollapsed && "Paramètres"}</button>
         </nav>
       </aside>
 
-      {/* Main Content */}
       <main className="dashboard-content">
-        <header className="content-header">
-          <div className="header-left">
-            <div className="search-box">
-              <Search size={18} />
-              <input type="text" placeholder="Rechercher une commande, un produit..." />
-            </div>
-          </div>
-          <div className="header-actions">
-            <button className="upgrade-premium-btn"><Sparkles size={16} /> <span>Devenir Premium</span></button>
-            <div className="icon-btn notification-btn"><Bell size={20} /><span className="pulse-dot"></span></div>
-            <button className="btn btn-primary add-product-btn" onClick={() => setIsAddModalOpen(true)}>
-              <Plus size={18} /> <span>Produit</span>
-            </button>
+        <header className="content-header-pro">
+          <div className="search-pro"><Search size={18} /><input type="text" placeholder="Rechercher..." /></div>
+          <div className="actions-pro">
+            <button className="icon-btn-pro"><Bell size={20} /></button>
+            <div className="user-avatar-pro">K</div>
           </div>
         </header>
 
         <AnimatePresence mode="wait">
           {activeTab === 'overview' && renderOverview()}
           {activeTab === 'products' && renderProducts()}
-          {activeTab === 'orders' && renderOrders()}
           {activeTab === 'customers' && renderCustomers()}
           {activeTab === 'promotions' && renderPromotions()}
-          {activeTab === 'reports' && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="tab-view text-center py-20">
-              <BarChart3 size={48} className="mx-auto mb-4 opacity-20" />
-              <h2>Rapports détaillés</h2>
-              <p className="text-muted">Analyse approfondie de vos performances à venir.</p>
-            </motion.div>
-          )}
+          {activeTab === 'settings' && renderSettings()}
         </AnimatePresence>
       </main>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        .seller-dashboard { 
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh; 
-          background: var(--background); 
-        }
+        .seller-dashboard { display: flex; min-height: 100vh; background: var(--background); }
+        .dashboard-sidebar { width: 280px; background: var(--card-bg); border-right: 1px solid var(--border); padding: 2rem 1.25rem; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; transition: width 0.3s ease; }
+        .sidebar-collapsed .dashboard-sidebar { width: 80px; padding: 2rem 0.75rem; align-items: center; }
         
-        /* Base styles (Mobile First) */
-        .dashboard-sidebar { display: none; }
-        .dashboard-content { padding: 1.5rem; width: 100%; }
-        
-        .content-header { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
-        .header-left { width: 100%; }
-        .search-box { display: flex; align-items: center; gap: 0.75rem; background: var(--surface); border: 1px solid var(--border); padding: 0.6rem 1.25rem; border-radius: 14px; width: 100%; }
-        .search-box input { border: none; background: none; outline: none; flex: 1; font-family: inherit; color: var(--text-main); }
-        
-        .header-actions { display: grid; grid-template-columns: 1fr auto auto; gap: 0.75rem; width: 100%; }
-        .upgrade-premium-btn { display: flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 0.6rem 1rem; border-radius: 12px; font-weight: 700; font-size: 0.75rem; }
-        .icon-btn { width: 42px; height: 42px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); position: relative; }
-        .pulse-dot { position: absolute; top: 10px; right: 10px; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; border: 2px solid var(--surface); }
-        .add-product-btn { height: 42px; padding: 0 1rem; border-radius: 12px; }
-        .add-product-btn span { display: none; }
+        .sidebar-toggle-btn { position: absolute; right: -12px; top: 30px; width: 24px; height: 24px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; z-index: 10; }
+        .nav-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: 12px; color: var(--text-muted); font-weight: 600; border: none; background: none; cursor: pointer; width: 100%; transition: all 0.2s; margin-bottom: 0.5rem; text-align: left; }
+        .nav-item.active { background: var(--primary); color: white; }
+        .sidebar-collapsed .nav-item { justify-content: center; padding: 1rem 0; }
 
-        .dashboard-hero { margin-bottom: 2rem; }
-        .dashboard-hero h1 { font-size: 1.5rem; font-weight: 800; color: var(--text-main); }
-        .dashboard-hero p { color: var(--text-muted); font-size: 0.9rem; }
-        .date-display { display: none; }
+        .dashboard-content { flex: 1; padding: 2rem; }
+        .content-header-pro { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
+        .search-pro { display: flex; align-items: center; gap: 0.75rem; background: var(--surface); border: 1px solid var(--border); padding: 0.75rem 1.5rem; border-radius: 16px; width: 400px; }
+        .search-pro input { border: none; background: none; outline: none; color: var(--text-main); width: 100%; }
+        .actions-pro { display: flex; align-items: center; gap: 1rem; }
+        .user-avatar-pro { width: 40px; height: 40px; background: var(--primary); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
 
-        .alerts-container { display: flex; flex-direction: column; gap: 0.75rem; }
-        .alert-item { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; border-radius: 16px; font-size: 0.85rem; font-weight: 600; position: relative; }
-        .alert-item.warning { background: rgba(245, 158, 11, 0.1); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.2); }
-        .alert-item.info { background: rgba(37, 99, 235, 0.1); color: #2563eb; border: 1px solid rgba(37, 99, 235, 0.2); }
-        .alert-time { margin-left: auto; font-size: 0.75rem; opacity: 0.7; margin-right: 1.5rem; }
-        .alert-close { position: absolute; right: 10px; background: none; border: none; font-size: 1.2rem; color: currentColor; cursor: pointer; }
+        /* Listing Style (Coin Afrique) */
+        .listing-card { display: flex; gap: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 1rem; margin-bottom: 1rem; transition: var(--transition); }
+        .listing-card:hover { border-color: var(--primary); box-shadow: var(--shadow); }
+        .listing-img { width: 140px; height: 120px; border-radius: 12px; background-size: cover; background-position: center; border: 1px solid var(--border); }
+        .listing-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .listing-top { display: flex; justify-content: space-between; align-items: flex-start; }
+        .listing-price { font-weight: 900; color: var(--primary); font-size: 1.2rem; }
+        .listing-meta { display: flex; gap: 1.5rem; color: var(--text-muted); font-size: 0.85rem; font-weight: 600; }
+        .listing-actions { display: flex; gap: 1rem; }
+        .btn-icon-text { display: flex; align-items: center; gap: 0.5rem; background: var(--surface); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+        .btn-icon-text.delete { color: var(--accent); }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-        .stat-card { background: var(--card-bg); padding: 1.25rem; border-radius: 20px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 1rem; }
-        .stat-icon-wrapper { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-        .stat-icon-wrapper.blue { background: rgba(37, 99, 235, 0.1); color: #2563eb; }
-        .stat-icon-wrapper.orange { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-        .stat-icon-wrapper.green { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-        .stat-icon-wrapper.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
-        
-        .stat-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
-        .stat-value-row { display: flex; flex-direction: column; gap: 0.5rem; }
-        .stat-value-row h3 { font-size: 1.2rem; font-weight: 800; color: var(--text-main); }
-        .stat-trend-tag { font-size: 0.65rem; font-weight: 700; display: flex; align-items: center; gap: 2px; padding: 2px 6px; border-radius: 6px; width: fit-content; }
-        .stat-trend-tag.up { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-        .stat-trend-tag.down { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+        /* Multi-Image Modal */
+        .product-modal-pro { background: var(--card-bg); width: 100%; max-width: 700px; border-radius: 32px; overflow: hidden; box-shadow: var(--shadow-lg); }
+        .modal-header-pro { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .modal-body-pro { padding: 2rem; max-height: 70vh; overflow-y: auto; }
+        .images-grid-pro { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .add-img-btn-pro { height: 120px; border: 2px dashed var(--border); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; color: var(--text-muted); cursor: pointer; }
+        .img-item-pro { border: 1px solid var(--border); border-radius: 16px; padding: 8px; background: var(--surface); }
+        .img-thumb { height: 100px; border-radius: 10px; background-size: cover; position: relative; }
+        .caption-area { margin-top: 8px; display: flex; gap: 4px; }
+        .caption-area input { flex: 1; font-size: 0.75rem; border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; background: var(--card-bg); }
+        .ai-caption-btn { padding: 4px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; }
 
-        .dashboard-grid-layout { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.5rem; }
-        .card-panel { background: var(--card-bg); border-radius: 24px; border: 1px solid var(--border); padding: 1.5rem; }
-        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .panel-header h3 { font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
-        .period-select { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 4px 8px; font-size: 0.8rem; color: var(--text-main); }
+        /* Customers CRM */
+        .customer-row-pro { display: flex; align-items: center; gap: 1.5rem; padding: 1.25rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; margin-bottom: 1rem; }
+        .c-avatar-pro { width: 50px; height: 50px; background: var(--surface); color: var(--primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; }
+        .c-info-pro { flex: 1; }
+        .c-actions-pro { display: flex; gap: 0.75rem; }
+        .c-btn { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; }
+        .c-btn.wa { background: #25d366; }
+        .c-btn.call { background: var(--primary); }
 
-        .chart-container { height: 180px; width: 100%; display: flex; flex-direction: column; }
-        .line-chart { width: 100%; height: 100%; overflow: visible; }
-        .chart-labels { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.7rem; color: var(--text-muted); font-weight: 600; }
+        /* Boosts Style */
+        .promo-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .promo-type-card { padding: 2.5rem; border-radius: 32px; border: 1px solid var(--border); text-align: center; position: relative; }
+        .promo-type-card.featured { border: 2px solid var(--primary); }
+        .p-badge { position: absolute; top: 20px; right: 20px; background: var(--primary); color: white; font-size: 0.7rem; font-weight: 800; padding: 4px 10px; border-radius: 99px; }
 
-        .quick-actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
-        .q-action { background: var(--surface); border: 1px solid var(--border); padding: 1.25rem 1rem; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; cursor: pointer; transition: var(--transition); }
-        .q-action:hover { border-color: var(--primary); background: rgba(37, 99, 235, 0.05); }
-        .q-icon { width: 40px; height: 40px; background: var(--card-bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary); box-shadow: var(--shadow); }
-        .q-action span { font-size: 0.85rem; font-weight: 700; color: var(--text-main); }
-
-        .table-responsive { overflow-x: auto; margin: 0 -1.5rem; padding: 0 1.5rem; }
-        .dashboard-table { width: 100%; border-collapse: collapse; min-width: 500px; }
-        .dashboard-table th { text-align: left; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; padding: 1rem 0; border-bottom: 1px solid var(--border); }
-        .dashboard-table td { padding: 1.25rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-        .action-dot-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; }
-
-        .mini-product-item { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
-        .mini-img { width: 48px; height: 48px; border-radius: 10px; background-size: cover; background-position: center; border: 1px solid var(--border); }
-        .mini-info h4 { font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 2px; }
-        .mini-info p { font-size: 0.8rem; color: var(--primary); font-weight: 700; }
-        .mini-stats { margin-left: auto; text-align: right; }
-        .sales-count { display: block; font-size: 1rem; font-weight: 800; color: var(--text-main); }
-        .sales-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
-
-        /* Detail Views Styles */
-        .tab-view { padding-top: 1rem; }
-        .view-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; gap: 1.5rem; flex-wrap: wrap; }
-        .view-header h2 { font-size: 1.75rem; font-weight: 800; color: var(--text-main); }
-        .view-actions { display: flex; gap: 1rem; align-items: center; }
-        .view-search { display: flex; align-items: center; gap: 0.5rem; background: var(--surface); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 10px; width: 250px; }
-        .view-search input { border: none; background: none; outline: none; font-size: 0.85rem; color: var(--text-main); width: 100%; }
-
-        .p-table-info { display: flex; align-items: center; gap: 1rem; }
-        .p-table-img { width: 40px; height: 40px; border-radius: 8px; background-size: cover; background-position: center; border: 1px solid var(--border); }
-        .actions-btns { display: flex; gap: 0.5rem; }
-        .icon-action { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); }
-        .icon-action.edit:hover { border-color: var(--primary); color: var(--primary); }
-        .icon-action.delete:hover { border-color: var(--accent); color: var(--accent); }
-
-        .order-details-view .btn-back-link { background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
-        .details-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-        .detail-item { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 1.25rem; }
-        .detail-item span { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
-        .detail-item strong { font-size: 1rem; color: var(--text-main); }
-        .detail-item ul { list-style: none; padding-top: 0.5rem; }
-        .detail-item li { font-weight: 700; padding: 4px 0; border-bottom: 1px solid var(--border); }
-
-        .customers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
-        .customer-card-premium { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 1.5rem; text-align: center; transition: var(--transition); }
-        .customer-card-premium:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .c-header { display: flex; justify-content: space-between; margin-bottom: 1rem; }
-        .c-avatar-lg { width: 64px; height: 64px; border-radius: 20px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin: 0 auto; }
-        .customer-card-premium h4 { font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem; }
-        .c-location { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
-        .c-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
-        .c-stat span { display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px; }
-        .c-stat strong { font-size: 0.9rem; color: var(--text-main); }
-
-        .settings-container { max-width: 800px; }
-        .settings-form { display: flex; flex-direction: column; gap: 1.5rem; }
-
-        @media (min-width: 1024px) {
-          .details-grid { grid-template-columns: 1.5fr 1fr; }
-        }
-
-        /* Modal Styles */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 1rem; }
-        .product-modal { background: var(--card-bg); width: 100%; max-width: 600px; border-radius: 24px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); overflow: hidden; max-height: 90vh; display: flex; flex-direction: column; }
-        .modal-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--surface); }
-        .close-btn { font-size: 2rem; background: none; border: none; color: var(--text-muted); cursor: pointer; line-height: 1; }
-        .add-product-form { padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; background: var(--card-bg); }
-        .label-row-ai { display: flex; justify-content: space-between; align-items: center; }
-        .ai-gen-btn { display: flex; align-items: center; gap: 0.4rem; background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%); color: white; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: var(--transition); }
-        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-        .form-group label { font-size: 0.9rem; font-weight: 700; color: var(--text-main); }
-        .form-group input, .form-group select, .form-group textarea { padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text-main); font-family: inherit; font-size: 0.95rem; outline: none; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        .image-upload-zone { height: 160px; border: 2px dashed var(--border); border-radius: 16px; position: relative; display: flex; align-items: center; justify-content: center; cursor: pointer; background: var(--surface); overflow: hidden; }
-        .image-upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-        .image-upload-zone img { width: 100%; height: 100%; object-fit: cover; }
-        .modal-footer { padding: 1.5rem 2rem; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 1rem; background: var(--surface); }
-
-        /* Desktop Improvements */
-        @media (min-width: 1024px) {
-          .seller-dashboard { display: grid; grid-template-columns: 280px 1fr; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-          .seller-dashboard.sidebar-collapsed { grid-template-columns: 80px 1fr; }
-          
-          .dashboard-sidebar { 
-            display: flex; background: var(--card-bg); border-right: 1px solid var(--border); padding: 2.5rem 1.5rem; flex-direction: column; position: sticky; top: 0; height: 100vh;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: visible;
-          }
-          .sidebar-collapsed .dashboard-sidebar { padding: 2.5rem 0.75rem; align-items: center; }
-
-          .sidebar-toggle-btn {
-            position: absolute;
-            right: -14px;
-            top: 32px;
-            width: 28px;
-            height: 28px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 4px solid var(--background);
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.3s ease;
-          }
-          .sidebar-toggle-btn:hover { transform: scale(1.1); background: var(--primary-hover); }
-
-          .sidebar-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3.5rem; }
-          .sidebar-collapsed .sidebar-header { justify-content: center; width: 100%; }
-          
-          .vendor-logo { width: 48px; height: 48px; background: var(--primary); color: white; border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 15px rgba(37, 99, 235, 0.25); flex-shrink: 0; }
-          .vendor-info h4 { font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 2px; }
-          .badge-status { font-size: 0.7rem; color: #10b981; font-weight: 700; text-transform: uppercase; }
-          
-          .sidebar-nav { display: flex; flex-direction: column; gap: 0.4rem; width: 100%; }
-          .nav-item { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.25rem; border-radius: 12px; color: var(--text-muted); font-weight: 600; transition: var(--transition); text-decoration: none; font-size: 0.95rem; white-space: nowrap; }
-          .sidebar-collapsed .nav-item { padding: 0.9rem; justify-content: center; }
-          .nav-item:hover { background: var(--surface); color: var(--primary); }
-          .nav-item.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
-          .nav-divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
-
-          .dashboard-content { padding: 2rem 3.5rem; transition: all 0.4s ease; }
-          .content-header { flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
-          .header-left { width: 400px; }
-          .header-actions { display: flex; width: auto; align-items: center; gap: 1.25rem; }
-          .add-product-btn { width: auto; padding: 0.85rem 1.75rem; }
-          .add-product-btn span { display: inline; }
-          .dashboard-hero { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
-          .dashboard-hero h1 { font-size: 2.2rem; }
-          .date-display { display: flex; align-items: center; gap: 0.5rem; background: var(--surface); padding: 0.6rem 1.2rem; border-radius: 10px; font-weight: 700; font-size: 0.85rem; color: var(--primary); border: 1px solid var(--border); }
-          .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-          .stat-value-row { flex-direction: row; justify-content: space-between; align-items: center; }
-          .dashboard-grid-layout { display: grid; grid-template-columns: 1.8fr 1fr; gap: 2rem; }
-          .analytics-panel { grid-column: span 2; }
-          .chart-container { height: 250px; }
-          .quick-actions-grid { grid-template-columns: repeat(4, 1fr); }
+        @media (max-width: 1024px) {
+          .dashboard-sidebar { display: none; }
+          .search-pro { width: 100%; }
+          .promo-options-grid { grid-template-columns: 1fr; }
         }
       ` }} />
     </div>
