@@ -237,11 +237,78 @@ export default function SellerDashboard() {
     </div>
   );
 
+  const [selectedChat, setSelectedChat] = useState<any>(null);
+
+  const renderMessages = () => (
+    <div className="tab-view h-full flex flex-col">
+      <div className="view-header">
+        <h2>Messagerie</h2>
+        <p className="text-muted">Discutez avec vos clients en temps réel.</p>
+      </div>
+      
+      <div className="chat-layout-pro">
+        <div className="chat-sidebar-pro">
+          {[
+            { name: "Amivi Dogbé", msg: "Est-ce que le smartphone est encore dispo ?", time: "14:20", unread: 2, avatar: "AD" },
+            { name: "Koffi Amélédji", msg: "Merci pour la livraison rapide !", time: "Hier", unread: 0, avatar: "KA" },
+            { name: "Sika Gakou", msg: "Je voudrais en commander 3.", time: "Lun", unread: 0, avatar: "SG" }
+          ].map((chat, i) => (
+            <div key={i} className={`chat-item-pro ${selectedChat?.name === chat.name ? 'active' : ''}`} onClick={() => setSelectedChat(chat)}>
+              <div className="c-avatar-chat">{chat.avatar}</div>
+              <div className="c-info-chat">
+                <div className="c-top">
+                  <strong>{chat.name}</strong>
+                  <span>{chat.time}</span>
+                </div>
+                <p className="truncate">{chat.msg}</p>
+              </div>
+              {chat.unread > 0 && <span className="unread-badge">{chat.unread}</span>}
+            </div>
+          ))}
+        </div>
+
+        <div className="chat-main-pro">
+          {selectedChat ? (
+            <div className="chat-window">
+              <div className="chat-header-win">
+                <div className="c-avatar-win">{selectedChat.avatar}</div>
+                <div>
+                  <h4>{selectedChat.name}</h4>
+                  <span className="status-online">En ligne</span>
+                </div>
+              </div>
+              <div className="chat-messages-area">
+                <div className="msg-bubble-pro assistant">
+                  Bonjour ! Comment puis-je vous aider aujourd'hui ?
+                </div>
+                <div className="msg-bubble-pro user">
+                  {selectedChat.msg}
+                </div>
+              </div>
+              <div className="chat-input-pro">
+                <div className="input-wrapper-pro">
+                  <input type="text" placeholder="Écrire votre message..." />
+                  <button className="ai-reply-btn"><Wand2 size={16} /> <span>IA</span></button>
+                </div>
+                <button className="send-btn-pro"><Send size={20} /></button>
+              </div>
+            </div>
+          ) : (
+            <div className="chat-empty">
+              <MessageCircle size={48} className="opacity-20 mb-4" />
+              <p>Sélectionnez une conversation pour commencer à discuter.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className={`seller-dashboard ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
       <AICopilot />
       
-      {/* Multi-Image Add Modal (Coin Afrique Style) */}
+      {/* ... Add Product Modal Content Resté inchangé ... */}
       <AnimatePresence>
         {isAddModalOpen && (
           <div className="modal-overlay">
@@ -318,6 +385,7 @@ export default function SellerDashboard() {
         <nav className="sidebar-nav">
           <button className={`nav-item ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}><LayoutDashboard size={20} /> {!isSidebarCollapsed && "Dashboard"}</button>
           <button className={`nav-item ${activeTab === 'products' ? 'active' : ''}`} onClick={() => setActiveTab('products')}><Package size={20} /> {!isSidebarCollapsed && "Mes Articles"}</button>
+          <button className={`nav-item ${activeTab === 'messages' ? 'active' : ''}`} onClick={() => setActiveTab('messages')}><MessageCircle size={20} /> {!isSidebarCollapsed && "Messages"}</button>
           <button className={`nav-item ${activeTab === 'customers' ? 'active' : ''}`} onClick={() => setActiveTab('customers')}><Users size={20} /> {!isSidebarCollapsed && "Clients Fidèles"}</button>
           <button className={`nav-item ${activeTab === 'promotions' ? 'active' : ''}`} onClick={() => setActiveTab('promotions')}><Zap size={20} /> {!isSidebarCollapsed && "Boosts"}</button>
           <button className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`} onClick={() => setActiveTab('settings')}><Settings size={20} /> {!isSidebarCollapsed && "Paramètres"}</button>
@@ -336,6 +404,7 @@ export default function SellerDashboard() {
         <AnimatePresence mode="wait">
           {activeTab === 'overview' && renderOverview()}
           {activeTab === 'products' && renderProducts()}
+          {activeTab === 'messages' && renderMessages()}
           {activeTab === 'customers' && renderCustomers()}
           {activeTab === 'promotions' && renderPromotions()}
           {activeTab === 'settings' && renderSettings()}
@@ -398,10 +467,43 @@ export default function SellerDashboard() {
         .promo-type-card.featured { border: 2px solid var(--primary); }
         .p-badge { position: absolute; top: 20px; right: 20px; background: var(--primary); color: white; font-size: 0.7rem; font-weight: 800; padding: 4px 10px; border-radius: 99px; }
 
+        /* Chat Interface Styles */
+        .chat-layout-pro { display: grid; grid-template-columns: 320px 1fr; background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; height: 600px; overflow: hidden; }
+        .chat-sidebar-pro { border-right: 1px solid var(--border); overflow-y: auto; background: var(--surface); }
+        .chat-item-pro { display: flex; align-items: center; gap: 1rem; padding: 1.25rem; cursor: pointer; border-bottom: 1px solid var(--border); transition: var(--transition); position: relative; }
+        .chat-item-pro:hover { background: var(--border); }
+        .chat-item-pro.active { background: var(--card-bg); border-left: 4px solid var(--primary); }
+        .c-avatar-chat { width: 44px; height: 44px; border-radius: 12px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; }
+        .c-info-chat { flex: 1; min-width: 0; }
+        .c-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .c-top strong { font-size: 0.9rem; color: var(--text-main); }
+        .c-top span { font-size: 0.7rem; color: var(--text-muted); }
+        .c-info-chat p { font-size: 0.8rem; color: var(--text-muted); }
+        .unread-badge { background: var(--primary); color: white; font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 10px; position: absolute; right: 1.25rem; bottom: 1.25rem; }
+
+        .chat-main-pro { flex: 1; display: flex; flex-direction: column; background: var(--card-bg); }
+        .chat-window { display: flex; flex-direction: column; height: 100%; }
+        .chat-header-win { padding: 1.25rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 1rem; background: var(--surface); }
+        .c-avatar-win { width: 40px; height: 40px; border-radius: 10px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+        .chat-header-win h4 { font-size: 1rem; font-weight: 800; }
+        
+        .chat-messages-area { flex: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; background: var(--background); }
+        .msg-bubble-pro { padding: 1rem; border-radius: 18px; font-size: 0.9rem; line-height: 1.5; max-width: 80%; }
+        .msg-bubble-pro.assistant { align-self: flex-start; background: var(--surface); color: var(--text-main); border-bottom-left-radius: 4px; }
+        .msg-bubble-pro.user { align-self: flex-end; background: var(--primary); color: white; border-bottom-right-radius: 4px; }
+
+        .chat-input-pro { padding: 1.25rem; border-top: 1px solid var(--border); display: flex; gap: 1rem; align-items: center; background: var(--surface); }
+        .input-wrapper-pro { flex: 1; display: flex; align-items: center; background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 0.25rem 0.5rem; }
+        .input-wrapper-pro input { flex: 1; border: none; background: none; outline: none; padding: 0.6rem 0.75rem; font-family: inherit; color: var(--text-main); }
+        .ai-reply-btn { display: flex; align-items: center; gap: 4px; background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%); color: white; border: none; padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; cursor: pointer; }
+        .send-btn-pro { width: 44px; height: 44px; background: var(--primary); color: white; border: none; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+        .chat-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); font-weight: 600; }
+
         @media (max-width: 1024px) {
-          .dashboard-sidebar { display: none; }
-          .search-pro { width: 100%; }
-          .promo-options-grid { grid-template-columns: 1fr; }
+          .chat-layout-pro { grid-template-columns: 1fr; }
+          .chat-sidebar-pro { display: ${selectedChat ? 'none' : 'block'}; }
+          .chat-main-pro { display: ${selectedChat ? 'flex' : 'none'}; }
         }
       ` }} />
     </div>
