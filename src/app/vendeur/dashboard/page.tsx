@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   LayoutDashboard, Package, ShoppingCart, Users, BarChart3, 
-  Settings, Bell, Plus, Search, TrendingUp, ArrowUpRight, 
+  Settings, Bell, Plus, Search, TrendingUp, ArrowUpRight, ArrowRight,
   CheckCircle, Clock, AlertCircle, Sparkles, Wand2,
   Calendar, CreditCard, ChevronRight, MoreVertical,
   ArrowDownRight, ShoppingBag, Percent, Tag
