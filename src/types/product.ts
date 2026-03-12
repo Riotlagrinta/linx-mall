@@ -10,4 +10,8 @@ export interface Product {
   category: string;
   specs: string[];
   stock: number;
+  shop: {
+    id: number;
+    name: string;
+  };
 }

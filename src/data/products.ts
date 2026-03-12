@@ -3,16 +3,17 @@ import { Product } from "@/types/product";
 export const products: Product[] = [
   {
     id: 1,
-    name: "Smartphone NexGen Pro",
+    name: "Iphone 11 Pro Max",
     price: 155000,
     rating: 4.8,
     reviews: 124,
     category: "Électronique",
-    description: "Le NexGen Pro redéfinit la performance mobile. Avec son processeur ultra-rapide et son écran Super Retina, profitez d'une expérience fluide pour le gaming et le multitâche. Appareil photo 108MP pour des clichés professionnels même en basse lumière.",
+    description: "L'iphone 11 Pro Max  redéfinit la performance mobile. Avec son processeur ultra-rapide et son écran Super Retina, profitez d'une expérience fluide pour le gaming et le multitâche. Appareil photo 108MP pour des clichés professionnels même en basse lumière.",
     image: "https://images.unsplash.com/photo-1616348436168-de43ad0db179?q=80&w=1000&auto=format&fit=crop",
     badge: "Populaire",
     specs: ["Écran 6.7 pouces", "Batterie 5000mAh", "12GB RAM", "256GB Stockage"],
-    stock: 15
+    stock: 15,
+    shop: { id: 1, name: "Kara Boutique" }
   },
   {
     id: 2,
@@ -25,7 +26,8 @@ export const products: Product[] = [
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=80",
     badge: "Nouveau",
     specs: ["Bluetooth 5.2", "Réduction de bruit", "Étanche IPX4", "USB-C Charge"],
-    stock: 42
+    stock: 42,
+    shop: { id: 2, name: "Sokodé High-Tech" }
   },
   {
     id: 3,
@@ -38,7 +40,8 @@ export const products: Product[] = [
     image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MT4X3ref_VW_34FR+watch-46-alum-silver-nc-s10_VW_34FR_WF_CO?wid=1200&hei=1200&fmt=png-alpha",
     badge: "Promo",
     specs: ["Écran AMOLED", "GPS Intégré", "Autonomie 10j", "Bracelet Interchangeable"],
-    stock: 8
+    stock: 8,
+    shop: { id: 1, name: "Kara Boutique" }
   },
   {
     id: 4,
@@ -51,7 +54,8 @@ export const products: Product[] = [
     image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-finish-select-202405-13inch-spaceblack-wifi_AV1?wid=1200&hei=1200&fmt=jpeg",
     badge: "Exclusivité",
     specs: ["Écran 2K 10.5\"", "Quad Speakers", "Puce M-Series", "Finition Aluminium"],
-    stock: 5
+    stock: 5,
+    shop: { id: 2, name: "Sokodé High-Tech" }
   },
   {
     id: 5,
@@ -64,7 +68,8 @@ export const products: Product[] = [
     image: "https://images.unsplash.com/photo-1572804013307-a9a11198427e?q=80&w=1000&auto=format&fit=crop",
     badge: "Tendance",
     specs: ["100% Coton", "Lavage machine", "Tailles S à XL"],
-    stock: 20
+    stock: 20,
+    shop: { id: 3, name: "Lomé Fashion" }
   },
   {
     id: 6,
@@ -77,7 +82,8 @@ export const products: Product[] = [
     image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=1000&auto=format&fit=crop",
     badge: "Local",
     specs: ["Torréfaction artisanale", "250g", "Grains entiers ou moulu"],
-    stock: 100
+    stock: 100,
+    shop: { id: 4, name: "Coopérative Kpalimé" }
   }
 ];
 

@@ -162,6 +162,9 @@ export default function Home() {
                   <Star size={14} fill="var(--secondary)" color="var(--secondary)" />
                   <span>{product.rating}</span>
                 </div>
+                <Link href={`/shop/${product.shop.id}`} className="shop-link">
+                  Vendu par <strong>{product.shop.name}</strong>
+                </Link>
                 <Link href={`/products/${product.id}`} className="product-name-link">
                   <h3>{product.name}</h3>
                 </Link>
@@ -273,6 +276,8 @@ export default function Home() {
         .product-image { height: 180px; }
         .product-info { padding: 1rem; }
         .product-info h3 { font-size: 0.95rem; height: 2.8rem; overflow: hidden; }
+        .shop-link { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-decoration: none; margin-bottom: 0.5rem; display: block; }
+        .shop-link:hover { color: var(--primary); }
         .price { font-size: 1.1rem; }
 
         .seller-cta {
