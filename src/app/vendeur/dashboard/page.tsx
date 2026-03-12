@@ -8,7 +8,7 @@ import {
   CheckCircle, Clock, AlertCircle, Sparkles, Wand2,
   Calendar, CreditCard, ChevronRight, MoreVertical,
   ArrowDownRight, ShoppingBag, Percent, Tag, Camera, X,
-  MessageCircle, Phone, MapPin, Trash2, Edit3, Star
+  MessageCircle, Phone, MapPin, Trash2, Edit3, Star, Zap, Send
 } from 'lucide-react';
 import { products } from '@/data/products';
 import Link from 'next/link';
