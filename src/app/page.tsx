@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Star, ShoppingCart, Zap, ShieldCheck, Truck, Heart } from "lucide-react";
+import { ArrowRight, Star, ShoppingCart, Sparkles, ShieldCheck, Truck, Heart, Package } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { products, categories } from "@/data/products";
@@ -13,8 +13,8 @@ export default function Home() {
   const { toggleWishlist, isInWishlist } = useWishlist();
   const [activeCategory, setActiveCategory] = useState("Tout");
 
-  const filteredProducts = activeCategory === "Tout" 
-    ? products 
+  const filteredProducts = activeCategory === "Tout"
+    ? products
     : products.filter(p => p.category === activeCategory);
 
   const scrollToProducts = () => {
@@ -29,25 +29,25 @@ export default function Home() {
       {/* Hero Section */}
       <section className="hero">
         <div className="container hero-content">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             className="hero-text"
           >
-            <span className="badge badge-featured mb-1">🎉 Lancement Officiel</span>
-            <h1>Le futur du commerce au Togo commence ici.</h1>
-            <p>Achetez, vendez et faites-vous livrer en un clin d'œil sur la plateforme la plus sécurisée du pays.</p>
+            <span className="badge badge-featured mb-1">✨ Nouvelle Collection Disponible</span>
+            <h1>La mode pour elle <span style={{color:'var(--secondary)'}}>{'&'}</span> pour lui.</h1>
+            <p>Découvrez notre sélection de prêt-à-porter homme et femme soigneusement choisie. Élégance, confort et style togolais, livrés partout au Togo.</p>
             <div className="hero-actions">
               <button className="btn btn-primary" onClick={scrollToProducts}>
-                Explorer la boutique <ArrowRight size={20} />
+                Découvrir la collection <ArrowRight size={20} />
               </button>
-              <Link href="/vendeur" className="btn btn-outline">
-                Devenir vendeur
+              <Link href="/search" className="btn btn-outline">
+                Toutes les pièces
               </Link>
             </div>
           </motion.div>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
@@ -55,12 +55,12 @@ export default function Home() {
           >
             <div className="hero-blob">
               <div className="floating-card card-1">
-                <Zap size={20} color="var(--secondary)" />
+                <Package size={20} color="var(--secondary)" />
                 <span>Livraison Express</span>
               </div>
               <div className="floating-card card-2">
                 <ShieldCheck size={20} color="#10b981" />
-                <span>Paiement Sécurisé</span>
+                <span>Retour Gratuit</span>
               </div>
             </div>
           </motion.div>
@@ -80,15 +80,15 @@ export default function Home() {
           <div className="feature-item">
             <div className="feature-icon"><ShieldCheck /></div>
             <div>
-              <h3>Paiement Garanti</h3>
+              <h3>Paiement Sécurisé</h3>
               <p>T-Money, Flooz ou Cash à la livraison.</p>
             </div>
           </div>
           <div className="feature-item">
-            <div className="feature-icon"><Zap /></div>
+            <div className="feature-icon"><Sparkles /></div>
             <div>
-              <h3>Support 24/7</h3>
-              <p>Une équipe dédiée pour vous accompagner.</p>
+              <h3>Qualité Garantie</h3>
+              <p>Chaque pièce est inspectée avant expédition.</p>
             </div>
           </div>
         </div>
@@ -100,17 +100,38 @@ export default function Home() {
           <h2>Parcourir par catégories</h2>
           <Link href="/search" className="view-all">Voir tout <ArrowRight size={16} /></Link>
         </div>
+        <div className="genre-tabs">
+          <button className="genre-tab active" data-genre="all" onClick={(e) => {
+            document.querySelectorAll('.genre-tab').forEach(t => t.classList.remove('active'));
+            (e.currentTarget as HTMLButtonElement).classList.add('active');
+            document.querySelectorAll<HTMLElement>('.cat-group').forEach(g => g.style.display = 'block');
+          }}>Tout</button>
+          <button className="genre-tab" data-genre="femme" onClick={(e) => {
+            document.querySelectorAll('.genre-tab').forEach(t => t.classList.remove('active'));
+            (e.currentTarget as HTMLButtonElement).classList.add('active');
+            document.querySelectorAll<HTMLElement>('.cat-group').forEach(g => { g.style.display = g.dataset.genre === 'femme' || g.dataset.genre === 'mixte' ? 'block' : 'none'; });
+          }}>👩 Femme</button>
+          <button className="genre-tab" data-genre="homme" onClick={(e) => {
+            document.querySelectorAll('.genre-tab').forEach(t => t.classList.remove('active'));
+            (e.currentTarget as HTMLButtonElement).classList.add('active');
+            document.querySelectorAll<HTMLElement>('.cat-group').forEach(g => { g.style.display = g.dataset.genre === 'homme' || g.dataset.genre === 'mixte' ? 'block' : 'none'; });
+          }}>👨 Homme</button>
+        </div>
         <div className="category-grid">
           {categories.filter(c => c.name !== "Tout").map((cat) => (
-            <motion.div 
-              key={cat.id} 
+            <motion.div
+              key={cat.id}
               whileHover={{ y: -5, borderColor: 'var(--primary)' }}
-              className="category-card"
-              onClick={() => setActiveCategory(cat.name)}
+              className={`category-card cat-group`}
+              data-genre={'genre' in cat ? (cat as {genre: string}).genre : 'mixte'}
+              onClick={() => {
+                setActiveCategory(cat.name);
+                scrollToProducts();
+              }}
             >
               <span className="cat-icon">{cat.icon}</span>
               <h3>{cat.name}</h3>
-              <p>{cat.count}</p>
+              <p>{'count' in cat ? (cat as {count: string}).count : ''}</p>
             </motion.div>
           ))}
         </div>
@@ -119,23 +140,23 @@ export default function Home() {
       {/* Featured Products */}
       <section className="featured-products container" id="products">
         <div className="section-header">
-          <h2>{activeCategory === "Tout" ? "Les coups de cœur du moment" : activeCategory}</h2>
+          <h2>{activeCategory === "Tout" ? "Nos coups de cœur du moment" : activeCategory}</h2>
           <div className="filter-chips">
             {categories.map((cat) => (
-              <span 
-                key={cat.id} 
+              <span
+                key={cat.id}
                 className={`chip ${activeCategory === cat.name ? 'active' : ''}`}
                 onClick={() => setActiveCategory(cat.name)}
               >
-                {cat.name}
+                {cat.icon} {cat.name}
               </span>
             ))}
           </div>
         </div>
         <div className="product-grid">
           {filteredProducts.map((product) => (
-            <motion.div 
-              key={product.id} 
+            <motion.div
+              key={product.id}
               layout
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -145,7 +166,7 @@ export default function Home() {
               <Link href={`/products/${product.id}`} className="product-link">
                 <div className="product-image" style={{ backgroundImage: `url(${product.image})` }}>
                   {product.badge && <span className="product-badge">{product.badge}</span>}
-                  <button 
+                  <button
                     className={`wishlist-card-btn ${isInWishlist(product.id) ? 'active' : ''}`}
                     onClick={(e) => {
                       e.preventDefault();
@@ -153,7 +174,7 @@ export default function Home() {
                       toggleWishlist(product);
                     }}
                   >
-                    <Heart size={18} fill={isInWishlist(product.id) ? "var(--accent)" : "none"} />
+                    <Heart size={18} fill={isInWishlist(product.id) ? "var(--primary)" : "none"} />
                   </button>
                 </div>
               </Link>
@@ -162,9 +183,7 @@ export default function Home() {
                   <Star size={14} fill="var(--secondary)" color="var(--secondary)" />
                   <span>{product.rating}</span>
                 </div>
-                <Link href={`/shop/${product.shop.id}`} className="shop-link">
-                  Vendu par <strong>{product.shop.name}</strong>
-                </Link>
+                <span className="product-category-tag">{product.category}</span>
                 <Link href={`/products/${product.id}`} className="product-name-link">
                   <h3>{product.name}</h3>
                 </Link>
@@ -180,20 +199,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Seller CTA */}
-      <section className="seller-cta container">
+      {/* Style Guide CTA */}
+      <section className="style-cta container">
         <div className="cta-content">
-          <h2>Vous avez des produits à vendre ?</h2>
-          <p>Rejoignez des centaines de marchands togolais et boostez votre chiffre d'affaires avec Linx Mall.</p>
-          <Link href="/vendeur" className="btn btn-primary btn-lg" style={{ textDecoration: 'none', display: 'inline-flex' }}>
-            Ouvrir ma boutique gratuite
-          </Link>
+          <span className="cta-eyebrow">✨ Notre promesse</span>
+          <h2>Le style, c'est une façon d'être.</h2>
+          <p>Chaque pièce de notre collection est sélectionnée avec soin pour elle et pour lui. De la robe de soirée au costume, en passant par le look casual, nous habillons toutes les personnes du Togo.</p>
+          <div className="cta-actions">
+            <button className="btn btn-primary" onClick={scrollToProducts}>
+              Explorer la collection
+            </button>
+            <Link href="/contact" className="btn btn-outline">
+              Nous contacter
+            </Link>
+          </div>
         </div>
       </section>
 
       <style dangerouslySetInnerHTML={{ __html: `
         .home-wrapper { padding-bottom: 4rem; overflow-x: hidden; }
-        
+
         /* Base styles (Mobile First) */
         .hero {
           background: var(--hero-gradient);
@@ -206,14 +231,15 @@ export default function Home() {
           gap: 3rem;
         }
         .hero-text h1 {
-          font-size: 2.5rem;
-          line-height: 1.1;
+          font-size: 2.4rem;
+          line-height: 1.15;
           margin-bottom: 1.5rem;
           font-weight: 800;
           color: var(--text-main);
+          font-family: 'Cormorant Garamond', serif;
         }
         .hero-text p {
-          font-size: 1.1rem;
+          font-size: 1.05rem;
           color: var(--text-muted);
           margin-bottom: 2.5rem;
           max-width: 100%;
@@ -249,7 +275,7 @@ export default function Home() {
         .feature-icon {
           width: 48px;
           height: 48px;
-          background: rgba(37, 99, 235, 0.1);
+          background: rgba(139, 34, 82, 0.08);
           color: var(--primary);
           border-radius: 12px;
           display: flex;
@@ -265,47 +291,247 @@ export default function Home() {
           margin-bottom: 2rem;
           margin-top: 4rem;
         }
-        .section-header h2 { font-size: 1.5rem; }
+        .section-header h2 {
+          font-size: 1.6rem;
+          font-family: 'Cormorant Garamond', serif;
+          font-weight: 700;
+        }
+        .view-all {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          color: var(--primary);
+          font-weight: 600;
+          font-size: 0.9rem;
+          transition: gap 0.2s;
+        }
+        .view-all:hover { gap: 0.8rem; }
 
         .category-grid, .product-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 1rem;
         }
-        .category-card { padding: 1.5rem 1rem; }
-        .product-image { height: 180px; }
-        .product-info { padding: 1rem; }
-        .product-info h3 { font-size: 0.95rem; height: 2.8rem; overflow: hidden; }
-        .shop-link { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-decoration: none; margin-bottom: 0.5rem; display: block; }
-        .shop-link:hover { color: var(--primary); }
-        .price { font-size: 1.1rem; }
-
-        .seller-cta {
-          margin-top: 5rem;
-          padding: 4rem 1.5rem;
-          border-radius: 24px;
-          background: var(--surface);
+        .category-card {
+          padding: 1.5rem 1rem;
+          background: var(--card-bg);
           border: 1px solid var(--border);
-          text-align: center;
+          border-radius: var(--radius);
+          cursor: pointer;
+          transition: var(--transition);
         }
-        .seller-cta h2 { font-size: 2rem; color: var(--text-main); margin-bottom: 1rem; }
-        .seller-cta p { color: var(--text-muted); margin-bottom: 2rem; }
+        .category-card:hover { border-color: var(--primary); }
+        .cat-icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
+        .category-card h3 { font-weight: 700; margin-bottom: 0.25rem; color: var(--text-main); }
+        .category-card p { color: var(--text-muted); font-size: 0.8rem; }
+
+        .product-card {
+          background: var(--card-bg);
+          border-radius: var(--radius);
+          overflow: hidden;
+          border: 1px solid var(--border);
+          box-shadow: var(--shadow);
+        }
+        .product-link { display: block; }
+        .product-image {
+          height: 200px;
+          background-size: cover;
+          background-position: center;
+          position: relative;
+        }
+        .product-badge {
+          position: absolute;
+          top: 0.75rem;
+          left: 0.75rem;
+          background: var(--primary);
+          color: white;
+          font-size: 0.7rem;
+          font-weight: 700;
+          padding: 0.3rem 0.7rem;
+          border-radius: 9999px;
+        }
+        .wishlist-card-btn {
+          position: absolute;
+          top: 0.75rem;
+          right: 0.75rem;
+          background: white;
+          border: 1px solid var(--border);
+          border-radius: 9999px;
+          width: 34px;
+          height: 34px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: var(--shadow);
+          transition: var(--transition);
+          color: var(--primary);
+        }
+        .wishlist-card-btn:hover { background: var(--surface); }
+
+        .product-info { padding: 1rem; }
+        .product-rating {
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+          font-size: 0.8rem;
+          color: var(--text-muted);
+          margin-bottom: 0.4rem;
+          font-weight: 600;
+        }
+        .product-category-tag {
+          font-size: 0.7rem;
+          color: var(--primary);
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 0.4rem;
+          display: block;
+        }
+        .product-info h3 {
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: var(--text-main);
+          margin-bottom: 0.75rem;
+          height: 2.8rem;
+          overflow: hidden;
+          line-height: 1.4;
+        }
+        .product-footer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .price {
+          font-size: 1.1rem;
+          font-weight: 800;
+          color: var(--primary);
+        }
+        .price small { font-size: 0.7rem; font-weight: 500; color: var(--text-muted); }
+        .add-to-cart {
+          background: var(--primary);
+          color: white;
+          width: 36px;
+          height: 36px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: var(--transition);
+        }
+        .add-to-cart:hover {
+          background: var(--primary-hover);
+          transform: scale(1.1);
+        }
+
+        .style-cta {
+          margin-top: 5rem;
+          padding: 4rem 2rem;
+          border-radius: 24px;
+          background: linear-gradient(135deg, var(--primary) 0%, #6e1a41 100%);
+          text-align: center;
+          color: white;
+        }
+        .cta-eyebrow {
+          font-size: 0.85rem;
+          font-weight: 600;
+          opacity: 0.8;
+          margin-bottom: 1rem;
+          display: block;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+        }
+        .style-cta h2 {
+          font-size: 2.2rem;
+          font-family: 'Cormorant Garamond', serif;
+          font-weight: 700;
+          margin-bottom: 1rem;
+          color: white;
+        }
+        .style-cta p {
+          opacity: 0.85;
+          margin-bottom: 2rem;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .cta-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          align-items: center;
+        }
+        .style-cta .btn-primary {
+          background: white;
+          color: var(--primary);
+        }
+        .style-cta .btn-primary:hover {
+          background: var(--surface);
+          box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
+        }
+        .style-cta .btn-outline {
+          border-color: rgba(255,255,255,0.5);
+          color: white;
+        }
+        .style-cta .btn-outline:hover {
+          border-color: white;
+          background: rgba(255,255,255,0.1);
+          color: white;
+        }
+
+        .genre-tabs {
+          display: flex;
+          gap: 0.6rem;
+          margin-bottom: 1.5rem;
+        }
+        .genre-tab {
+          padding: 0.5rem 1.25rem;
+          border-radius: 9999px;
+          border: 1.5px solid var(--border);
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: var(--text-muted);
+          cursor: pointer;
+          background: var(--card-bg);
+          transition: var(--transition);
+        }
+        .genre-tab:hover { border-color: var(--primary); color: var(--primary); }
+        .genre-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
 
         .filter-chips {
           display: flex;
           overflow-x: auto;
-          gap: 0.75rem;
+          gap: 0.5rem;
           padding-bottom: 1rem;
           scrollbar-width: none;
         }
         .filter-chips::-webkit-scrollbar { display: none; }
+        .chip {
+          white-space: nowrap;
+          padding: 0.45rem 1rem;
+          border-radius: 9999px;
+          border: 1.5px solid var(--border);
+          font-size: 0.82rem;
+          font-weight: 600;
+          color: var(--text-muted);
+          cursor: pointer;
+          transition: var(--transition);
+          background: var(--card-bg);
+        }
+        .chip:hover { border-color: var(--primary); color: var(--primary); }
+        .chip.active {
+          background: var(--primary);
+          color: white;
+          border-color: var(--primary);
+        }
 
-        /* Tablet & Desktop Improvements (Progressive Enhancement) */
+        /* Tablet & Desktop */
         @media (min-width: 768px) {
-          .category-grid, .product-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-          .hero-text h1 { font-size: 3.5rem; }
+          .category-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+          .product-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+          .hero-text h1 { font-size: 3.2rem; }
           .hero-actions { flex-direction: row; justify-content: center; }
           .section-header { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+          .cta-actions { flex-direction: row; justify-content: center; }
         }
 
         @media (min-width: 1024px) {
@@ -314,11 +540,12 @@ export default function Home() {
           .hero-actions { justify-content: flex-start; }
           .hero-image { display: flex; }
           .product-grid { grid-template-columns: repeat(4, 1fr); }
-          .category-grid { grid-template-columns: repeat(4, 1fr); }
+          .category-grid { grid-template-columns: repeat(5, 1fr); }
           .features-grid { flex-direction: row; justify-content: space-between; padding: 2.5rem; }
           .feature-item { flex: 1; }
-          .product-image { height: 220px; }
-          .product-info h3 { font-size: 1.1rem; height: auto; }
+          .product-image { height: 240px; }
+          .product-info h3 { font-size: 1rem; height: auto; }
+          .hero-text h1 { font-size: 3.8rem; }
         }
       ` }} />
     </div>

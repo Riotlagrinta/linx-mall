@@ -186,7 +186,7 @@ export default function AICopilot() {
           display: flex;
           align-items: center;
           gap: 0.75rem;
-          box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+          box-shadow: 0 10px 30px rgba(139, 34, 82, 0.3);
           z-index: 9000;
           overflow: hidden;
           border: 1px solid rgba(255,255,255,0.1);
@@ -194,7 +194,7 @@ export default function AICopilot() {
         .ai-fab-gradient {
           position: absolute;
           inset: 0;
-          background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 50%, #d946ef 100%);
+          background: linear-gradient(135deg, var(--primary) 0%, #6e1a41 50%, #d4a017 100%);
           opacity: 0.8;
           z-index: -1;
         }
@@ -221,7 +221,7 @@ export default function AICopilot() {
 
         .ai-header { padding: 1.5rem; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
         .ai-title { display: flex; align-items: center; gap: 1rem; }
-        .ai-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, #2563eb, #8b5cf6); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .ai-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), #6e1a41); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
         .ai-title h3 { font-size: 1rem; font-weight: 800; color: var(--text-main); }
         .status-online { font-size: 0.7rem; color: #10b981; font-weight: 700; text-transform: uppercase; }
         .ai-close { background: none; border: none; color: var(--text-muted); cursor: pointer; }

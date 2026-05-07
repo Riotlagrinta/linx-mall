@@ -141,7 +141,7 @@ export default function ContactPage() {
         .info-card h2 { font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem; }
         .info-list { display: flex; flex-direction: column; gap: 1.5rem; }
         .info-item { display: flex; align-items: center; gap: 1.25rem; }
-        .info-item .icon-box { width: 48px; height: 48px; background: rgba(37, 99, 235, 0.1); color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .info-item .icon-box { width: 48px; height: 48px; background: rgba(139, 34, 82, 0.08); color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .info-item span { display: block; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
         .info-item strong { font-size: 1rem; color: var(--text-main); }
 

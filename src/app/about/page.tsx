@@ -7,9 +7,9 @@ import Image from 'next/image';
 
 export default function AboutPage() {
   const stats = [
-    { label: "Vendeurs", value: "500+", icon: <Store size={20} /> },
-    { label: "Clients", value: "10k+", icon: <Users size={20} /> },
-    { label: "Villes", value: "15+", icon: <MapPin size={20} /> },
+    { label: "Clients", value: "3k+", icon: <Users size={20} /> },
+    { label: "Pièces en stock", value: "400+", icon: <Store size={20} /> },
+    { label: "Villes livrées", value: "10+", icon: <MapPin size={20} /> },
     { label: "Satisfaction", value: "98%", icon: <Sparkles size={20} /> },
   ];
 
@@ -17,17 +17,17 @@ export default function AboutPage() {
     {
       icon: <Target size={32} />,
       title: "Notre Mission",
-      desc: "Digitaliser le commerce de proximité au Togo en offrant une plateforme moderne et accessible à tous les entrepreneurs."
+      desc: "Permettre à chaque togolais(e) d'accéder à une mode de qualité, moderne et accessible, livrée directement à sa porte."
     },
     {
       icon: <ShieldCheck size={32} />,
-      title: "Confiance & Sécurité",
-      desc: "Garantir des transactions sûres via T-Money et Flooz pour protéger acheteurs et vendeurs."
+      title: "Qualité Garantie",
+      desc: "Chaque pièce est soigneusement sélectionnée et inspectée avant expédition. Nous ne vendons que ce que nous aimons nous-mêmes porter."
     },
     {
       icon: <Rocket size={32} />,
-      title: "Innovation Continue",
-      desc: "Utiliser les meilleures technologies pour offrir une expérience d'achat fluide et ultra-rapide sur mobile."
+      title: "Mode & Authenticité",
+      desc: "Nous célébrons l'élégance africaine moderne : entre tradition et tendance, nos collections homme et femme reflètent la richesse du Togo."
     }
   ];
 
@@ -41,9 +41,9 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             className="hero-content"
           >
-            <span className="badge">L'histoire de Linx Mall</span>
-            <h1>Le futur du commerce au <span className="highlight">Togo</span> commence ici.</h1>
-            <p>Plus qu'une simple marketplace, Linx Mall est l'écosystème qui connecte les talents locaux aux consommateurs de tout le pays.</p>
+            <span className="badge">Notre histoire</span>
+            <h1>La mode pour <span className="highlight">elle &amp; lui</span>, pensée pour vous.</h1>
+            <p>Linx Mall est votre boutique de prêt-à-porter homme et femme à Lomé. Nous sélectionnons avec soin chaque pièce pour que vous puissiez vous habiller avec style, confort et confiance.</p>
           </motion.div>
         </div>
       </section>
@@ -55,11 +55,10 @@ export default function AboutPage() {
             <div className="vision-text">
               <h2>Pourquoi Linx Mall ?</h2>
               <p>
-                Dans un monde qui se digitalise, nous avons remarqué que de nombreux commerçants talentueux au Togo manquaient d'outils pour toucher une audience nationale. 
-                <strong> Linx Mall</strong> a été créé par l'agence <strong>Kelvix</strong> pour combler ce fossé.
+                Née de la passion de la mode, <strong>Linx Mall</strong> est bien plus qu'une boutique en ligne. C'est un espace où chaque homme et chaque femme peut trouver sa pièce coup de cœur.
               </p>
               <p>
-                Notre plateforme permet à n'importe quel boutique, de Lomé à Cinkassé, de posséder une vitrine digitale professionnelle en moins de 5 minutes.
+                Nous proposons une sélection rigoureuse de robes, costumes, blazers, chemises, tops et accessoires — des pièces qui allient tendances internationales et élégance africaine — livrées partout au Togo.
               </p>
               <div className="stats-row">
                 {stats.map((stat, i) => (
@@ -108,11 +107,11 @@ export default function AboutPage() {
       <section className="about-cta py-20">
         <div className="container">
           <div className="cta-card">
-            <h2>Prêt à rejoindre l'aventure ?</h2>
-            <p>Que vous soyez acheteur ou vendeur, il y a une place pour vous dans notre communauté.</p>
+            <h2>Prête à vous faire belle ?</h2>
+            <p>Découvrez notre collection et trouvez la pièce qui vous ressemble. Livraison partout au Togo.</p>
             <div className="cta-btns">
-              <Link href="/vendeur" className="btn btn-primary btn-lg">Ouvrir ma boutique</Link>
-              <Link href="/search" className="btn btn-outline btn-lg">Commencer mes achats</Link>
+              <Link href="/search" className="btn btn-primary btn-lg">Voir la collection</Link>
+              <Link href="/contact" className="btn btn-outline btn-lg">Nous contacter</Link>
             </div>
           </div>
         </div>
@@ -122,7 +121,7 @@ export default function AboutPage() {
         .about-page { background: var(--background); overflow-x: hidden; }
         
         .about-hero { padding: 6rem 0 4rem; background: var(--hero-gradient); text-align: center; border-bottom: 1px solid var(--border); }
-        .about-hero .badge { background: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 0.5rem 1rem; border-radius: 99px; font-weight: 700; font-size: 0.85rem; margin-bottom: 1.5rem; display: inline-block; }
+        .about-hero .badge { background: rgba(139, 34, 82, 0.08); color: var(--primary); padding: 0.5rem 1rem; border-radius: 99px; font-weight: 700; font-size: 0.85rem; margin-bottom: 1.5rem; display: inline-block; }
         .about-hero h1 { font-size: 2.5rem; font-weight: 800; color: var(--text-main); line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1px; }
         .about-hero .highlight { color: var(--primary); }
         .about-hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.6; }

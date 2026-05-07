@@ -156,12 +156,12 @@ export default function VendeurInscription() {
         .inscription-page { background: var(--background); min-height: 100vh; }
         .inscription-container { max-width: 600px; margin: 0 auto; }
         
-        .inscription-header .badge { background: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 0.4rem 1rem; border-radius: 99px; font-weight: 700; font-size: 0.8rem; margin-bottom: 1rem; display: inline-block; }
+        .inscription-header .badge { background: rgba(139, 34, 82, 0.08); color: var(--primary); padding: 0.4rem 1rem; border-radius: 99px; font-weight: 700; font-size: 0.8rem; margin-bottom: 1rem; display: inline-block; }
         .inscription-header h1 { font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem; }
         
         .step-indicator { display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
         .step { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--text-muted); background: var(--card-bg); transition: all 0.3s ease; }
-        .step.active { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
+        .step.active { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 0 4px rgba(139, 34, 82, 0.08); }
         .line { height: 2px; width: 40px; background: var(--border); }
         .line.active { background: var(--primary); }
 
@@ -177,7 +177,7 @@ export default function VendeurInscription() {
         .radio-option { position: relative; cursor: pointer; }
         .radio-option input { position: absolute; opacity: 0; }
         .opt-box { padding: 1.25rem; border: 1px solid var(--border); border-radius: 16px; display: flex; flex-direction: column; transition: var(--transition); }
-        .radio-option input:checked + .opt-box { border-color: var(--primary); background: rgba(37, 99, 235, 0.05); }
+        .radio-option input:checked + .opt-box { border-color: var(--primary); background: rgba(139, 34, 82, 0.05); }
         .opt-box strong { font-size: 1rem; color: var(--text-main); }
         .opt-box span { font-size: 0.8rem; color: var(--text-muted); }
 

@@ -73,10 +73,10 @@ export default function VendeurPage() {
             className="hero-text"
           >
             <div className="badge-promo animate-fade">
-              <Sparkles size={14} /> Partenaire de votre croissance
+              <Sparkles size={14} /> Espace Partenaire Mode
             </div>
-            <h1>Vendez plus, vendez mieux avec <span className="highlight">Linx Mall</span></h1>
-            <p>La marketplace de référence au Togo pour digitaliser votre commerce et atteindre de nouveaux clients en un clic.</p>
+            <h1>Gérez votre boutique avec <span className="highlight">Linx Mall</span></h1>
+            <p>Accédez à votre tableau de bord, gérez vos collections, suivez vos commandes et développez votre activité depuis une seule interface.</p>
             <div className="hero-actions">
               <Link href="/vendeur/inscription" className="btn btn-primary btn-lg">
                 Ouvrir ma boutique <ArrowRight size={20} />
@@ -109,8 +109,8 @@ export default function VendeurPage() {
       <section className="benefits-section py-24">
         <div className="container">
           <div className="section-header text-center mb-16">
-            <h2 className="text-4xl font-extrabold mb-4">Pourquoi choisir Linx Mall ?</h2>
-            <p className="text-muted max-w-2xl mx-auto text-lg">Nous fournissons les meilleurs outils technologiques du marché pour faire décoller votre business.</p>
+            <h2 className="text-4xl font-extrabold mb-4">Votre boutique, nos outils</h2>
+            <p className="text-muted max-w-2xl mx-auto text-lg">Tout ce qu'il faut pour gérer une boutique de prêt-à-porter moderne et performante au Togo.</p>
           </div>
           <div className="benefits-grid">
             {benefits.map((benefit, index) => (
@@ -174,7 +174,7 @@ export default function VendeurPage() {
         .seller-hero { padding: 6rem 1.5rem 4rem; background: var(--hero-gradient); text-align: center; }
         .hero-content { display: flex; flex-direction: column; gap: 3rem; }
         
-        .badge-promo { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 0.6rem 1.25rem; border-radius: 99px; font-weight: 700; font-size: 0.85rem; margin-bottom: 2rem; }
+        .badge-promo { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(139, 34, 82, 0.08); color: var(--primary); padding: 0.6rem 1.25rem; border-radius: 99px; font-weight: 700; font-size: 0.85rem; margin-bottom: 2rem; }
         .hero-text h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1px; color: var(--text-main); }
         .hero-text .highlight { color: var(--primary); }
         .hero-text p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2.5rem; line-height: 1.6; }

@@ -112,20 +112,20 @@ export default function RootLayout({
                   </div>
                 </div>
                 <p className="footer-desc">
-                  La marketplace de référence au Togo. Qualité, sécurité et rapidité pour tous vos achats.
+                  Votre boutique de prêt-à-porter homme &amp; femme à Lomé. Mode, élégance et style togolais pour toute la famille.
                 </p>
               </div>
               <div className="footer-col">
-                <h4>Linx Mall</h4>
+                <h4>La Boutique</h4>
                 <ul>
                   <li><Link href="/about">À propos de nous</Link></li>
-                  <li><Link href="/vendeur">Devenir vendeur</Link></li>
+                  <li><Link href="/search">Notre catalogue</Link></li>
                   <li><Link href="/engagements">Nos engagements</Link></li>
                   <li><Link href="/careers">Recrutement</Link></li>
                 </ul>
                 </div>
-                <div className="footer-section">
-                <h4>Support</h4>
+                <div className="footer-col">
+                <h4>Service Client</h4>
                 <ul>
                   <li><Link href="/help">Centre d'aide</Link></li>
                   <li><Link href="/help">Livraison & Retours</Link></li>
@@ -138,6 +138,7 @@ export default function RootLayout({
                 <p>Lomé, Togo</p>
                 <p>Email: contact@linxmall.tg</p>
                 <p>Tél: +228 90 00 00 00</p>
+                <p style={{marginTop: '0.75rem', fontSize: '0.85rem', color: 'var(--text-muted)'}}>Lun–Sam : 8h–19h</p>
               </div>
             </div>
             <div className="footer-bottom">
@@ -224,7 +225,7 @@ export default function RootLayout({
             .nav-btn-icon:hover {
               color: var(--primary);
               border-color: var(--primary);
-              background: rgba(37, 99, 235, 0.05);
+              background: rgba(139, 34, 82, 0.05);
             }
 
             @media (min-width: 1024px) {

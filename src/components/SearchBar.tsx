@@ -51,8 +51,8 @@ export default function SearchBar() {
         <div className="search-input-wrapper">
           <Search size={18} className="search-icon" />
           <input 
-            type="text" 
-            placeholder="Rechercher un produit..." 
+            type="text"
+            placeholder="Rechercher une robe, costume, chemise..."
             value={query}
             onFocus={() => setIsExpanded(true)}
             onChange={(e) => setQuery(e.target.value)}
@@ -80,9 +80,9 @@ export default function SearchBar() {
             {query.length <= 1 ? (
               <div className="search-trends">
                 <div className="dropdown-section">
-                  <h4><TrendingUp size={14} /> Tendances</h4>
+                  <h4><TrendingUp size={14} /> Tendances mode</h4>
                   <div className="trend-tags">
-                    {['iPhone', 'Nike', 'Tablette', 'Café Togo'].map(tag => (
+                    {['Robe wax', 'Costume', 'Chemise homme', 'Blazer femme'].map(tag => (
                       <span key={tag} onClick={() => setQuery(tag)}>{tag}</span>
                     ))}
                   </div>
@@ -147,7 +147,7 @@ export default function SearchBar() {
           padding: 0.35rem;
           transition: var(--transition);
         }
-        .search-container.expanded .search-bar { border-color: var(--primary); box-shadow: 0 10px 25px rgba(37, 99, 235, 0.1); }
+        .search-container.expanded .search-bar { border-color: var(--primary); box-shadow: 0 10px 25px rgba(139, 34, 82, 0.12); }
         
         .search-input-wrapper { flex: 1; display: flex; align-items: center; padding: 0 0.75rem; gap: 0.75rem; }
         .search-icon { color: var(--text-muted); }

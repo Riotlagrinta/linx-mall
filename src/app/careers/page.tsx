@@ -89,7 +89,7 @@ export default function CareersPage() {
         .careers-page { background: var(--background); }
         
         .careers-hero { padding: 8rem 0 6rem; background: var(--hero-gradient); text-align: center; border-bottom: 1px solid var(--border); }
-        .careers-hero .badge { background: rgba(37, 99, 235, 0.1); color: var(--primary); padding: 0.5rem 1rem; border-radius: 99px; font-weight: 700; font-size: 0.85rem; margin-bottom: 1.5rem; display: inline-block; }
+        .careers-hero .badge { background: rgba(139, 34, 82, 0.08); color: var(--primary); padding: 0.5rem 1rem; border-radius: 99px; font-weight: 700; font-size: 0.85rem; margin-bottom: 1.5rem; display: inline-block; }
         .careers-hero h1 { font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 1.5rem; line-height: 1.1; }
         .careers-hero .highlight { color: var(--primary); }
         .careers-hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.6; }

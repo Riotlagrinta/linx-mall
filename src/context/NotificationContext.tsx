@@ -122,7 +122,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         }
         .success .notification-icon { background: rgba(16, 185, 129, 0.1); color: #10b981; }
         .error .notification-icon { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-        .info .notification-icon { background: rgba(37, 99, 235, 0.1); color: var(--primary); }
+        .info .notification-icon { background: rgba(139, 34, 82, 0.08); color: var(--primary); }
 
         .notification-message { flex: 1; font-weight: 700; font-size: 0.9rem; color: var(--text-main); line-height: 1.4; }
         .notification-close { background: var(--surface); color: var(--text-muted); cursor: pointer; padding: 6px; border-radius: 10px; display: flex; transition: var(--transition); border: 1px solid var(--border); }

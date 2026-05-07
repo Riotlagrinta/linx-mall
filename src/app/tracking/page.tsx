@@ -122,7 +122,7 @@ export default function OrderTrackingPage() {
         .timeline-step.completed .step-icon { background: rgba(16, 185, 129, 0.1); color: #10b981; border-color: #10b981; }
         .timeline-step.completed .step-line { background: #10b981; }
         
-        .timeline-step.active .step-icon { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
+        .timeline-step.active .step-icon { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(139, 34, 82, 0.08); }
         .timeline-step.active h4 { color: var(--primary); }
 
         .step-content h4 { font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }

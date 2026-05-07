@@ -29,9 +29,9 @@ function SearchResults() {
       <header className="search-hero">
         <div className="container">
           <h1>
-            {categoryParam ? categoryParam : query ? `Résultats pour "${query}"` : "Tous nos produits"}
+            {categoryParam ? categoryParam : query ? `Résultats pour "${query}"` : "Notre Collection"}
           </h1>
-          <p>{filteredProducts.length} produit(s) disponible(s)</p>
+          <p>{filteredProducts.length} pièce(s) disponible(s)</p>
         </div>
       </header>
 
@@ -41,9 +41,30 @@ function SearchResults() {
           <div className="filter-group">
             <h4>Catégories</h4>
             <div className="filter-links">
-              {['Électronique', 'Mode & Beauté', 'Maison', 'Produits Locaux'].map(cat => (
-                <Link 
-                  key={cat} 
+              <span className="filter-genre-label">👩 Femme</span>
+              {['Robes', 'Hauts Femme', 'Bas Femme', 'Vestes Femme'].map(cat => (
+                <Link
+                  key={cat}
+                  href={`/search?cat=${cat}`}
+                  className={categoryParam === cat ? 'active' : ''}
+                >
+                  {cat}
+                </Link>
+              ))}
+              <span className="filter-genre-label" style={{marginTop: '1rem'}}>👨 Homme</span>
+              {['Chemises Homme', 'Hauts Homme', 'Bas Homme', 'Vestes Homme', 'Costumes Homme'].map(cat => (
+                <Link
+                  key={cat}
+                  href={`/search?cat=${cat}`}
+                  className={categoryParam === cat ? 'active' : ''}
+                >
+                  {cat}
+                </Link>
+              ))}
+              <span className="filter-genre-label" style={{marginTop: '1rem'}}>👜 Mixte</span>
+              {['Accessoires'].map(cat => (
+                <Link
+                  key={cat}
                   href={`/search?cat=${cat}`}
                   className={categoryParam === cat ? 'active' : ''}
                 >
@@ -152,7 +173,8 @@ function SearchResults() {
           .product-grid { grid-template-columns: repeat(3, 1fr); }
           
           .filter-group h4 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 1.5rem; }
-          .filter-links { display: flex; flex-direction: column; gap: 0.75rem; }
+          .filter-links { display: flex; flex-direction: column; gap: 0.5rem; }
+          .filter-genre-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); padding: 0.4rem 1rem 0; }
           .filter-links a { color: var(--text-main); font-weight: 600; text-decoration: none; padding: 0.75rem 1rem; border-radius: 10px; transition: var(--transition); }
           .filter-links a:hover { background: var(--surface); color: var(--primary); }
           .filter-links a.active { background: var(--primary); color: white; }

@@ -24,7 +24,7 @@ export default function MobileMenu() {
   ];
 
   const sellerItems = [
-    { icon: <Sparkles size={22} />, label: 'Espace Vendeur', href: '/vendeur' },
+    { icon: <Sparkles size={22} />, label: 'Espace Admin', href: '/vendeur' },
     { icon: <LayoutDashboard size={22} />, label: 'Tableau de bord', href: '/vendeur/dashboard' },
   ];
 
@@ -78,7 +78,7 @@ export default function MobileMenu() {
               </nav>
 
               <nav className="menu-section">
-                <span className="section-label">Vendre</span>
+                <span className="section-label">Administration</span>
                 {sellerItems.map((item, idx) => (
                   <Link key={idx} href={item.href} className="menu-link seller-link" onClick={() => setIsMenuOpen(false)}>
                     <span className="menu-icon">{item.icon}</span>

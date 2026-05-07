@@ -249,7 +249,7 @@ export default function CheckoutPage() {
         .checkout-section { background: var(--card-bg); padding: 1.5rem; border-radius: 24px; border: 1px solid var(--border); }
         .section-title { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
         .section-title h2 { font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
-        .icon-box { width: 36px; height: 36px; background: rgba(37, 99, 235, 0.1); color: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .icon-box { width: 36px; height: 36px; background: rgba(139, 34, 82, 0.08); color: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
         .icon-box.orange { background: rgba(245, 158, 11, 0.1); color: var(--secondary); }
 
         .form-grid { display: flex; flex-direction: column; gap: 1.25rem; }
@@ -261,14 +261,14 @@ export default function CheckoutPage() {
 
         .payment-options { display: flex; flex-direction: column; gap: 0.75rem; }
         .payment-option { border: 1px solid var(--border); padding: 1rem; border-radius: 16px; cursor: pointer; transition: var(--transition); position: relative; }
-        .payment-option.active { border-color: var(--primary); background: rgba(37, 99, 235, 0.05); }
+        .payment-option.active { border-color: var(--primary); background: rgba(139, 34, 82, 0.05); }
         .payment-option input { position: absolute; opacity: 0; }
         .opt-content { display: flex; align-items: center; gap: 1rem; }
         .opt-icon { width: 40px; height: 30px; background-size: contain; background-repeat: no-repeat; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
         .opt-text strong { display: block; font-size: 0.95rem; color: var(--text-main); }
         .opt-text span { font-size: 0.75rem; color: var(--text-muted); }
 
-        .btn-submit { width: 100%; height: 56px; border-radius: 16px; font-size: 1.1rem; font-weight: 800; margin-top: 2rem; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2); }
+        .btn-submit { width: 100%; height: 56px; border-radius: 16px; font-size: 1.1rem; font-weight: 800; margin-top: 2rem; box-shadow: 0 10px 20px rgba(139, 34, 82, 0.2); }
         .security-notice { text-align: center; margin-top: 1rem; font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
         
         .animate-spin { animation: spin 1s linear infinite; }

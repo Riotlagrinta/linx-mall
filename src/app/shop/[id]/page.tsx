@@ -18,16 +18,16 @@ export default function ShopPublicPage({ params }: { params: Promise<{ id: strin
   // Simulation de données de boutique
   const shop = {
     id: resolvedParams.id,
-    name: "Kara Boutique",
-    description: "Spécialiste de la mode et de l'électronique haut de gamme au Togo. Nous sélectionnons les meilleurs produits pour vous garantir qualité et durabilité.",
-    location: "Lomé, Hedzranawoé",
+    name: "Linx Mall — Prêt-à-Porter",
+    description: "Votre boutique de prêt-à-porter homme & femme à Lomé. Robes, costumes, blazers, chemises et accessoires — sélectionnés avec soin pour sublimer chaque togolais(e).",
+    location: "Lomé, Togo",
     rating: 4.9,
     reviews: 850,
-    sales: "2.5k+",
+    sales: "2k+",
     joined: "Janvier 2024",
     isVerified: true,
-    logo: "K",
-    cover: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1200"
+    logo: "L",
+    cover: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=1200"
   };
 
   // Filtrer les produits de cette boutique (simulation)
@@ -153,7 +153,7 @@ export default function ShopPublicPage({ params }: { params: Promise<{ id: strin
         
         .shop-profile-header { display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: -50px; position: relative; z-index: 10; padding: 0 1.5rem; }
         .shop-avatar-main { width: 100px; height: 100px; background: var(--primary); color: white; border-radius: 30px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 900; border: 6px solid var(--background); box-shadow: var(--shadow-lg); position: relative; }
-        .verified-badge { position: absolute; bottom: -5px; right: -5px; background: #2563eb; color: white; padding: 4px; border-radius: 50%; border: 3px solid var(--background); }
+        .verified-badge { position: absolute; bottom: -5px; right: -5px; background: var(--primary); color: white; padding: 4px; border-radius: 50%; border: 3px solid var(--background); }
         
         .shop-main-info { margin-top: 1.5rem; width: 100%; }
         .shop-title-row { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem; }
