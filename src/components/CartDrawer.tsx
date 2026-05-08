@@ -124,6 +124,7 @@ export default function CartDrawer() {
                 overflow: hidden;
                 border: 1px solid var(--border);
                 border-bottom: none;
+                padding-bottom: env(safe-area-inset-bottom);
               }
               
               .cart-header {
@@ -205,8 +206,8 @@ export default function CartDrawer() {
               .quantity-controls button {
                 background: var(--card-bg);
                 border: none;
-                width: 32px;
-                height: 32px;
+                width: 40px;
+                height: 40px;
                 border-radius: 10px;
                 color: var(--text-main);
                 display: flex;

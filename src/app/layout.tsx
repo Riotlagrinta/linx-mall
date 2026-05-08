@@ -75,6 +75,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <script dangerouslySetInnerHTML={{ __html: `
           (function() {
             try {
@@ -157,6 +158,8 @@ export default function RootLayout({
             .main-header {
               position: sticky;
               top: 0;
+              padding-left: env(safe-area-inset-left);
+              padding-right: env(safe-area-inset-right);
               background: var(--header-bg);
               backdrop-filter: blur(12px);
               -webkit-backdrop-filter: blur(12px);
@@ -212,8 +215,8 @@ export default function RootLayout({
             .nav-btn-icon {
               background: var(--surface);
               color: var(--text-main);
-              width: 40px;
-              height: 40px;
+              width: 44px;
+              height: 44px;
               border-radius: 12px;
               position: relative;
               display: flex;
@@ -232,7 +235,7 @@ export default function RootLayout({
               .header-search-desktop { display: block; }
               .logo-text { font-size: 1.5rem; }
               .nav-actions { gap: 1.25rem; }
-              .nav-btn-icon { width: 44px; height: 44px; }
+              .nav-btn-icon { width: 48px; height: 48px; }
             }
 
             @media (max-width: 768px) {
@@ -315,6 +318,14 @@ export default function RootLayout({
               .footer-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
+              }
+              .footer-bottom .container {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+              }
+              .main-footer {
+                padding-bottom: calc(2rem + env(safe-area-inset-bottom));
               }
             }
             .mb-1 { margin-bottom: 1rem; }

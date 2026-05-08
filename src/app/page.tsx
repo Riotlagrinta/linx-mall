@@ -357,8 +357,8 @@ export default function Home() {
           background: white;
           border: 1px solid var(--border);
           border-radius: 9999px;
-          width: 34px;
-          height: 34px;
+          width: 44px;
+          height: 44px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -410,8 +410,8 @@ export default function Home() {
         .add-to-cart {
           background: var(--primary);
           color: white;
-          width: 36px;
-          height: 36px;
+          width: 44px;
+          height: 44px;
           border-radius: 12px;
           display: flex;
           align-items: center;

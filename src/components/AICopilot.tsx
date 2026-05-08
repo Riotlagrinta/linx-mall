@@ -176,8 +176,8 @@ export default function AICopilot() {
       <style dangerouslySetInnerHTML={{ __html: `
         .ai-fab {
           position: fixed;
-          bottom: 30px;
-          right: 30px;
+          bottom: calc(20px + env(safe-area-inset-bottom));
+          right: calc(16px + env(safe-area-inset-right));
           height: 56px;
           padding: 0 1.5rem;
           border-radius: 28px;
@@ -204,10 +204,10 @@ export default function AICopilot() {
 
         .ai-panel {
           position: fixed;
-          bottom: 30px;
-          right: 30px;
-          width: 400px;
-          height: 600px;
+          bottom: calc(30px + env(safe-area-inset-bottom));
+          right: calc(16px + env(safe-area-inset-right));
+          width: min(400px, calc(100vw - 32px));
+          height: min(600px, calc(100vh - 80px));
           max-height: calc(100vh - 60px);
           background: var(--card-bg);
           border-radius: 32px;
@@ -256,9 +256,18 @@ export default function AICopilot() {
         .ai-send-btn { width: 40px; height: 40px; background: var(--surface); color: var(--text-muted); border-radius: 12px; border: none; display: flex; align-items: center; justify-content: center; cursor: not-allowed; transition: var(--transition); }
         .ai-send-btn.active { background: var(--primary); color: white; cursor: pointer; }
 
-        @media (max-width: 768px) {
-          .ai-panel { inset: 0; width: 100%; height: 100%; max-height: none; border-radius: 0; bottom: 0; right: 0; }
-          .ai-fab { bottom: 20px; right: 20px; }
+        @media (max-width: 480px) {
+          .ai-panel {
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            max-height: none;
+            border-radius: 0;
+            bottom: 0;
+            right: 0;
+            padding-bottom: env(safe-area-inset-bottom);
+          }
+          .ai-fab { bottom: calc(16px + env(safe-area-inset-bottom)); right: calc(16px + env(safe-area-inset-right)); }
         }
       ` }} />
     </>
