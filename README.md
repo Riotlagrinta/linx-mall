@@ -1,16 +1,16 @@
-# Linx Mall 🇹🇬
+# Charlee Store 🇹🇬
 
-**Linx Mall** est la plateforme e-commerce de nouvelle génération au Togo, conçue pour connecter les marchands locaux aux consommateurs avec une expérience fluide, sécurisée et rapide.
+**Charlee Store** est votre plateforme premium dédiée à l'achat d'abonnements numériques (Netflix, Apple Music, Spotify, iCloud+, etc.) au Togo, accessible à tous, même sans carte bancaire.
 
 ## 🚀 Vision
-Transformer le paysage commercial du Togo en offrant une marketplace robuste qui intègre les solutions de paiement locales (T-Money, Flooz) et garantit une logistique efficace sur tout le territoire.
+Démocratiser l'accès aux services numériques internationaux en Afrique de l'Ouest. Nous servons d'intermédiaire de confiance : vous payez via vos moyens de paiement locaux (T-Money, Flooz) et nous activons vos abonnements premium en toute sécurité.
 
 ## ✨ Fonctionnalités Clés
-- **Interface Mobile-First** : Design optimisé pour une utilisation fluide sur smartphone.
-- **Paiements Mobiles** : Intégration native de T-Money et Flooz.
-- **Sécurité Maximale** : Protection des données et transactions garanties.
-- **Logistique Intégrée** : Système de suivi de livraison en temps réel.
-- **Espace Vendeur** : Tableau de bord complet pour la gestion des stocks et des ventes.
+- **Catalogue Premium** : Accès direct aux abonnements streaming, cloud et applications.
+- **Paiements Locaux** : Réglez vos achats par Mobile Money sans avoir besoin d'une carte Visa/Mastercard.
+- **Service Rapide** : Envoi des identifiants ou activation directe sur votre compte à la demande.
+- **Interface Dark Mode** : Design premium et fluide optimisé pour le mobile.
+- **Support Dédié** : Assistance locale pour tous vos services.
 
 ## 🛠️ Stack Technologique
 - **Frontend** : Next.js 15 (App Router)
@@ -19,8 +19,7 @@ Transformer le paysage commercial du Togo en offrant une marketplace robuste qui
 - **Icônes** : Lucide React
 
 ## 📈 Prochaines Étapes
-- Finalisation du tableau de bord vendeur.
-- Intégration de l'API de paiement mobile.
+- Intégration de l'API de paiement mobile (GeniusPay / T-Money / Flooz).
 - Lancement de la version PWA (Progressive Web App).
 
 ---

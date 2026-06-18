@@ -34,14 +34,17 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
-              <label>Email</label>
+              <label htmlFor="login-email">Email</label>
               <div className="input-wrapper">
                 <Mail size={18} className="input-icon" />
                 <input 
+                  id="login-email"
+                  name="email"
                   type="email" 
                   placeholder="votre@email.com" 
                   required 
                   value={formData.email}
+                  autoComplete="email"
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                 />
               </div>
@@ -49,16 +52,19 @@ export default function LoginPage() {
 
             <div className="form-group">
               <div className="label-row">
-                <label>Mot de passe</label>
+                <label htmlFor="login-password">Mot de passe</label>
                 <Link href="#" className="forgot-link">Oublié ?</Link>
               </div>
               <div className="input-wrapper">
                 <Lock size={18} className="input-icon" />
                 <input 
+                  id="login-password"
+                  name="password"
                   type={showPassword ? "text" : "password"} 
                   placeholder="••••••••" 
                   required 
                   value={formData.password}
+                  autoComplete="current-password"
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                 />
                 <button 

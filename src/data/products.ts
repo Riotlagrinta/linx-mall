@@ -1,191 +1,93 @@
-import { Product } from "@/types/product";
+import { Product } from '../types/product';
+
+export const categories = [
+  { id: 'all', name: 'Tout', icon: '🌟' },
+  { id: 'video', name: 'Streaming Vidéo', icon: '🎬' },
+  { id: 'audio', name: 'Streaming Audio', icon: '🎧' },
+  { id: 'cloud', name: 'Cloud & Services', icon: '☁️' }
+];
 
 export const products: Product[] = [
-  // ── FEMME ──
   {
     id: 1,
-    name: "Robe Midi Fleurie",
-    price: 22500,
+    name: 'Netflix Premium (1 Mois)',
+    description: 'Profitez de Netflix en Ultra HD 4K sur 4 écrans en simultané. Accès illimité aux films, séries et documentaires.',
+    price: 6500,
+    category: 'Streaming Vidéo',
+    image: '/images/netflix.jpg',
+    stock: 100,
+    specs: ['4 Écrans', 'Ultra HD 4K', 'Livraison instantanée'],
     rating: 4.9,
-    reviews: 87,
-    category: "Robes",
-    description: "Une robe midi élégante aux imprimés floraux raffinés, taillée dans un tissu léger et fluide. Parfaite pour vos sorties du jour comme du soir, elle épouse la silhouette avec grâce.",
-    image: "https://images.unsplash.com/photo-1572804013307-a9a11198427e?q=80&w=1000&auto=format&fit=crop",
-    badge: "Tendance",
-    specs: ["100% Coton", "Coupe midi", "Tailles XS à XL", "Lavable en machine"],
-    stock: 18,
-    shop: { id: 1, name: "Linx Mall" }
+    reviews: 120,
+    shop: { id: 1, name: 'Charlee Store' }
   },
   {
     id: 2,
-    name: "Blazer Femme Camel",
-    price: 38000,
+    name: 'Apple Music (1 Mois)',
+    description: 'Plus de 100 millions de morceaux en qualité Lossless. Écoutez sans publicité, en ligne ou hors ligne.',
+    price: 3500,
+    category: 'Streaming Audio',
+    image: '/images/applemusic.jpg',
+    stock: 100,
+    specs: ['Sans publicité', 'Lossless Audio', 'Livraison instantanée'],
     rating: 4.8,
-    reviews: 54,
-    category: "Vestes Femme",
-    description: "Un blazer intemporel à coupe ajustée qui sublime toutes les silhouettes. Confectionné dans un tissu premium avec une doublure soignée, il se porte au bureau comme en soirée.",
-    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1000&auto=format&fit=crop",
-    badge: "Nouveauté",
-    specs: ["Polyester premium", "Coupe ajustée", "Tailles S à L", "Doublure intérieure"],
-    stock: 12,
-    shop: { id: 1, name: "Linx Mall" }
+    reviews: 85,
+    shop: { id: 1, name: 'Charlee Store' }
   },
   {
     id: 3,
-    name: "Robe Wax Africaine",
-    price: 19500,
-    rating: 5.0,
-    reviews: 143,
-    category: "Robes",
-    description: "Une création unique mêlant tradition africaine et modernité. Tissu wax authentique confectionné en robe portefeuille mi-longue. Chaque pièce est unique, fabriquée par nos artisanes locales.",
-    image: "https://images.unsplash.com/photo-1594938298603-c8148c4b4aef?q=80&w=1000&auto=format&fit=crop",
-    badge: "Artisanat Local",
-    specs: ["Tissu Wax authentique", "Coupe portefeuille", "Tailles S à XXL", "Pièce unique"],
-    stock: 7,
-    shop: { id: 1, name: "Linx Mall" }
+    name: 'Spotify Premium (1 Mois)',
+    description: 'Musique sans pub, écoute hors connexion et zapping illimité. Qualité sonore exceptionnelle.',
+    price: 3000,
+    category: 'Streaming Audio',
+    image: '/images/spotify.jpg',
+    stock: 100,
+    specs: ['Mode hors connexion', 'Qualité max', 'Livraison instantanée'],
+    rating: 4.7,
+    reviews: 204,
+    shop: { id: 1, name: 'Charlee Store' }
   },
   {
     id: 4,
-    name: "Top Soie Ivoire",
-    price: 18000,
-    rating: 4.7,
-    reviews: 41,
-    category: "Hauts Femme",
-    description: "Un top en soie naturelle d'une douceur exceptionnelle. Sa coupe fluide et ses détails délicats lui confèrent une élégance sans effort. Idéal pour des looks chics et confortables.",
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop",
-    badge: "Premium",
-    specs: ["100% Soie naturelle", "Col V élégant", "Tailles XS à L", "Nettoyage délicat"],
-    stock: 9,
-    shop: { id: 1, name: "Linx Mall" }
+    name: 'iCloud+ 50 Go (1 Mois)',
+    description: 'Augmentez le stockage de votre iPhone. Inclut le relais privé iCloud, masquer mon e-mail et la vidéo sécurisée HomeKit.',
+    price: 1500,
+    category: 'Cloud & Services',
+    image: '/images/icloud.jpg',
+    stock: 100,
+    specs: ['50 Go', 'Relais privé iCloud', 'Livraison instantanée'],
+    rating: 4.6,
+    reviews: 50,
+    shop: { id: 1, name: 'Charlee Store' }
   },
   {
     id: 5,
-    name: "Jupe Portefeuille Bordeaux",
-    price: 16500,
-    rating: 4.6,
-    reviews: 62,
-    category: "Bas Femme",
-    description: "Une jupe portefeuille à la coupe flatteuse qui s'adapte à toutes les morphologies. La couleur bordeaux intense lui confère une élégance naturelle.",
-    image: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=1000&auto=format&fit=crop",
-    badge: "Bestseller",
-    specs: ["Viscose satinée", "Ceinture ajustable", "Tailles XS à XL", "Longueur mi-genou"],
-    stock: 24,
-    shop: { id: 1, name: "Linx Mall" }
+    name: 'Snapchat+ (1 Mois)',
+    description: 'Accédez à des fonctionnalités exclusives, expérimentales et en avant-première sur Snapchat.',
+    price: 3000,
+    category: 'Cloud & Services',
+    image: '/images/snapchat.jpg',
+    stock: 100,
+    specs: ['Fonctions VIP', 'Badge exclusif', 'Livraison instantanée'],
+    rating: 4.5,
+    reviews: 42,
+    shop: { id: 1, name: 'Charlee Store' }
   },
   {
     id: 6,
-    name: "Sac à Main Cuir Bordeaux",
-    price: 35000,
-    rating: 4.7,
-    reviews: 91,
-    category: "Accessoires",
-    description: "Un sac à main en cuir véritable couleur bordeaux intense. Structure rigide, finitions soignées : l'accessoire qui complète tous vos looks avec raffinement.",
-    image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop",
-    badge: "Cuir Véritable",
-    specs: ["Cuir véritable", "Bandoulière amovible", "Couleur bordeaux", "Fermeture magnétique"],
-    stock: 11,
-    shop: { id: 1, name: "Linx Mall" }
-  },
-  // ── HOMME ──
-  {
-    id: 7,
-    name: "Chemise Wax Homme",
-    price: 17500,
+    name: 'Amazon Prime Video (1 Mois)',
+    description: 'Regardez des films et séries exclusifs Amazon Originals, ainsi que des films et séries populaires.',
+    price: 4500,
+    category: 'Streaming Vidéo',
+    image: '/images/primevideo.jpg',
+    stock: 100,
+    specs: ['Catalogue complet', 'Films exclusifs', 'Livraison instantanée'],
     rating: 4.8,
-    reviews: 76,
-    category: "Chemises Homme",
-    description: "Une chemise wax à manches longues pour l'homme moderne qui assume son héritage africain. Coupe droite élégante, col classique, confectionnée par nos artisans togolais.",
-    image: "https://images.unsplash.com/photo-1594938298603-c8148c4b4aef?q=80&w=1000&auto=format&fit=crop",
-    badge: "Artisanat Local",
-    specs: ["Tissu Wax authentique", "Coupe droite", "Tailles S à XXL", "Pièce artisanale"],
-    stock: 20,
-    shop: { id: 1, name: "Linx Mall" }
-  },
-  {
-    id: 8,
-    name: "Costume Homme Bordeaux",
-    price: 75000,
-    rating: 4.9,
-    reviews: 33,
-    category: "Costumes Homme",
-    description: "Un costume deux pièces d'une élégance redoutable pour les grandes occasions. Veste structurée et pantalon droit taille haute, tissu premium avec doublure intérieure.",
-    image: "https://images.unsplash.com/photo-1594938298603-c8148c4b4aef?q=80&w=1000&auto=format&fit=crop",
-    badge: "Exclusivité",
-    specs: ["Tissu laine mélangée", "Veste + Pantalon", "Tailles XS à L", "Doublure intérieure"],
-    stock: 4,
-    shop: { id: 1, name: "Linx Mall" }
-  },
-  {
-    id: 9,
-    name: "Polo Premium Homme",
-    price: 14000,
-    rating: 4.6,
-    reviews: 58,
-    category: "Hauts Homme",
-    description: "Un polo classique en coton piqué de haute qualité. Sa coupe ajustée et ses finitions soignées en font une pièce incontournable du vestiaire masculin décontracté-chic.",
-    image: "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?q=80&w=1000&auto=format&fit=crop",
-    badge: "Essentiel",
-    specs: ["100% Coton piqué", "Coupe ajustée", "Tailles S à XXL", "Lavable en machine"],
-    stock: 30,
-    shop: { id: 1, name: "Linx Mall" }
-  },
-  {
-    id: 10,
-    name: "Pantalon Chino Beige",
-    price: 21000,
-    rating: 4.7,
-    reviews: 67,
-    category: "Bas Homme",
-    description: "Un pantalon chino classique en coton stretch, confortable et élégant. Sa coupe droite légèrement ajustée s'adapte aussi bien au bureau qu'aux sorties du week-end.",
-    image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=1000&auto=format&fit=crop",
-    badge: "Confort & Style",
-    specs: ["Coton stretch", "Coupe droite", "Tailles 38 à 52", "Entretien facile"],
-    stock: 22,
-    shop: { id: 1, name: "Linx Mall" }
-  },
-  {
-    id: 11,
-    name: "Veste en Jean Homme",
-    price: 32000,
-    rating: 4.5,
-    reviews: 44,
-    category: "Vestes Homme",
-    description: "Une veste en jean robuste et tendance, parfaite pour les looks casual. Son denim de qualité s'assouplit avec le temps pour un confort optimal au quotidien.",
-    image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=1000&auto=format&fit=crop",
-    badge: "Tendance",
-    specs: ["100% Denim", "Coupe regular", "Tailles S à XXL", "Délavage naturel"],
-    stock: 15,
-    shop: { id: 1, name: "Linx Mall" }
-  },
-  {
-    id: 12,
-    name: "Ceinture Cuir Noir",
-    price: 9500,
-    rating: 4.4,
-    reviews: 89,
-    category: "Accessoires",
-    description: "Une ceinture en cuir véritable, unisexe, idéale pour structurer n'importe quelle tenue. Boucle dorée élégante, disponible en plusieurs tailles.",
-    image: "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?q=80&w=1000&auto=format&fit=crop",
-    badge: "Unisexe",
-    specs: ["Cuir véritable", "Largeur 3.5cm", "Boucle dorée", "Tailles 80 à 115cm"],
-    stock: 40,
-    shop: { id: 1, name: "Linx Mall" }
+    reviews: 110,
+    shop: { id: 1, name: 'Charlee Store' }
   }
 ];
 
-export const categories = [
-  { id: 1, name: "Tout", icon: "👕" },
-  // Femme
-  { id: 2, name: "Robes", icon: "👗", count: "120+ pièces", genre: "femme" },
-  { id: 3, name: "Hauts Femme", icon: "👚", count: "85+ pièces", genre: "femme" },
-  { id: 4, name: "Bas Femme", icon: "👗", count: "70+ pièces", genre: "femme" },
-  { id: 5, name: "Vestes Femme", icon: "🧥", count: "45+ pièces", genre: "femme" },
-  // Homme
-  { id: 6, name: "Chemises Homme", icon: "👔", count: "60+ pièces", genre: "homme" },
-  { id: 7, name: "Hauts Homme", icon: "👕", count: "90+ pièces", genre: "homme" },
-  { id: 8, name: "Bas Homme", icon: "👖", count: "75+ pièces", genre: "homme" },
-  { id: 9, name: "Vestes Homme", icon: "🧥", count: "40+ pièces", genre: "homme" },
-  { id: 10, name: "Costumes Homme", icon: "🤵", count: "30+ pièces", genre: "homme" },
-  // Mixte
-  { id: 11, name: "Accessoires", icon: "👜", count: "60+ pièces", genre: "mixte" },
-];
+export const getFeaturedProducts = () => products.slice(0, 4);
+export const getProductsByCategory = (category: string) => products.filter(p => p.category === category);
+export const getProductById = (id: number) => products.find(p => p.id === id);

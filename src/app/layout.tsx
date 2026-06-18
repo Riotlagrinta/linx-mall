@@ -34,15 +34,15 @@ function Header() {
           <Link href="/" className="logo-container">
             <Image 
               src="/images/logo.png.jpeg" 
-              alt="Linx Mall Logo" 
+              alt="Charlee Store Logo" 
               width={isScrolled ? 32 : 40} 
               height={isScrolled ? 32 : 40} 
               className="logo-img"
               priority
             />
             <div className="logo-text">
-              <span className="logo-linx">Linx</span>
-              <span className="logo-mall">Mall</span>
+              <span className="logo-linx">Charlee</span>
+              <span className="logo-mall">Store</span>
             </div>
           </Link>
         </div>
@@ -102,18 +102,18 @@ export default function RootLayout({
                 <div className="logo-container mb-1">
                   <Image 
                     src="/images/logo.png.jpeg" 
-                    alt="Linx Mall Logo" 
+                    alt="Charlee Store Logo" 
                     width={32} 
                     height={32} 
                     className="logo-img"
                   />
                   <div className="logo-text">
-                    <span className="logo-linx">Linx</span>
-                    <span className="logo-mall">Mall</span>
+                    <span className="logo-linx">Charlee</span>
+                    <span className="logo-mall">Store</span>
                   </div>
                 </div>
                 <p className="footer-desc">
-                  Votre boutique de prêt-à-porter homme &amp; femme à Lomé. Mode, élégance et style togolais pour toute la famille.
+                  Votre plateforme d'abonnements numériques premium. Accédez à Netflix, Apple Music, Spotify et bien d'autres services sans carte bancaire, directement depuis le Togo.
                 </p>
               </div>
               <div className="footer-col">
@@ -137,14 +137,14 @@ export default function RootLayout({
               <div className="footer-col">
                 <h4>Contact</h4>
                 <p>Lomé, Togo</p>
-                <p>Email: contact@linxmall.tg</p>
+                <p>Email: contact@charleestore.tg</p>
                 <p>Tél: +228 90 00 00 00</p>
                 <p style={{marginTop: '0.75rem', fontSize: '0.85rem', color: 'var(--text-muted)'}}>Lun–Sam : 8h–19h</p>
               </div>
             </div>
             <div className="footer-bottom">
               <div className="container">
-                <p>&copy; 2026 Linx Mall. Tous droits réservés.</p>
+                <p>&copy; 2026 Charlee Store. Tous droits réservés.</p>
                 <div className="payment-methods">
                   <span className="badge">T-Money</span>
                   <span className="badge">Flooz</span>

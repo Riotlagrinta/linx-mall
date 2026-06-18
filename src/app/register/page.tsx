@@ -34,52 +34,64 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
-              <label>Nom complet</label>
+              <label htmlFor="register-full-name">Nom complet</label>
               <div className="input-wrapper">
                 <User size={18} className="input-icon" />
                 <input 
+                  id="register-full-name"
+                  name="fullName"
                   type="text" 
                   placeholder="Ex: Koffi Amélédji" 
                   required 
+                  autoComplete="name"
                   onChange={(e) => setFormData({...formData, fullName: e.target.value})}
                 />
               </div>
             </div>
 
             <div className="form-group">
-              <label>Email</label>
+              <label htmlFor="register-email">Email</label>
               <div className="input-wrapper">
                 <Mail size={18} className="input-icon" />
                 <input 
+                  id="register-email"
+                  name="email"
                   type="email" 
                   placeholder="votre@email.com" 
                   required 
+                  autoComplete="email"
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                 />
               </div>
             </div>
 
             <div className="form-group">
-              <label>Téléphone</label>
+              <label htmlFor="register-phone">Téléphone</label>
               <div className="input-wrapper">
                 <Phone size={18} className="input-icon" />
                 <input 
+                  id="register-phone"
+                  name="phone"
                   type="tel" 
                   placeholder="90 00 00 00" 
                   required 
+                  autoComplete="tel"
                   onChange={(e) => setFormData({...formData, phone: e.target.value})}
                 />
               </div>
             </div>
 
             <div className="form-group">
-              <label>Mot de passe</label>
+              <label htmlFor="register-password">Mot de passe</label>
               <div className="input-wrapper">
                 <Lock size={18} className="input-icon" />
                 <input 
+                  id="register-password"
+                  name="password"
                   type={showPassword ? "text" : "password"} 
                   placeholder="••••••••" 
                   required 
+                  autoComplete="new-password"
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                 />
                 <button 
@@ -93,7 +105,7 @@ export default function RegisterPage() {
             </div>
 
             <p className="terms-text">
-              En vous inscrivant, vous acceptez nos <Link href="/engagements">Conditions d'utilisation</Link>.
+              En vous inscrivant, vous acceptez nos <Link href="/engagements">Conditions d&apos;utilisation</Link>.
             </p>
 
             <button type="submit" className="btn btn-primary btn-submit">

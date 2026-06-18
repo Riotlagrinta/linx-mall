@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Star, ShoppingCart, Sparkles, ShieldCheck, Truck, Heart, Package } from "lucide-react";
+import { ArrowRight, Star, ShoppingCart, Sparkles, ShieldCheck, Zap, Heart, Key } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { products, categories } from "@/data/products";
@@ -35,15 +35,15 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="hero-text"
           >
-            <span className="badge badge-featured mb-1">✨ Nouvelle Collection Disponible</span>
-            <h1>La mode pour elle <span style={{color:'var(--secondary)'}}>{'&'}</span> pour lui.</h1>
-            <p>Découvrez notre sélection de prêt-à-porter homme et femme soigneusement choisie. Élégance, confort et style togolais, livrés partout au Togo.</p>
+            <span className="badge badge-featured mb-1">🚀 Plateforme Digitale Premium</span>
+            <h1>Vos abonnements préférés, <span style={{color:'var(--secondary)'}}>sans carte bancaire</span>.</h1>
+            <p>Netflix, Apple Music, Spotify, iCloud+ et bien plus encore. Payez par T-Money ou Flooz et recevez vos accès instantanément.</p>
             <div className="hero-actions">
               <button className="btn btn-primary" onClick={scrollToProducts}>
-                Découvrir la collection <ArrowRight size={20} />
+                Découvrir nos offres <ArrowRight size={20} />
               </button>
-              <Link href="/search" className="btn btn-outline">
-                Toutes les pièces
+              <Link href="/about" className="btn btn-outline">
+                Comment ça marche ?
               </Link>
             </div>
           </motion.div>
@@ -53,14 +53,14 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="hero-image"
           >
-            <div className="hero-blob">
-              <div className="floating-card card-1">
-                <Package size={20} color="var(--secondary)" />
-                <span>Livraison Express</span>
+            <div className="hero-blob digital-blob">
+              <div className="floating-card card-1 digital-card">
+                <Zap size={20} color="var(--secondary)" />
+                <span>Livraison Instantanée</span>
               </div>
-              <div className="floating-card card-2">
+              <div className="floating-card card-2 digital-card">
                 <ShieldCheck size={20} color="#10b981" />
-                <span>Retour Gratuit</span>
+                <span>Garantie 100%</span>
               </div>
             </div>
           </motion.div>
@@ -69,26 +69,26 @@ export default function Home() {
 
       {/* Features */}
       <section className="features-section container">
-        <div className="features-grid">
+        <div className="features-grid digital-features">
           <div className="feature-item">
-            <div className="feature-icon"><Truck /></div>
+            <div className="feature-icon"><Zap /></div>
             <div>
-              <h3>Livraison Partout</h3>
-              <p>À Lomé et dans toutes les régions du Togo.</p>
+              <h3>Accès Rapide</h3>
+              <p>Recevez vos identifiants ou l'activation sur votre compte rapidement.</p>
             </div>
           </div>
           <div className="feature-item">
             <div className="feature-icon"><ShieldCheck /></div>
             <div>
-              <h3>Paiement Sécurisé</h3>
-              <p>T-Money, Flooz ou Cash à la livraison.</p>
+              <h3>Paiement Local</h3>
+              <p>T-Money & Flooz intégrés pour faciliter vos achats au Togo.</p>
             </div>
           </div>
           <div className="feature-item">
-            <div className="feature-icon"><Sparkles /></div>
+            <div className="feature-icon"><Key /></div>
             <div>
-              <h3>Qualité Garantie</h3>
-              <p>Chaque pièce est inspectée avant expédition.</p>
+              <h3>Sécurité Garantie</h3>
+              <p>Comptes officiels, renouvellements sécurisés, sans coupure.</p>
             </div>
           </div>
         </div>
@@ -97,33 +97,16 @@ export default function Home() {
       {/* Categories Grid */}
       <section className="categories container">
         <div className="section-header">
-          <h2>Parcourir par catégories</h2>
-          <Link href="/search" className="view-all">Voir tout <ArrowRight size={16} /></Link>
+          <h2>Parcourir par univers</h2>
+          <Link href="/search" className="view-all">Tout voir <ArrowRight size={16} /></Link>
         </div>
-        <div className="genre-tabs">
-          <button className="genre-tab active" data-genre="all" onClick={(e) => {
-            document.querySelectorAll('.genre-tab').forEach(t => t.classList.remove('active'));
-            (e.currentTarget as HTMLButtonElement).classList.add('active');
-            document.querySelectorAll<HTMLElement>('.cat-group').forEach(g => g.style.display = 'block');
-          }}>Tout</button>
-          <button className="genre-tab" data-genre="femme" onClick={(e) => {
-            document.querySelectorAll('.genre-tab').forEach(t => t.classList.remove('active'));
-            (e.currentTarget as HTMLButtonElement).classList.add('active');
-            document.querySelectorAll<HTMLElement>('.cat-group').forEach(g => { g.style.display = g.dataset.genre === 'femme' || g.dataset.genre === 'mixte' ? 'block' : 'none'; });
-          }}>👩 Femme</button>
-          <button className="genre-tab" data-genre="homme" onClick={(e) => {
-            document.querySelectorAll('.genre-tab').forEach(t => t.classList.remove('active'));
-            (e.currentTarget as HTMLButtonElement).classList.add('active');
-            document.querySelectorAll<HTMLElement>('.cat-group').forEach(g => { g.style.display = g.dataset.genre === 'homme' || g.dataset.genre === 'mixte' ? 'block' : 'none'; });
-          }}>👨 Homme</button>
-        </div>
+        
         <div className="category-grid">
           {categories.filter(c => c.name !== "Tout").map((cat) => (
             <motion.div
               key={cat.id}
               whileHover={{ y: -5, borderColor: 'var(--primary)' }}
               className={`category-card cat-group`}
-              data-genre={'genre' in cat ? (cat as {genre: string}).genre : 'mixte'}
               onClick={() => {
                 setActiveCategory(cat.name);
                 scrollToProducts();
@@ -131,7 +114,6 @@ export default function Home() {
             >
               <span className="cat-icon">{cat.icon}</span>
               <h3>{cat.name}</h3>
-              <p>{'count' in cat ? (cat as {count: string}).count : ''}</p>
             </motion.div>
           ))}
         </div>
@@ -140,7 +122,7 @@ export default function Home() {
       {/* Featured Products */}
       <section className="featured-products container" id="products">
         <div className="section-header">
-          <h2>{activeCategory === "Tout" ? "Nos coups de cœur du moment" : activeCategory}</h2>
+          <h2>{activeCategory === "Tout" ? "Services les plus populaires" : activeCategory}</h2>
           <div className="filter-chips">
             {categories.map((cat) => (
               <span
@@ -188,7 +170,7 @@ export default function Home() {
                   <h3>{product.name}</h3>
                 </Link>
                 <div className="product-footer">
-                  <span className="price">{(product.price).toLocaleString('fr-FR')} <small>FCFA</small></span>
+                  <span className="price">{(product.price).toLocaleString('fr-FR')} <small>FCFA / mois</small></span>
                   <button className="add-to-cart" onClick={() => addToCart({ id: product.id, name: product.name, price: product.price, image: product.image })}>
                     <ShoppingCart size={18} />
                   </button>
@@ -200,17 +182,17 @@ export default function Home() {
       </section>
 
       {/* Style Guide CTA */}
-      <section className="style-cta container">
+      <section className="style-cta container digital-cta">
         <div className="cta-content">
-          <span className="cta-eyebrow">✨ Notre promesse</span>
-          <h2>Le style, c'est une façon d'être.</h2>
-          <p>Chaque pièce de notre collection est sélectionnée avec soin pour elle et pour lui. De la robe de soirée au costume, en passant par le look casual, nous habillons toutes les personnes du Togo.</p>
+          <span className="cta-eyebrow">✨ Ne ratez plus vos séries</span>
+          <h2>Abonnez-vous simplement.</h2>
+          <p>Nous facilitons l'accès au digital pour tous. Que vous souhaitiez renouveler votre abonnement Netflix ou augmenter votre espace iCloud, Charlee Store est votre partenaire de confiance.</p>
           <div className="cta-actions">
             <button className="btn btn-primary" onClick={scrollToProducts}>
-              Explorer la collection
+              Voir le catalogue
             </button>
             <Link href="/contact" className="btn btn-outline">
-              Nous contacter
+              Demande spécifique
             </Link>
           </div>
         </div>
@@ -236,7 +218,8 @@ export default function Home() {
           margin-bottom: 1.5rem;
           font-weight: 800;
           color: var(--text-main);
-          font-family: 'Cormorant Garamond', serif;
+          font-family: 'Inter', sans-serif;
+          letter-spacing: -1px;
         }
         .hero-text p {
           font-size: 1.05rem;
@@ -250,6 +233,16 @@ export default function Home() {
           gap: 1rem;
         }
         .hero-image { display: none; }
+        
+        .digital-blob {
+            background: radial-gradient(circle, rgba(139,34,82,0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+        }
+        .digital-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
         .features-section {
           margin-top: -2rem;
@@ -293,8 +286,9 @@ export default function Home() {
         }
         .section-header h2 {
           font-size: 1.6rem;
-          font-family: 'Cormorant Garamond', serif;
-          font-weight: 700;
+          font-family: 'Inter', sans-serif;
+          font-weight: 800;
+          letter-spacing: -0.5px;
         }
         .view-all {
           display: inline-flex;
@@ -307,7 +301,12 @@ export default function Home() {
         }
         .view-all:hover { gap: 0.8rem; }
 
-        .category-grid, .product-grid {
+        .category-grid {
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+          gap: 1rem;
+        }
+        .product-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 1rem;
@@ -319,10 +318,13 @@ export default function Home() {
           border-radius: var(--radius);
           cursor: pointer;
           transition: var(--transition);
+          display: flex;
+          align-items: center;
+          gap: 1rem;
         }
-        .category-card:hover { border-color: var(--primary); }
-        .cat-icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
-        .category-card h3 { font-weight: 700; margin-bottom: 0.25rem; color: var(--text-main); }
+        .category-card:hover { border-color: var(--primary); background: rgba(139, 34, 82, 0.05); }
+        .cat-icon { font-size: 2rem; display: block; }
+        .category-card h3 { font-weight: 700; color: var(--text-main); margin: 0; }
         .category-card p { color: var(--text-muted); font-size: 0.8rem; }
 
         .product-card {
@@ -334,7 +336,7 @@ export default function Home() {
         }
         .product-link { display: block; }
         .product-image {
-          height: 200px;
+          height: 150px;
           background-size: cover;
           background-position: center;
           position: relative;
@@ -354,11 +356,11 @@ export default function Home() {
           position: absolute;
           top: 0.75rem;
           right: 0.75rem;
-          background: white;
+          background: var(--surface);
           border: 1px solid var(--border);
           border-radius: 9999px;
-          width: 44px;
-          height: 44px;
+          width: 36px;
+          height: 36px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -366,7 +368,7 @@ export default function Home() {
           transition: var(--transition);
           color: var(--primary);
         }
-        .wishlist-card-btn:hover { background: var(--surface); }
+        .wishlist-card-btn:hover { background: var(--card-bg); }
 
         .product-info { padding: 1rem; }
         .product-rating {
@@ -410,8 +412,8 @@ export default function Home() {
         .add-to-cart {
           background: var(--primary);
           color: white;
-          width: 44px;
-          height: 44px;
+          width: 40px;
+          height: 40px;
           border-radius: 12px;
           display: flex;
           align-items: center;
@@ -427,9 +429,10 @@ export default function Home() {
           margin-top: 5rem;
           padding: 4rem 2rem;
           border-radius: 24px;
-          background: linear-gradient(135deg, var(--primary) 0%, #6e1a41 100%);
+          background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
           text-align: center;
           color: white;
+          border: 1px solid rgba(255,255,255,0.1);
         }
         .cta-eyebrow {
           font-size: 0.85rem;
@@ -439,13 +442,15 @@ export default function Home() {
           display: block;
           letter-spacing: 1px;
           text-transform: uppercase;
+          color: #a5b4fc;
         }
         .style-cta h2 {
           font-size: 2.2rem;
-          font-family: 'Cormorant Garamond', serif;
-          font-weight: 700;
+          font-family: 'Inter', sans-serif;
+          font-weight: 800;
           margin-bottom: 1rem;
           color: white;
+          letter-spacing: -1px;
         }
         .style-cta p {
           opacity: 0.85;
@@ -453,6 +458,7 @@ export default function Home() {
           max-width: 600px;
           margin-left: auto;
           margin-right: auto;
+          color: #e0e7ff;
         }
         .cta-actions {
           display: flex;
@@ -462,7 +468,7 @@ export default function Home() {
         }
         .style-cta .btn-primary {
           background: white;
-          color: var(--primary);
+          color: #312e81;
         }
         .style-cta .btn-primary:hover {
           background: var(--surface);
@@ -477,25 +483,6 @@ export default function Home() {
           background: rgba(255,255,255,0.1);
           color: white;
         }
-
-        .genre-tabs {
-          display: flex;
-          gap: 0.6rem;
-          margin-bottom: 1.5rem;
-        }
-        .genre-tab {
-          padding: 0.5rem 1.25rem;
-          border-radius: 9999px;
-          border: 1.5px solid var(--border);
-          font-size: 0.85rem;
-          font-weight: 700;
-          color: var(--text-muted);
-          cursor: pointer;
-          background: var(--card-bg);
-          transition: var(--transition);
-        }
-        .genre-tab:hover { border-color: var(--primary); color: var(--primary); }
-        .genre-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
 
         .filter-chips {
           display: flex;
@@ -540,10 +527,10 @@ export default function Home() {
           .hero-actions { justify-content: flex-start; }
           .hero-image { display: flex; }
           .product-grid { grid-template-columns: repeat(4, 1fr); }
-          .category-grid { grid-template-columns: repeat(5, 1fr); }
+          .category-grid { grid-template-columns: repeat(3, 1fr); }
           .features-grid { flex-direction: row; justify-content: space-between; padding: 2.5rem; }
           .feature-item { flex: 1; }
-          .product-image { height: 240px; }
+          .product-image { height: 180px; }
           .product-info h3 { font-size: 1rem; height: auto; }
           .hero-text h1 { font-size: 3.8rem; }
         }

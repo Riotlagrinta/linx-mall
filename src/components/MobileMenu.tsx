@@ -48,8 +48,8 @@ export default function MobileMenu() {
           >
             <div className="menu-header">
               <div className="logo-container">
-                <Image src="/images/logo.png.jpeg" alt="Linx Mall" width={32} height={32} className="logo-img" />
-                <span className="logo-name">Linx Mall</span>
+                <Image src="/images/logo.png.jpeg" alt="Charlee Store" width={32} height={32} className="logo-img" />
+                <span className="logo-name">Charlee Store</span>
               </div>
               <button onClick={() => setIsMenuOpen(false)} className="menu-close">
                 <X size={24} />
