@@ -29,6 +29,7 @@ export default function WishlistPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="product-card"
+                data-service={product.name.toLowerCase()}
               >
                 <div className="product-image" style={{ backgroundImage: `url(${product.image})` }}>
                   <button 

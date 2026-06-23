@@ -86,6 +86,7 @@ function SearchResults() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="product-card"
+                  data-service={product.name.toLowerCase()}
                 >
                   <Link href={`/products/${product.id}`} className="product-link">
                     <div className="product-image" style={{ backgroundImage: `url(${product.image})` }}>
