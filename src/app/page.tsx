@@ -36,7 +36,7 @@ export default function Home() {
             className="hero-text"
           >
             <span className="badge badge-featured mb-1">🚀 Plateforme Digitale Premium</span>
-            <h1>Vos abonnements préférés, <span style={{color:'var(--secondary)'}}>sans carte bancaire</span>.</h1>
+            <h1>Vos abonnements préférés, <span className="gradient-text">sans carte bancaire</span>.</h1>
             <p>Netflix, Apple Music, Spotify, iCloud+ et bien plus encore. Payez par T-Money ou Flooz et recevez vos accès instantanément.</p>
             <div className="hero-actions">
               <button className="btn btn-primary" onClick={scrollToProducts}>

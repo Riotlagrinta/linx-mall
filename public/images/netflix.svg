@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#141414"/>
+  <defs>
+    <linearGradient id="ng" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#831010"/>
+      <stop offset="100%" stop-color="#E50914"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="800" height="600" fill="url(#ng)" opacity="0.3"/>
+  <text x="400" y="280" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#E50914" text-anchor="middle">NETFLIX</text>
+  <text x="400" y="340" font-family="Arial, sans-serif" font-size="24" fill="#ffffff" text-anchor="middle" opacity="0.8">Premium 4K</text>
+  <rect x="300" y="380" width="200" height="4" rx="2" fill="#E50914" opacity="0.6"/>
+</svg>
