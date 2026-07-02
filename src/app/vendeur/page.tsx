@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Store, TrendingUp, ShieldCheck, Zap, ArrowRight, BarChart3, Package, Users, Check, Sparkles } from 'lucide-react';
+import { Store, ShieldCheck, Zap, ArrowRight, Users, Check, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import AICopilot from '@/components/AICopilot';
 
@@ -25,7 +25,7 @@ export default function VendeurPage() {
     {
       icon: <ShieldCheck size={32} />,
       title: "Confiance client",
-      description: "Bénéficiez de la notoriété de Linx Mall pour rassurer vos acheteurs et fidéliser votre clientèle."
+      description: "Bénéficiez de la notoriété de Charlee Store pour rassurer vos acheteurs et fidéliser votre clientèle."
     }
   ];
 
@@ -73,10 +73,10 @@ export default function VendeurPage() {
             className="hero-text"
           >
             <div className="badge-promo animate-fade">
-              <Sparkles size={14} /> Espace Partenaire Mode
+              <Sparkles size={14} /> Espace Partenaire
             </div>
-            <h1>Gérez votre boutique avec <span className="highlight">Linx Mall</span></h1>
-            <p>Accédez à votre tableau de bord, gérez vos collections, suivez vos commandes et développez votre activité depuis une seule interface.</p>
+            <h1>Gérez votre boutique avec <span className="highlight">Charlee Store</span></h1>
+            <p>Accédez à votre tableau de bord, gérez vos services, suivez vos commandes et développez votre activité depuis une seule interface.</p>
             <div className="hero-actions">
               <Link href="/vendeur/inscription" className="btn btn-primary btn-lg">
                 Ouvrir ma boutique <ArrowRight size={20} />
@@ -110,7 +110,7 @@ export default function VendeurPage() {
         <div className="container">
           <div className="section-header text-center mb-16">
             <h2 className="text-4xl font-extrabold mb-4">Votre boutique, nos outils</h2>
-            <p className="text-muted max-w-2xl mx-auto text-lg">Tout ce qu'il faut pour gérer une boutique de prêt-à-porter moderne et performante au Togo.</p>
+            <p className="text-muted max-w-2xl mx-auto text-lg">Tout ce qu&apos;il faut pour gérer une boutique numérique moderne et performante au Togo.</p>
           </div>
           <div className="benefits-grid">
             {benefits.map((benefit, index) => (

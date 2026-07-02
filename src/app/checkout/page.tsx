@@ -18,17 +18,16 @@ export default function CheckoutPage() {
     fullName: '',
     phone: '',
     email: '',
-    city: 'Lomé',
-    address: '',
+    accountEmail: '',
     paymentMethod: 't-money'
   });
 
   if (cart.length === 0 && !orderComplete) {
     return (
       <div className="container py-24 text-center">
-        <div className="empty-checkout-icon mb-6">🛒</div>
+        <div className="empty-checkout-icon mb-6">✨</div>
         <h2 className="text-3xl font-extrabold mb-4">Votre panier est vide</h2>
-        <p className="text-muted mb-10 text-lg">Ajoutez des produits pour pouvoir passer commande.</p>
+        <p className="text-muted mb-10 text-lg">Ajoutez des abonnements pour finaliser votre activation.</p>
         <Link href="/" className="btn btn-primary btn-lg">Explorer la boutique</Link>
       </div>
     );
@@ -76,7 +75,7 @@ export default function CheckoutPage() {
           </div>
 
           <div className="next-steps mt-8">
-            <p>On vous appelle au <strong>{formData.phone}</strong> pour la livraison.</p>
+            <p>Nous vous contactons au <strong>{formData.phone}</strong> pour lancer l&apos;activation.</p>
           </div>
 
           <Link href="/" className="btn btn-primary btn-lg w-full mt-10">
@@ -140,7 +139,7 @@ export default function CheckoutPage() {
               <div className="checkout-section">
                 <div className="section-title">
                   <div className="icon-box"><MapPin size={20} /></div>
-                  <h2>Informations de livraison</h2>
+                  <h2>Informations client</h2>
                 </div>
                 <div className="form-grid">
                   <div className="input-group">
@@ -158,17 +157,12 @@ export default function CheckoutPage() {
                     </div>
                   </div>
                   <div className="input-group">
-                    <label>Ville</label>
-                    <select name="city" value={formData.city} onChange={handleInputChange}>
-                      <option value="Lomé">Lomé</option>
-                      <option value="Kara">Kara</option>
-                      <option value="Sokodé">Sokodé</option>
-                      <option value="Kpalimé">Kpalimé</option>
-                    </select>
+                    <label>Email de réception</label>
+                    <input type="email" name="email" required placeholder="votre@email.com" value={formData.email} onChange={handleInputChange} />
                   </div>
                   <div className="input-group">
-                    <label>Quartier / Adresse précise</label>
-                    <input type="text" name="address" required placeholder="Ex: Adidogomé, face école..." value={formData.address} onChange={handleInputChange} />
+                    <label>Email du compte à activer</label>
+                    <input type="email" name="accountEmail" required placeholder="compte@service.com" value={formData.accountEmail} onChange={handleInputChange} />
                   </div>
                 </div>
               </div>
@@ -182,33 +176,33 @@ export default function CheckoutPage() {
                 <div className="payment-options">
                   <label className={`payment-option ${formData.paymentMethod === 't-money' ? 'active' : ''}`}>
                     <input type="radio" name="paymentMethod" value="t-money" checked={formData.paymentMethod === 't-money'} onChange={handleInputChange} />
-                    <div className="opt-content">
-                      <div className="opt-icon tm"></div>
-                      <div className="opt-text">
+                      <div className="opt-content">
+                        <div className="opt-icon tm"></div>
+                        <div className="opt-text">
                         <strong>T-Money</strong>
-                        <span>Paiement Togocom</span>
+                        <span>Paiement mobile Togocom</span>
+                        </div>
                       </div>
-                    </div>
                   </label>
                   <label className={`payment-option ${formData.paymentMethod === 'flooz' ? 'active' : ''}`}>
                     <input type="radio" name="paymentMethod" value="flooz" checked={formData.paymentMethod === 'flooz'} onChange={handleInputChange} />
-                    <div className="opt-content">
-                      <div className="opt-icon flz"></div>
-                      <div className="opt-text">
+                      <div className="opt-content">
+                        <div className="opt-icon flz"></div>
+                        <div className="opt-text">
                         <strong>Flooz</strong>
-                        <span>Paiement Moov Africa</span>
+                        <span>Paiement mobile Moov Africa</span>
+                        </div>
                       </div>
-                    </div>
                   </label>
                   <label className={`payment-option ${formData.paymentMethod === 'cash' ? 'active' : ''}`}>
                     <input type="radio" name="paymentMethod" value="cash" checked={formData.paymentMethod === 'cash'} onChange={handleInputChange} />
-                    <div className="opt-content">
-                      <div className="opt-icon cash">💵</div>
-                      <div className="opt-text">
-                        <strong>À la livraison</strong>
-                        <span>Payez en espèces</span>
+                      <div className="opt-content">
+                        <div className="opt-icon cash">💵</div>
+                        <div className="opt-text">
+                        <strong>À la confirmation</strong>
+                        <span>Paiement après validation</span>
+                        </div>
                       </div>
-                    </div>
                   </label>
                 </div>
               </div>
@@ -218,7 +212,7 @@ export default function CheckoutPage() {
               </button>
               
               <div className="security-notice">
-                <ShieldCheck size={14} /> Vos données sont protégées et sécurisées.
+                <ShieldCheck size={14} /> Vos informations servent uniquement à l&apos;activation de l&apos;abonnement.
               </div>
             </form>
           </div>

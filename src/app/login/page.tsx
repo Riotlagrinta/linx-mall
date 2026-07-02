@@ -25,11 +25,11 @@ export default function LoginPage() {
         >
           <div className="auth-header">
             <Link href="/" className="auth-logo">
-              <Image src="/images/logo.png.jpeg" alt="Linx Mall" width={48} height={48} />
-              <span>Linx Mall</span>
+              <Image src="/images/logo.png.jpeg" alt="Charlee Store" width={48} height={48} />
+              <span>Charlee Store</span>
             </Link>
             <h1>Bon retour !</h1>
-            <p>Connectez-vous pour gérer vos commandes et vos favoris.</p>
+            <p>Connectez-vous pour gérer vos abonnements, vos commandes et vos favoris.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="auth-form">

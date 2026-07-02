@@ -60,12 +60,12 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
               <span className="review-count">({product.reviews} avis)</span>
             </div>
             <h1>{product.name}</h1>
-            <p className="product-id">SKU: LX-{product.id}00-TG</p>
+            <p className="product-id">SKU: CH-{product.id}00-TG</p>
           </div>
 
           <div className="price-section">
-            <span className="main-price">{(product.price).toLocaleString('fr-FR')} <small>FCFA</small></span>
-            <span className="stock-status"><Check size={16} /> En stock (Expédié sous 24h)</span>
+            <span className="main-price">{(product.price).toLocaleString('fr-FR')} <small>FCFA / mois</small></span>
+            <span className="stock-status"><Check size={16} /> Disponible immédiatement</span>
           </div>
 
           <p className="description">{product.description}</p>
@@ -104,15 +104,15 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
             <div className="trust-item">
               <Truck size={20} />
               <div>
-                <h6>Livraison Gratuite</h6>
-                <p>À partir de 50.000 FCFA</p>
+                <h6>Activation rapide</h6>
+                <p>La mise en service démarre après confirmation</p>
               </div>
             </div>
             <div className="trust-item">
               <ShieldCheck size={20} />
               <div>
-                <h6>Garantie Linx</h6>
-                <p>12 mois de protection</p>
+                <h6>Support dédié</h6>
+                <p>Assistance après-vente par WhatsApp</p>
               </div>
             </div>
           </div>

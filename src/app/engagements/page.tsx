@@ -1,30 +1,30 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ShieldCheck, Leaf, Heart, Users, CheckCircle, Globe, Award, Zap } from 'lucide-react';
+import { ShieldCheck, Leaf, Heart, Users, CheckCircle, Award } from 'lucide-react';
 import Link from 'next/link';
 
 export default function EngagementsPage() {
   const commitments = [
     {
       icon: <ShieldCheck size={32} />,
-      title: "Qualité Certifiée",
-      desc: "Chaque vendeur sur notre plateforme est vérifié. Nous nous engageons à ce que les produits livrés correspondent exactement aux descriptions."
+      title: "Offres vérifiées",
+      desc: "Chaque abonnement présent dans notre catalogue est sélectionné pour sa fiabilité et sa clarté."
     },
     {
       icon: <Users size={32} />,
-      title: "Soutien au Commerce Local",
-      desc: "Nous reversons une partie de nos bénéfices dans des programmes de formation au digital pour les petits commerçants du Togo."
+      title: "Soutien local",
+      desc: "Nous gardons une équipe locale pour accompagner les clients et simplifier chaque activation."
     },
     {
       icon: <Leaf size={32} />,
       title: "Éco-responsabilité",
-      desc: "Nous optimisons nos trajets de livraison pour réduire notre empreinte carbone et encourageons l'utilisation d'emballages recyclables."
+      desc: "Un modèle digital limite les déplacements inutiles et réduit les opérations physiques."
     },
     {
       icon: <Heart size={32} />,
       title: "Satisfaction Client",
-      desc: "Votre confiance est notre priorité. Si un produit ne vous satisfait pas, notre politique de retour est simple et transparente."
+      desc: "Votre confiance est notre priorité. Si un abonnement pose problème, notre politique de support reste simple et transparente."
     }
   ];
 
@@ -34,8 +34,8 @@ export default function EngagementsPage() {
         <div className="container">
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
             <span className="badge">Nos Valeurs</span>
-            <h1>Nos Engagements pour le <span className="highlight">Togo</span>.</h1>
-            <p>Chez Linx Mall, nous ne nous contentons pas de vendre. Nous bâtissons un écosystème durable, éthique et tourné vers l'avenir.</p>
+            <h1>Nos engagements pour le <span className="highlight">Togo</span>.</h1>
+            <p>Chez Charlee Store, nous ne nous contentons pas de vendre. Nous bâtissons une expérience digitale durable, claire et utile.</p>
           </motion.div>
         </div>
       </header>
@@ -64,12 +64,12 @@ export default function EngagementsPage() {
         <div className="container">
           <div className="transparency-content">
             <div className="text">
-              <h2>Transparence Totale</h2>
-              <p>Nous croyons qu'une marketplace solide repose sur la confiance. C'est pourquoi nous appliquons des règles strictes :</p>
+              <h2>Transparence totale</h2>
+              <p>Nous croyons qu&apos;une boutique digitale solide repose sur la confiance. C&apos;est pourquoi nous appliquons des règles strictes :</p>
               <ul className="rules-list">
                 <li><CheckCircle size={18} /> Aucun frais caché lors du paiement.</li>
                 <li><CheckCircle size={18} /> Protection intégrale de vos données personnelles.</li>
-                <li><CheckCircle size={18} /> Paiement aux vendeurs uniquement après confirmation de réception.</li>
+                <li><CheckCircle size={18} /> Assistance après confirmation de la commande.</li>
               </ul>
             </div>
             <div className="visual">
@@ -86,7 +86,7 @@ export default function EngagementsPage() {
         <div className="container">
           <div className="cta-box">
             <h2>Vous partagez nos valeurs ?</h2>
-            <p>Rejoignez un mouvement qui transforme positivement l'économie digitale togolaise.</p>
+            <p>Rejoignez un mouvement qui transforme positivement l&apos;accès au digital au Togo.</p>
             <div className="btns">
               <Link href="/vendeur" className="btn btn-primary btn-lg">Devenir Partenaire</Link>
               <Link href="/about" className="btn btn-outline btn-lg">Découvrir notre équipe</Link>

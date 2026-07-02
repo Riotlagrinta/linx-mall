@@ -1,12 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Briefcase, MapPin, Clock, ArrowRight, Zap, Users, Globe, Heart } from 'lucide-react';
-import Link from 'next/link';
+import { Briefcase, MapPin, ArrowRight, Zap, Users, Globe, Heart } from 'lucide-react';
 
 export default function CareersPage() {
   const perks = [
-    { icon: <Zap size={24} />, title: "Impact Réel", desc: "Travaillez sur des projets qui digitalisent l'économie togolaise." },
+    { icon: <Zap size={24} />, title: "Impact Réel", desc: "Travaillez sur des produits qui simplifient l'accès au digital au Togo." },
     { icon: <Users size={24} />, title: "Culture Collaborative", desc: "Rejoignez une équipe jeune, passionnée et soudée." },
     { icon: <Globe size={24} />, title: "Flexibilité", desc: "Nous valorisons les résultats plus que les heures de bureau." },
     { icon: <Heart size={24} />, title: "Bien-être", desc: "Un environnement sain pour exprimer votre plein potentiel." },
@@ -24,8 +23,8 @@ export default function CareersPage() {
         <div className="container">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <span className="badge">Rejoignez l'aventure</span>
-            <h1>Construisons ensemble le futur de la Tech au <span className="highlight">Togo</span>.</h1>
-            <p>Chez Linx Mall (Kelvix), nous cherchons des esprits créatifs et audacieux pour transformer le commerce africain.</p>
+            <h1>Construisons ensemble le futur des abonnements au <span className="highlight">Togo</span>.</h1>
+            <p>Chez Charlee Store, nous cherchons des esprits créatifs et audacieux pour améliorer l&apos;accès aux services numériques.</p>
             <a href="#open-positions" className="btn btn-primary btn-lg mt-8">Voir les postes ouverts</a>
           </motion.div>
         </div>
@@ -35,7 +34,7 @@ export default function CareersPage() {
         <div className="container">
           <div className="section-header text-center mb-16">
             <h2>Pourquoi nous rejoindre ?</h2>
-            <p>Plus qu'un travail, une mission passionnante au service du pays.</p>
+            <p>Plus qu&apos;un travail, une mission utile au service des utilisateurs.</p>
           </div>
           <div className="perks-grid">
             {perks.map((perk, i) => (

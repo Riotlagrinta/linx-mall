@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Package, Truck, CheckCircle2, Clock, MapPin, ArrowLeft } from 'lucide-react';
+import { Search, Package, Truck, CheckCircle2, Clock, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 export default function OrderTrackingPage() {
@@ -11,9 +11,9 @@ export default function OrderTrackingPage() {
 
   const steps = [
     { id: 1, title: "Commande validée", date: "11 Mars, 09:30", status: "completed", icon: <CheckCircle2 size={20} /> },
-    { id: 2, title: "En préparation", date: "11 Mars, 11:45", status: "completed", icon: <Package size={20} /> },
-    { id: 3, title: "En cours de livraison", date: "Aujourd'hui, 14:20", status: "active", icon: <Truck size={20} /> },
-    { id: 4, title: "Livré", date: "Estimation : 1h", status: "pending", icon: <Clock size={20} /> },
+    { id: 2, title: "Paiement confirmé", date: "11 Mars, 11:45", status: "completed", icon: <Package size={20} /> },
+    { id: 3, title: "Activation en cours", date: "Aujourd'hui, 14:20", status: "active", icon: <Truck size={20} /> },
+    { id: 4, title: "Abonnement actif", date: "Estimation : 1h", status: "pending", icon: <Clock size={20} /> },
   ];
 
   const handleTrack = (e: React.FormEvent) => {
@@ -31,7 +31,7 @@ export default function OrderTrackingPage() {
         <div className="tracking-container">
           <div className="tracking-header text-center mb-12">
             <h1>Suivi de commande</h1>
-            <p>Entrez votre numéro de commande pour savoir où elle se trouve.</p>
+            <p>Entrez votre numéro de commande pour voir l&apos;état d&apos;activation de votre abonnement.</p>
             
             <form onSubmit={handleTrack} className="tracking-form mt-8">
               <div className="input-group">
@@ -59,8 +59,8 @@ export default function OrderTrackingPage() {
                   <strong>En cours de livraison</strong>
                 </div>
                 <div className="brief-item">
-                  <span>Destination</span>
-                  <strong>Lomé, Hedzranawoé</strong>
+                  <span>Abonnement</span>
+                  <strong>Activation digitale</strong>
                 </div>
               </div>
 
@@ -83,8 +83,8 @@ export default function OrderTrackingPage() {
                 <div className="delivery-person">
                   <div className="avatar">K</div>
                   <div className="details">
-                    <strong>Koffi (Livreur)</strong>
-                    <span>En route vers vous</span>
+                    <strong>Support Charlee</strong>
+                    <span>En traitement</span>
                   </div>
                   <a href="tel:+22890000000" className="call-btn"><Clock size={18} /></a>
                 </div>

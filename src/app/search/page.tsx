@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { products } from '@/data/products';
+import { products, categories } from '@/data/products';
 import { motion } from 'framer-motion';
 import { Star, ShoppingCart, Search as SearchIcon } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
@@ -31,7 +31,7 @@ function SearchResults() {
           <h1>
             {categoryParam ? categoryParam : query ? `Résultats pour "${query}"` : "Notre Collection"}
           </h1>
-          <p>{filteredProducts.length} pièce(s) disponible(s)</p>
+          <p>{filteredProducts.length} abonnement(s) disponible(s)</p>
         </div>
       </header>
 
@@ -41,34 +41,13 @@ function SearchResults() {
           <div className="filter-group">
             <h4>Catégories</h4>
             <div className="filter-links">
-              <span className="filter-genre-label">👩 Femme</span>
-              {['Robes', 'Hauts Femme', 'Bas Femme', 'Vestes Femme'].map(cat => (
+              {categories.filter(cat => cat.name !== 'Tout').map(cat => (
                 <Link
-                  key={cat}
-                  href={`/search?cat=${cat}`}
-                  className={categoryParam === cat ? 'active' : ''}
+                  key={cat.id}
+                  href={`/search?cat=${encodeURIComponent(cat.name)}`}
+                  className={categoryParam === cat.name ? 'active' : ''}
                 >
-                  {cat}
-                </Link>
-              ))}
-              <span className="filter-genre-label" style={{marginTop: '1rem'}}>👨 Homme</span>
-              {['Chemises Homme', 'Hauts Homme', 'Bas Homme', 'Vestes Homme', 'Costumes Homme'].map(cat => (
-                <Link
-                  key={cat}
-                  href={`/search?cat=${cat}`}
-                  className={categoryParam === cat ? 'active' : ''}
-                >
-                  {cat}
-                </Link>
-              ))}
-              <span className="filter-genre-label" style={{marginTop: '1rem'}}>👜 Mixte</span>
-              {['Accessoires'].map(cat => (
-                <Link
-                  key={cat}
-                  href={`/search?cat=${cat}`}
-                  className={categoryParam === cat ? 'active' : ''}
-                >
-                  {cat}
+                  {cat.icon} {cat.name}
                 </Link>
               ))}
               {categoryParam && <Link href="/search" className="clear-filter">Effacer les filtres</Link>}
@@ -104,7 +83,7 @@ function SearchResults() {
                     <Link href={`/products/${product.id}`} className="product-name-link">
                       <h3>{product.name}</h3>
                     </Link>                    <div className="product-footer">
-                      <span className="price">{(product.price).toLocaleString('fr-FR')} <small>FCFA</small></span>
+                      <span className="price">{(product.price).toLocaleString('fr-FR')} <small>FCFA / mois</small></span>
                       <button className="add-to-cart" onClick={() => addToCart({ id: product.id, name: product.name, price: product.price, image: product.image })}>
                         <ShoppingCart size={18} />
                       </button>
@@ -117,7 +96,7 @@ function SearchResults() {
             <div className="empty-search">
               <div className="empty-icon"><SearchIcon size={48} /></div>
               <h2>Aucun produit trouvé</h2>
-              <p>Essayez avec d'autres mots-clés ou parcourez nos catégories.</p>
+              <p>Essayez avec un autre mot-clé ou parcourez nos catégories d&apos;abonnements.</p>
               <Link href="/" className="btn btn-primary">Retour à l'accueil</Link>
             </div>
           )}

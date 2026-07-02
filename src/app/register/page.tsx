@@ -25,11 +25,11 @@ export default function RegisterPage() {
         >
           <div className="auth-header">
             <Link href="/" className="auth-logo">
-              <Image src="/images/logo.png.jpeg" alt="Linx Mall" width={48} height={48} />
-              <span>Linx Mall</span>
+              <Image src="/images/logo.png.jpeg" alt="Charlee Store" width={48} height={48} />
+              <span>Charlee Store</span>
             </Link>
             <h1>Créer un compte</h1>
-            <p>Rejoignez la plus grande marketplace du Togo.</p>
+            <p>Créez un compte pour suivre vos abonnements et vos commandes en un seul endroit.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="auth-form">

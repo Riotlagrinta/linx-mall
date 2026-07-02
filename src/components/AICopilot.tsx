@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Send, X, Bot, User, Zap, Store, BarChart3, HelpCircle, Image as ImageIcon, Camera } from 'lucide-react';
+import { Sparkles, Send, X, Bot, User, Image as ImageIcon } from 'lucide-react';
 
 interface Message {
   role: 'assistant' | 'user';
@@ -13,7 +14,7 @@ interface Message {
 export default function AICopilot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: "Bonjour ! Je suis votre Copilote Linx Mall. Envoyez-moi une photo de votre produit, et je rédigerai pour vous une description attractive et professionnelle !" }
+    { role: 'assistant', content: "Bonjour ! Je suis votre Copilote Charlee Store. Envoyez-moi une image de votre abonnement, et je rédigerai pour vous une description claire et professionnelle !" }
   ]);
   const [input, setInput] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -56,8 +57,8 @@ export default function AICopilot() {
     setTimeout(() => {
       const aiResponse: Message = { 
         role: 'assistant', 
-        content: newUserMessage.image 
-          ? "Magnifique produit ! D'après l'image, voici une proposition de description : 'Ce smartphone élégant arbore un design ultra-fin avec une finition premium. Son écran borderless promet une immersion totale...' Souhaitez-vous ajuster le ton ?" 
+          content: newUserMessage.image 
+          ? "Très bien ! Voici une proposition de description : 'Un abonnement premium pensé pour une activation rapide, une utilisation simple et une expérience fiable.' Souhaitez-vous ajuster le ton ?" 
           : "C'est noté ! Je prépare cela pour vous." 
       };
       setMessages(prev => [...prev, aiResponse]);
@@ -93,8 +94,8 @@ export default function AICopilot() {
                   <Bot size={20} />
                 </div>
                 <div>
-                  <h3>Copilote Vision</h3>
-                  <span className="status-online">IA Vision Active</span>
+                  <h3>Copilote Charlee</h3>
+                  <span className="status-online">IA active</span>
                 </div>
               </div>
               <button onClick={() => setIsOpen(false)} className="ai-close">
@@ -111,7 +112,7 @@ export default function AICopilot() {
                   <div className="msg-content-wrapper">
                     {m.image && (
                       <div className="msg-image">
-                        <img src={m.image} alt="Produit envoyé" />
+                        <Image src={m.image} alt="Produit envoyé" width={400} height={300} />
                       </div>
                     )}
                     <div className="msg-bubble">
@@ -133,7 +134,7 @@ export default function AICopilot() {
                     className="image-preview-bar"
                   >
                     <div className="preview-thumb">
-                      <img src={selectedImage} alt="Preview" />
+                      <Image src={selectedImage} alt="Preview" width={80} height={80} />
                       <button className="remove-img" onClick={() => setSelectedImage(null)}>
                         <X size={12} />
                       </button>
@@ -159,7 +160,7 @@ export default function AICopilot() {
                 />
                 <input 
                   type="text" 
-                  placeholder={selectedImage ? "Ajoutez une instruction..." : "Décris cet article..."} 
+                  placeholder={selectedImage ? "Ajoutez une instruction..." : "Décris cet abonnement..."} 
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSend()}

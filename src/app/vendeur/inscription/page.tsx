@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Store, Mail, Phone, MapPin, ArrowRight, CheckCircle2, ShieldCheck, Sparkles, Building2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import AICopilot from '@/components/AICopilot';
 
@@ -49,7 +49,7 @@ export default function VendeurInscription() {
           <div className="inscription-header text-center mb-12">
             <span className="badge">Étape {step} sur 3</span>
             <h1>Créez votre boutique</h1>
-            <p>Remplissez les informations pour lancer votre activité sur Linx Mall.</p>
+            <p>Remplissez les informations pour lancer votre activité sur Charlee Store.</p>
           </div>
 
           <div className="step-indicator mb-12">
@@ -91,7 +91,7 @@ export default function VendeurInscription() {
                   <select required>
                     <option value="">Sélectionnez une catégorie</option>
                     <option value="electronics">Électronique</option>
-                    <option value="fashion">Mode & Beauté</option>
+                    <option value="digital">Services numériques</option>
                     <option value="home">Maison</option>
                     <option value="local">Produits Locaux</option>
                   </select>

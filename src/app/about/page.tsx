@@ -1,34 +1,33 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Target, Users, ShieldCheck, Rocket, ArrowRight, Store, MapPin, Sparkles } from 'lucide-react';
+import { Target, Users, ShieldCheck, Rocket, Store, MapPin, Sparkles } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function AboutPage() {
   const stats = [
     { label: "Clients", value: "3k+", icon: <Users size={20} /> },
-    { label: "Pièces en stock", value: "400+", icon: <Store size={20} /> },
-    { label: "Villes livrées", value: "10+", icon: <MapPin size={20} /> },
+    { label: "Services", value: "7+", icon: <Store size={20} /> },
+    { label: "Activations", value: "24h", icon: <MapPin size={20} /> },
     { label: "Satisfaction", value: "98%", icon: <Sparkles size={20} /> },
   ];
 
   const values = [
-    {
-      icon: <Target size={32} />,
-      title: "Notre Mission",
-      desc: "Permettre à chaque togolais(e) d'accéder à une mode de qualité, moderne et accessible, livrée directement à sa porte."
-    },
-    {
-      icon: <ShieldCheck size={32} />,
-      title: "Qualité Garantie",
-      desc: "Chaque pièce est soigneusement sélectionnée et inspectée avant expédition. Nous ne vendons que ce que nous aimons nous-mêmes porter."
-    },
-    {
-      icon: <Rocket size={32} />,
-      title: "Mode & Authenticité",
-      desc: "Nous célébrons l'élégance africaine moderne : entre tradition et tendance, nos collections homme et femme reflètent la richesse du Togo."
-    }
+      {
+        icon: <Target size={32} />,
+        title: "Notre mission",
+        desc: "Rendre les abonnements numériques internationaux accessibles au Togo, sans carte bancaire et sans friction."
+      },
+      {
+        icon: <ShieldCheck size={32} />,
+        title: "Fiabilité garantie",
+        desc: "Chaque commande est suivie, validée et accompagnée par une équipe locale disponible pour aider."
+      },
+      {
+        icon: <Rocket size={32} />,
+        title: "Activation rapide",
+        desc: "Nous livrons des accès digitaux simples à utiliser, avec une expérience pensée pour mobile."
+      }
   ];
 
   return (
@@ -42,8 +41,8 @@ export default function AboutPage() {
             className="hero-content"
           >
             <span className="badge">Notre histoire</span>
-            <h1>La mode pour <span className="highlight">elle &amp; lui</span>, pensée pour vous.</h1>
-            <p>Linx Mall est votre boutique de prêt-à-porter homme et femme à Lomé. Nous sélectionnons avec soin chaque pièce pour que vous puissiez vous habiller avec style, confort et confiance.</p>
+            <h1>Les abonnements digitaux, <span className="highlight">pensés pour vous</span>.</h1>
+            <p>Charlee Store est votre point d&apos;accès aux abonnements premium au Togo. Nous rendons l&apos;achat simple, rapide et compatible avec T-Money ou Flooz.</p>
           </motion.div>
         </div>
       </section>
@@ -53,12 +52,12 @@ export default function AboutPage() {
         <div className="container">
           <div className="vision-grid">
             <div className="vision-text">
-              <h2>Pourquoi Linx Mall ?</h2>
+              <h2>Pourquoi Charlee Store ?</h2>
               <p>
-                Née de la passion de la mode, <strong>Linx Mall</strong> est bien plus qu'une boutique en ligne. C'est un espace où chaque homme et chaque femme peut trouver sa pièce coup de cœur.
+                <strong>Charlee Store</strong> est une boutique numérique pensée pour simplifier l&apos;accès aux services premium: streaming, stockage cloud et divertissement.
               </p>
               <p>
-                Nous proposons une sélection rigoureuse de robes, costumes, blazers, chemises, tops et accessoires — des pièces qui allient tendances internationales et élégance africaine — livrées partout au Togo.
+                Notre catalogue est sélectionné pour rester clair, utile et rapide à parcourir, avec des abonnements fiables et des images produit dédiées.
               </p>
               <div className="stats-row">
                 {stats.map((stat, i) => (

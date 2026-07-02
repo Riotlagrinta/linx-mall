@@ -6,10 +6,14 @@ import { Search, X, TrendingUp, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { products, categories } from '@/data/products';
 
+type CategorySuggestion = (typeof categories)[number];
+type ProductSuggestion = (typeof products)[number];
+type Suggestion = CategorySuggestion | ProductSuggestion;
+
 export default function SearchBar() {
   const [query, setQuery] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
-  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const router = useRouter();
   const searchRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +56,7 @@ export default function SearchBar() {
           <Search size={18} className="search-icon" />
           <input 
             type="text"
-            placeholder="Rechercher une robe, costume, chemise..."
+            placeholder="Rechercher Netflix, Spotify, iCloud..."
             value={query}
             onFocus={() => setIsExpanded(true)}
             onChange={(e) => setQuery(e.target.value)}
@@ -80,9 +84,9 @@ export default function SearchBar() {
             {query.length <= 1 ? (
               <div className="search-trends">
                 <div className="dropdown-section">
-                  <h4><TrendingUp size={14} /> Tendances mode</h4>
+                  <h4><TrendingUp size={14} /> Recherches populaires</h4>
                   <div className="trend-tags">
-                    {['Robe wax', 'Costume', 'Chemise homme', 'Blazer femme'].map(tag => (
+                    {['Netflix', 'Spotify', 'iCloud+', 'Disney+'].map(tag => (
                       <span key={tag} onClick={() => setQuery(tag)}>{tag}</span>
                     ))}
                   </div>
@@ -111,24 +115,24 @@ export default function SearchBar() {
                       className="result-item"
                       onClick={() => {
                         setIsExpanded(false);
-                        if (item.icon) router.push(`/search?cat=${item.name}`);
+                        if ('icon' in item) router.push(`/search?cat=${encodeURIComponent(item.name)}`);
                         else router.push(`/products/${item.id}`);
                       }}
                     >
-                      {item.image ? (
+                      {'image' in item ? (
                         <div className="res-img" style={{ backgroundImage: `url(${item.image})` }} />
                       ) : (
                         <div className="res-icon">{item.icon}</div>
                       )}
                       <div className="res-info">
                         <span className="res-name">{item.name}</span>
-                        <span className="res-type">{item.price ? `${item.price.toLocaleString()} FCFA` : 'Catégorie'}</span>
+                        <span className="res-type">{'price' in item ? `${item.price.toLocaleString()} FCFA` : 'Catégorie'}</span>
                       </div>
                       <ArrowRight size={14} className="res-arrow" />
                     </div>
                   ))
                 ) : (
-                  <div className="no-results">Aucun résultat pour "{query}"</div>
+                  <div className="no-results">Aucun résultat pour &quot;{query}&quot;</div>
                 )}
               </div>
             )}

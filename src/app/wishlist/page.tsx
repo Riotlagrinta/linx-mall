@@ -3,7 +3,7 @@
 import { useWishlist } from '@/context/WishlistContext';
 import { useCart } from '@/context/CartContext';
 import { motion } from 'framer-motion';
-import { Star, ShoppingCart, Trash2, HeartOff } from 'lucide-react';
+import { ShoppingCart, Trash2, HeartOff } from 'lucide-react';
 import Link from 'next/link';
 
 export default function WishlistPage() {

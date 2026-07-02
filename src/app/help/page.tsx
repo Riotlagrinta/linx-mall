@@ -1,21 +1,20 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Search, HelpCircle, Truck, CreditCard, RefreshCcw, ShieldCheck, MessageCircle, Phone, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+import { Search, Truck, CreditCard, RefreshCcw, ShieldCheck, MessageCircle, Phone, ArrowRight } from 'lucide-react';
 
 export default function HelpCenterPage() {
   const categories = [
-    { icon: <Truck size={24} />, title: "Livraison", desc: "Suivi, délais et frais de port" },
+    { icon: <Truck size={24} />, title: "Activation", desc: "Délai de mise en service et étapes" },
     { icon: <CreditCard size={24} />, title: "Paiements", desc: "T-Money, Flooz et Cash" },
-    { icon: <RefreshCcw size={24} />, title: "Retours", desc: "Politique de remboursement" },
+    { icon: <RefreshCcw size={24} />, title: "Abonnements", desc: "Renouvellement et durée" },
     { icon: <ShieldCheck size={24} />, title: "Sécurité", desc: "Protection de vos données" },
   ];
 
   const faqs = [
-    { q: "Comment suivre ma commande ?", a: "Vous pouvez suivre votre commande en temps réel via la page 'Suivi de commande' munie de votre numéro LX-XXXX." },
-    { q: "Quels sont les délais de livraison ?", a: "À Lomé, nous livrons en moins de 24h. Pour l'intérieur du pays, comptez 48h à 72h." },
-    { q: "Puis-je payer à la livraison ?", a: "Oui, nous acceptons le paiement en espèces lors de la remise du colis pour vous garantir une totale confiance." },
+    { q: "Comment suivre ma commande ?", a: "Vous pouvez suivre votre commande avec votre numéro de commande CH-XXXX via la page dédiée." },
+    { q: "Combien de temps prend l'activation ?", a: "La plupart des abonnements sont activés rapidement après confirmation du paiement." },
+    { q: "Puis-je payer à la livraison ?", a: "Oui, pour certaines commandes, le paiement à la confirmation reste disponible." },
   ];
 
   return (

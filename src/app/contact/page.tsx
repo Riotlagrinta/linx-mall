@@ -23,7 +23,7 @@ export default function ContactPage() {
         <div className="container">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <h1>Contactez-nous</h1>
-            <p>Une question ? Un partenariat ? Notre équipe vous répond en moins de 2h.</p>
+            <p>Une question sur un abonnement, une activation ou un paiement ? Notre équipe vous répond rapidement.</p>
           </motion.div>
         </div>
       </header>
@@ -49,14 +49,14 @@ export default function ContactPage() {
                     <div className="icon-box"><Mail size={20} /></div>
                     <div>
                       <span>Email</span>
-                      <strong>contact@linxmall.tg</strong>
+                      <strong>contact@charleestore.tg</strong>
                     </div>
                   </div>
                   <div className="info-item">
                     <div className="icon-box"><MapPin size={20} /></div>
                     <div>
                       <span>Siège Social</span>
-                      <strong>Lomé, Quartier Hedzranawoé</strong>
+                      <strong>Lomé, Togo</strong>
                     </div>
                   </div>
                   <div className="info-item">

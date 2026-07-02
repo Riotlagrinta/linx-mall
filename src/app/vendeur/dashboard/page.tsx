@@ -1,20 +1,26 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  LayoutDashboard, Package, ShoppingCart, Users, BarChart3, 
-  Settings, Bell, Plus, Search, TrendingUp, ArrowUpRight, ArrowRight,
-  CheckCircle, Clock, AlertCircle, Sparkles, Wand2,
-  Calendar, CreditCard, ChevronRight, MoreVertical,
-  ArrowDownRight, ShoppingBag, Percent, Tag, Camera, X,
+import {
+  LayoutDashboard, Package, ShoppingCart, Users,
+  Settings, Bell, Plus, Search, TrendingUp,
+  Clock, Sparkles, Wand2,
+  Calendar, ChevronRight, Tag, Camera, X,
   MessageCircle, Phone, MapPin, Trash2, Edit3, Star, Zap, Send
 } from 'lucide-react';
 import { products } from '@/data/products';
-import Link from 'next/link';
 import AICopilot from '@/components/AICopilot';
 
 // --- COMPOSANTS INTERNES ---
+
+type ChatItem = {
+  name: string;
+  msg: string;
+  time: string;
+  unread: number;
+  avatar: string;
+};
 
 const SalesChart = () => (
   <div className="chart-container">
@@ -35,14 +41,12 @@ export default function SellerDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isCreatingPromo, setIsCreatingPromo] = useState(false);
-  
   // Gestion multi-images avec légendes
   const [productImages, setProductImages] = useState<{file: string, caption: string}[]>([]);
   
   const [shopSettings, setShopSettings] = useState({
     name: 'Kara Boutique',
-    description: 'Le meilleur de la mode et de l\'électronique à Kara.',
+    description: 'Le meilleur des abonnements numériques à Kara.',
     phone: '+228 90 00 00 00',
     tmoney: '90123456',
     flooz: '99123456',
@@ -71,11 +75,6 @@ export default function SellerDashboard() {
     { label: "Commandes", value: "24", unit: "", icon: <ShoppingCart size={20} />, trend: "+5", color: "orange" },
     { label: "Stock total", value: "156", unit: "art.", icon: <Package size={20} />, trend: "-2", color: "green" },
     { label: "Avis Clients", value: "4.8", unit: "/5", icon: <Star size={20} />, trend: "+0.2", color: "purple" }
-  ];
-
-  const recentOrders = [
-    { id: "LX-102", customer: "Amivi D.", amount: 45000, status: 'pending', date: "Il y a 2h" },
-    { id: "LX-101", customer: "Koffi A.", amount: 155000, status: 'completed', date: "Il y a 5h" }
   ];
 
   // --- RENDU DES VUES ---
@@ -210,7 +209,7 @@ export default function SellerDashboard() {
     <div className="tab-view">
       <div className="view-header">
         <h2>Booster mes ventes</h2>
-        <button className="btn btn-primary" onClick={() => setIsCreatingPromo(true)}><Sparkles size={18} /> Créer un Boost</button>
+        <button className="btn btn-primary"><Sparkles size={18} /> Créer un Boost</button>
       </div>
       
       <div className="promo-options-grid">
@@ -263,7 +262,7 @@ export default function SellerDashboard() {
     </div>
   );
 
-  const [selectedChat, setSelectedChat] = useState<any>(null);
+  const [selectedChat, setSelectedChat] = useState<ChatItem | null>(null);
 
   const renderMessages = () => (
     <div className="tab-view h-full flex flex-col">
@@ -388,7 +387,7 @@ export default function SellerDashboard() {
                   </div>
                   <div className="form-group-pro">
                     <label>Catégorie</label>
-                    <select><option>Électronique</option><option>Mode</option></select>
+                    <select><option>Streaming vidéo</option><option>Streaming audio</option><option>Cloud & stockage</option></select>
                   </div>
                 </div>
               </div>

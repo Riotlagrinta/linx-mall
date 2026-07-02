@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Star, ShoppingCart, Sparkles, ShieldCheck, Zap, Heart, Key } from "lucide-react";
+import { ArrowRight, Star, ShoppingCart, ShieldCheck, Zap, Heart, Key } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { products, categories } from "@/data/products";

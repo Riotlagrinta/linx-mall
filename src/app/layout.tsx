@@ -113,7 +113,7 @@ export default function RootLayout({
                   </div>
                 </div>
                 <p className="footer-desc">
-                  Votre plateforme d'abonnements numériques premium. Accédez à Netflix, Apple Music, Spotify et bien d'autres services sans carte bancaire, directement depuis le Togo.
+                  Votre plateforme d&apos;abonnements numériques premium. Accédez à Netflix, Apple Music, Spotify, Disney+ et bien d&apos;autres services sans carte bancaire, directement depuis le Togo.
                 </p>
               </div>
               <div className="footer-col">
@@ -122,14 +122,14 @@ export default function RootLayout({
                   <li><Link href="/about">À propos de nous</Link></li>
                   <li><Link href="/search">Notre catalogue</Link></li>
                   <li><Link href="/engagements">Nos engagements</Link></li>
-                  <li><Link href="/careers">Recrutement</Link></li>
+                  <li><Link href="/careers">Rejoindre l&apos;équipe</Link></li>
                 </ul>
                 </div>
                 <div className="footer-col">
                 <h4>Service Client</h4>
                 <ul>
                   <li><Link href="/help">Centre d'aide</Link></li>
-                  <li><Link href="/help">Livraison & Retours</Link></li>
+                  <li><Link href="/help">Paiement & Activation</Link></li>
                   <li><Link href="/tracking">Suivre ma commande</Link></li>
                   <li><Link href="/contact">Contactez-nous</Link></li>
                 </ul>

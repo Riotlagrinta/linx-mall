@@ -1,10 +1,10 @@
 'use client';
 
-import { use, useState } from 'react';
+import { use } from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Store, MapPin, Star, MessageCircle, Phone, 
-  ShieldCheck, Share2, Info, ShoppingBag, ArrowLeft,
+  MapPin, Star, MessageCircle, Phone, 
+  ShieldCheck, Share2, Info, ShoppingBag,
   Facebook, Instagram, Twitter
 } from 'lucide-react';
 import { products } from '@/data/products';
@@ -18,8 +18,8 @@ export default function ShopPublicPage({ params }: { params: Promise<{ id: strin
   // Simulation de données de boutique
   const shop = {
     id: resolvedParams.id,
-    name: "Linx Mall — Prêt-à-Porter",
-    description: "Votre boutique de prêt-à-porter homme & femme à Lomé. Robes, costumes, blazers, chemises et accessoires — sélectionnés avec soin pour sublimer chaque togolais(e).",
+    name: "Charlee Store",
+    description: "Boutique officielle d&apos;abonnements numériques à Lomé. Netflix, Apple Music, Spotify, iCloud+, Disney+ et plus encore.",
     location: "Lomé, Togo",
     rating: 4.9,
     reviews: 850,
@@ -102,7 +102,7 @@ export default function ShopPublicPage({ params }: { params: Promise<{ id: strin
             {/* Products Grid */}
             <main className="shop-products-main">
               <div className="section-header-shop">
-                <h2>Articles en vente ({shopProducts.length})</h2>
+                <h2>Abonnements disponibles ({shopProducts.length})</h2>
                 <div className="filter-select">
                   <select>
                     <option>Plus récents</option>
@@ -131,7 +131,7 @@ export default function ShopPublicPage({ params }: { params: Promise<{ id: strin
                         <h3>{product.name}</h3>
                       </Link>
                       <div className="product-footer">
-                        <span className="price">{(product.price).toLocaleString('fr-FR')} <small>FCFA</small></span>
+                        <span className="price">{(product.price).toLocaleString('fr-FR')} <small>FCFA / mois</small></span>
                         <button className="add-to-cart" onClick={() => addToCart({ id: product.id, name: product.name, price: product.price, image: product.image })}>
                           <ShoppingBag size={18} />
                         </button>
